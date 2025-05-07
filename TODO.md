@@ -26,7 +26,7 @@
 
 ---
 
-## 18 May 2025 – 1st Submission (Intro & Literature Survey) (Sunday)
+## ✅ 18 May 2025 – 1st Submission (Intro & Literature Survey) (Sunday)
 - [ ] Submit ~15-page Literature Survey draft.
 - [ ] Include introduction, problem overview, and taxonomy of existing methods.
 - [ ] Clearly define project problem statement and intended contribution.
@@ -50,7 +50,7 @@
 
 ---
 
-## 15 June 2025 – 2nd Submission (Foundation Chapter) (Sunday)
+## ✅ 15 June 2025 – 2nd Submission (Foundation Chapter) (Sunday)
 - [ ] Submit Foundation Chapter:
   - Simulation environment
   - RL formulation
@@ -84,7 +84,7 @@
 
 ---
 
-## 06 July 2025 – 3rd Submission (Interim Report) (Sunday)
+## ✅ 06 July 2025 – 3rd Submission (Interim Report) (Sunday)
 - [ ] Submit interim report covering:
   - Literature background
   - Foundation setup
@@ -104,7 +104,7 @@
 
 ---
 
-## 27 July 2025 – 4th Submission (Final Report & Conference Paper) (Friday)
+## ✅ 27 July 2025 – 4th Submission (Final Report & Conference Paper) (Friday)
 - [ ] Finalise all sections of paper.
 - [ ] Format according to conference/journal template.
 - [ ] Write abstract, introduction, and conclusion.
