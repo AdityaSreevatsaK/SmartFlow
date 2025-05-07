@@ -22,8 +22,5 @@ urban transport networks.
 - `snippets/` – Useful code references from web
 - `experiments/` – Trial experiments and baselines
 
-## Timeline
-See [Project Plan](Project%20Plan.md)
-
 ## Tasks
 See [TODO.md](TODO.md)
