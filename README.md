@@ -1,10 +1,4 @@
-# <p align='center'> Master of Technology - Capstone Project - Sem3.</p>
-This repository contains the work for our MTech Semester 3 Capstone Project. It includes problem definition, data 
-exploration, model development, evaluation, and findings. The project is a collaborative effort, demonstrating practical 
-applications of machine learning, AI, and data science techniques to solve a real-world problem.
-
-## Project Title
-SmartFlow: Reinforcement Learning and Agentic AI for Bike Sharing Optimisation
+# <p align="center">SmartFlow: Reinforcement Learning and Agentic AI for Bike Sharing Optimisation</p>
 
 ## Objective
 SmartFlow is a novel solution for enhancing the efficiency of bike sharing systems through the integration of deep 
