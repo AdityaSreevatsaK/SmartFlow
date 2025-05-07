@@ -4,15 +4,14 @@ exploration, model development, evaluation, and findings. The project is a colla
 applications of machine learning, AI, and data science techniques to solve a real-world problem.
 
 ## Project Title
-A Survey of Reinforcement Learning Algorithms for Optimising Operations in Bike Sharing Services
+SmartFlow: Reinforcement Learning and Agentic AI for Bike Sharing Optimisation
 
 ## Objective
-Bike Sharing Services (BSS) offer affordable and convenient last-mile transportation, helping reduce urban traffic 
-congestion and pollution. A significant operational challenge in BSS is the repositioning of bikes using trucks to 
-balance supply and demand across stations and time intervals. Reinforcement Learning (RL) has emerged as a promising 
-approach to optimise repositioning strategies, aiming to maximise revenue while minimising operational costs. This 
-project presents a comprehensive survey of RL-based methods applied in similar contexts and implements a practical 
-solution tailored to a BSS scenario in Bengaluru, estimating the potential increase in profit.
+SmartFlow is a novel solution for enhancing the efficiency of bike sharing systems through the integration of deep 
+reinforcement learning and agentic AI. The RL model learns optimal actions to balance supply and demand across stations, 
+while agentic components handle real-time notifications to ground personnel, such as truck drivers. This dual approach 
+ensures both intelligent decision-making and timely execution, offering a scalable and adaptive strategy for modern 
+urban transport networks.
 
 ## Repository Structure
 - `docs/` – Paper drafts, presentations, reports
