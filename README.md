@@ -8,13 +8,12 @@ ensures both intelligent decision-making and timely execution, offering a scalab
 urban transport networks.
 
 ## Repository Structure
-- `docs/` – Paper drafts, presentations, reports
-- `references/` – Research papers, external PDFs
 - `code/` – Notebooks, scripts, modules
-- `data/` – Raw and processed datasets
+- `data/` - Raw and processed data
+- `docs/` – Paper drafts, presentations, reports
+- `images/` - Images for the report
+- `references/` – Research papers, external PDFs
 - `results/` – Output files, visualisations, model logs
-- `snippets/` – Useful code references from web
-- `experiments/` – Trial experiments and baselines
 
 ## Tasks
 See [TODO.md](TODO.md)

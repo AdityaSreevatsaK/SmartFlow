@@ -18,25 +18,22 @@
 
 
 ## 11 May 2025 – 4th Guidance Call (Sunday)
-- [ ] Finalise list of 50+ research papers and 5 textbooks.
-- [ ] Present draft structure of literature review.
-- [ ] Highlight categorisation of algorithms and environments.
-- [ ] Discuss tools and libraries to be used (e.g., SUMO, Gym, Stable-Baselines3).
-- [ ] Freeze problem scope and research objectives.
-
----
-
-## ✅ 18 May 2025 – 1st Submission (Intro & Literature Survey) (Sunday)
-- [ ] Submit ~15-page Literature Survey draft.
-- [ ] Include introduction, problem overview, and taxonomy of existing methods.
-- [ ] Clearly define project problem statement and intended contribution.
-
+- [X] Finalise list of 50+ research papers and 5 textbooks.
+- [X] Present draft structure of literature review.
+- [X] Highlight categorisation of algorithms and environments.
+- [X] Discuss tools and libraries to be used (e.g., SUMO, Gym, Stable-Baselines3).
 ---
 
 ## 18 May 2025 – 5th Guidance Call (Sunday)
-- [ ] Get feedback on submitted literature survey.
-- [ ] Refine identified pain points and project scope.
-- [ ] Begin discussing simulation environment choice and RL setup structure.
+- [X] Get feedback on submitted literature survey.
+- [X] Refine identified pain points and project scope.
+
+---
+
+## ✅ 25 May 2025 – 1st Submission (Intro & Literature Survey) (Sunday)
+- [ ] Submit ~15-page Literature Survey draft.
+- [ ] Include introduction, problem overview, and taxonomy of existing methods.
+- [ ] Clearly define project problem statement and intended contribution.
 
 ---
 
