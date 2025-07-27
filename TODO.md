@@ -1,8 +1,54 @@
 # ✅ TO DO
 
+* ✅ **Green ticks** for **completed submissions**
+* 🟡 **Yellow dot** for **upcoming submissions**
+* 📞 **Phone emoji** for **upcoming guidance calls**
+* ☑️ **Checkbox** for **completed guidance calls**
+
 ---
 
-## ✅ 22 June 2025 – 6th Guidance Call (Sunday)
+## ✅ 04 May 2025 – Pseudo Submission (About + Literature Survey Draft)
+
+* [x] Write and submit the “About the Project” section (problem overview, motivation).
+* [x] Create the structure/outline for Literature Survey (\~15 pages total planned).
+* [x] Read and summarise at least 20 relevant research papers.
+* [x] Identify and list key points from the papers:
+
+  * [x] Problem tackled
+  * [x] Algorithm(s) used
+  * [x] Simulation environment/dataset
+  * [x] Observations and results
+* [x] Suggest improvements or gaps identified from the initial papers.
+* [x] Prepare a 1–2 page early draft of the Literature Survey content.
+* [x] Share notes with team for cross-review and consolidation.
+
+---
+
+## ☑️ 11 May 2025 – 4th Guidance Call (Sunday)
+
+* [x] Finalise list of 50+ research papers and 5 textbooks.
+* [x] Present draft structure of literature review.
+* [x] Highlight categorisation of algorithms and environments.
+* [x] Discuss tools and libraries to be used (e.g., SUMO, Gym, Stable-Baselines3).
+
+---
+
+## ☑️ 18 May 2025 – 5th Guidance Call (Sunday)
+
+* [x] Get feedback on submitted literature survey.
+* [x] Refine identified pain points and project scope.
+
+---
+
+## ✅ 25 May 2025 – 1st Submission (Intro & Literature Survey) (Sunday)
+
+* [x] Submit \~15-page Literature Survey draft.
+* [x] Include introduction, problem overview, and taxonomy of existing methods.
+* [x] Clearly define project problem statement and intended contribution.
+
+---
+
+## ☑️ 07 June 2025 – 6th Guidance Call (Saturday)
 
 * [x] Finalise simulation environment (SUMO / Grid-based / Custom).
 * [x] Define RL setup: State, Action, Reward.
@@ -24,7 +70,7 @@
 
 ---
 
-## ✅ 06 July 2025 – 7th Guidance Call (Sunday)
+## ☑️ 06 July 2025 – 7th Guidance Call (Sunday)
 
 * [x] Get feedback on Foundation Chapter.
 * [x] Freeze plan for baseline model implementation.
@@ -32,7 +78,7 @@
 
 ---
 
-## ✅ 13 July 2025 – 8th Guidance Call (Sunday)
+## ☑️ 13 July 2025 – 8th Guidance Call (Sunday)
 
 * [x] Implement Q-learning or DQN agents.
 * [x] Train agents on synthetic environment.
@@ -44,7 +90,7 @@
 
 ---
 
-## ✅ 19 July 2025 – 9th Guidance Call (Saturday)
+## ☑️ 19 July 2025 – 9th Guidance Call (Saturday)
 
 * [x] Present interim report draft for review.
 * [x] Incorporate feedback and polish sections.
@@ -62,7 +108,7 @@
 
 ---
 
-## 🔜 03 August 2025 – Final Guidance Call (Sunday)
+## 📞 03 August 2025 – Final Guidance Call (Sunday)
 
 * [ ] Refine reward function (include idle time, demand mismatch, rebalancing cost).
 * [ ] Implement and compare PPO and A2C using Stable-Baselines3.
@@ -75,7 +121,7 @@
 
 ---
 
-## 🔜 10 August 2025 – 4th Submission (Final Report & Conference Paper) (Sunday)
+## 🟡 10 August 2025 – 4th Submission (Final Report & Conference Paper) (Sunday)
 
 * [ ] Finalise all sections of paper.
 * [ ] Format according to conference/journal template.
@@ -92,7 +138,7 @@
 
 ---
 
-## 🔜 17 August 2025 – Final ESA Review (Sunday)
+## 🟡 17 August 2025 – Final ESA Review (Sunday)
 
 * [ ] Present demo, paper highlights, and final outputs.
 * [ ] Be ready to answer queries on:
@@ -100,13 +146,5 @@
   * Model choices and alternatives
   * Evaluation strategy and benchmarks
   * Paper review and limitations
-
----
-
-## 🔜 23 August 2025 – 4th Semester Project Initiation (Friday)
-
-* [ ] Attend initiation session for individual project.
-* [ ] Note evaluation criteria and expected deliverables.
-* [ ] Explore individual project directions (based on Capstone work or new ideas).
 
 ---
