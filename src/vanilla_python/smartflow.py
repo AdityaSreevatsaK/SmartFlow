@@ -6,41 +6,11 @@ from sqlite3 import Date
 from typing import Dict, Hashable, List, Tuple
 
 import folium
-import pandas as pd
 import requests
 from branca.element import Element
 from folium.plugins import MarkerCluster
 
-# ── Config ───────────────────────────────────────────────────────────────────
-DATA_FILE = "../../data/raw/New York CitiBike - 2015-2017.csv"
-Q_SOURCE_FILE = "../../data/processed/Q Table - Source.csv"
-Q_TARGET_FILE = "../../data/processed/Q Table - Target.csv"
-TRAINING_REWARDS = "../../results/rewards/SmartFlow - Rewards.csv"
-MAP_OUTPUT = "../../results/simulation/SmartFlow - Simulation.html"
-
-TARGET_DATE = pd.to_datetime("2016-07-01").date()
-TOP_N = 10
-LOG_INTERVAL = 500
-
-EPISODES = 10000
-MAX_STEPS = 100  # up to 100 moves per episode
-ALPHA = 0.3
-GAMMA = 0.9  # reward discount
-EPSILON_START = 1.0
-EPSILON_END = 0.01
-EPSILON_DECAY = 0.9995  # slow decay → more exploration
-
-MAP_CENTER = [40.72274243859797, -74.06340830643403]
-MAP_ZOOM = 14
-
-OSRM_URL = (
-    "http://router.project-osrm.org/route/v1/driving/"
-    "{from_lon},{from_lat};{to_lon},{to_lat}"
-    "?overview=full&geometries=geojson"
-)
-
-BIKE_ICON_URL = "https://cdn-icons-png.flaticon.com/512/684/684908.png"
-TRUCK_ICON_URL = "https://cdn-icons-png.flaticon.com/512/1995/1995471.png"
+from src.constants import *
 
 # ── Logging ───────────────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -576,7 +546,8 @@ def main():
     coordinates = {s: coordinates[s] for s in top_stations if s in coordinates}
 
     bike_counts = simulate_bike_counts(thresholds)
-    routes, transfers = find_dual_policy_routes_all(top_stations, coordinates, q_source, q_target, bike_counts, thresholds)
+    routes, transfers = find_dual_policy_routes_all(top_stations, coordinates, q_source, q_target, bike_counts,
+                                                    thresholds)
 
     # Start the clock for map rendering
     start_map = time.perf_counter()
