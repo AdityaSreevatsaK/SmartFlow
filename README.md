@@ -1,4 +1,4 @@
-# <p align="centre">SmartFlow: Reinforcement Learning and Agentic AI for Bike Sharing Optimisation</p>
+# <p align="center">SmartFlow: Reinforcement Learning and Agentic AI for Bike Sharing Optimisation</p>
 
 ---
 
