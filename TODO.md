@@ -98,26 +98,24 @@
 
 ---
 
-## 🟡 03 August 2025 – 3rd Submission (Interim Report) (Sunday)
+## ☑️ 02 August 2025 – Final Guidance Call (Saturday)
 
-* [ ] Submit interim report covering:
+* [X] Refine reward function (include idle time, demand mismatch, rebalancing cost).
+* [X] Log all performance metrics and improvements.
+* [X] Build interactive demo (notebook/script).
+* [X] Review final paper structure and demo expectations.
+* [X] Lock in evaluation metrics.
+* [X] Final checklist for results, optimisation and formatting.
+
+---
+
+## ✅ 03 August 2025 – 3rd Submission (Interim Report) (Sunday)
+
+* [X] Submit interim report covering:
 
   * Literature background
   * Foundation setup
   * Training procedure and partial results
-
----
-
-## 📞 03 August 2025 – Final Guidance Call (Sunday)
-
-* [ ] Refine reward function (include idle time, demand mismatch, rebalancing cost).
-* [ ] Implement and compare PPO and A2C using Stable-Baselines3.
-* [ ] Perform hyperparameter tuning.
-* [ ] Log all performance metrics and improvements.
-* [ ] Build interactive demo (notebook/script).
-* [ ] Review final paper structure and demo expectations.
-* [ ] Lock in evaluation metrics.
-* [ ] Final checklist for results, optimisation and formatting.
 
 ---
 
