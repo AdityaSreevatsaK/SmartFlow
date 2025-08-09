@@ -1,6 +1,6 @@
 import pandas as pd
 
-from ..vanilla_python.smartflow import Q_SOURCE_FILE, Q_TARGET_FILE
+from vanilla_python.constants import Q_SOURCE_FILE, Q_TARGET_FILE
 
 
 def inspect_q_table(path, label):

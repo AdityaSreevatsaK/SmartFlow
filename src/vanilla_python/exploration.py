@@ -1,5 +1,5 @@
 from smartflow import calculate_thresholds, get_top_stations, load_and_filter
-from constants import TARGET_DATE
+from vanilla_python.constants import TARGET_DATE
 
 if __name__ == "__main__":
     # Load and filter data

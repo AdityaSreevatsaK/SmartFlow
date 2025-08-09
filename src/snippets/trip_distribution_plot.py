@@ -1,14 +1,13 @@
-import pandas as pd
 import matplotlib.pyplot as plt
+import pandas as pd
 
-# Adjust the path to your data file as needed
-DATA_FILE = "../../data/raw/New York CitiBike - 2015-2017.csv"
+from vanilla_python.constants import TRIPS_FILE
 
 # Use your target date for filtering
 TARGET_DATE = pd.to_datetime("2016-07-01").date()
 
 # Load and filter trip data
-df = pd.read_csv(DATA_FILE)
+df = pd.read_csv(TRIPS_FILE)
 df = df.dropna(subset=["Start Station Name"])
 df["Start Time"] = pd.to_datetime(df["Start Time"], errors="coerce")
 df = df[df["Start Time"].dt.date == TARGET_DATE]

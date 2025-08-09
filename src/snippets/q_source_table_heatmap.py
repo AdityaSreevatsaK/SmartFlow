@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-from constants import Q_SOURCE_FILE, Q_TARGET_FILE
+from vanilla_python.constants import Q_SOURCE_FILE
 
 # Load Q-table (Source)
 q = pd.read_csv(Q_SOURCE_FILE, index_col=0)

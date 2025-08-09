@@ -2,7 +2,7 @@ import folium
 import pandas as pd
 from folium.plugins import MarkerCluster
 
-from constants import TARGET_DATE, TOP_N
+from vanilla_python.constants import TARGET_DATE, TOP_N
 from smartflow import calculate_thresholds, DATA_FILE, find_dual_policy_routes_all, get_station_coordinates, \
     inject_animation_js, load_q_tables, MAP_CENTER, MAP_ZOOM, plot_stations_cluster, simulate_bike_counts
 

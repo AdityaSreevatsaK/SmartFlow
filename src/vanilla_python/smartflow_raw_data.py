@@ -10,8 +10,11 @@ import requests
 from branca.element import Element
 from folium.plugins import MarkerCluster
 
-from src.constants import *
+from vanilla_python.constants import *
 
+DATA_FILE = PROJECT_ROOT / "data/raw/New York CitiBike - 2015-2017.csv"
+TRAINING_REWARDS = PROJECT_ROOT / "results/rewards/SmartFlow - Rewards - Updated.csv"
+MAP_OUTPUT = PROJECT_ROOT / "results/simulation/SmartFlow - Simulation - Updated.html"
 # ── Logging ───────────────────────────────────────────────────────────────────
 logging.basicConfig(
     level=logging.INFO,
