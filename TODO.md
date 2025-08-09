@@ -119,24 +119,23 @@
 
 ---
 
-## 🟡 10 August 2025 – 4th Submission (Final Report & Conference Paper) (Sunday)
+## ✅ 10 August 2025 – 4th Submission (Final Report & Conference Paper) (Sunday)
 
-* [ ] Finalise all sections of paper.
-* [ ] Format according to conference/journal template.
-* [ ] Write abstract, introduction, and conclusion.
-* [ ] Analyse and include final experiment results.
-* [ ] List at least 5 future research problems.
-* [ ] Proofread and check references.
-* [ ] Prepare and submit:
+* [X] Finalise all sections of paper.
+* [X] Format according to conference/journal template.
+* [X] Write abstract, introduction, and conclusion.
+* [X] Analyse and include final experiment results.
+* [X] List at least 5 future research problems.
+* [X] Proofread and check references.
+* [X] Prepare and submit:
 
   * Final report
   * Conference paper
-  * Slide deck (if required)
-  * Demo recording (if required)
+  * PowerPoint presentation
 
 ---
 
-## 🟡 17 August 2025 – Final ESA Review (Sunday)
+## 🟡 24 August 2025 – Final ESA Review (Sunday)
 
 * [ ] Present demo, paper highlights, and final outputs.
 * [ ] Be ready to answer queries on:
