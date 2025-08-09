@@ -1,6 +1,6 @@
 # <p align="center">SmartFlow: Reinforcement Learning and Agentic AI for Bike-Sharing Optimisation</p>
 
------
+---
 
 ## Objective
 
@@ -10,7 +10,7 @@ stations, while the agentic components manage real-time communication with groun
 dual approach ensures that intelligent, data-driven decisions are translated into timely, real-world actions, offering a
 scalable and adaptive strategy for modern urban transport networks.
 
------
+---
 
 ## Overview
 
@@ -27,7 +27,7 @@ intervention.
 * Lower operational costs associated with fleet management.
 * Provide a scalable and adaptable solution for complex urban environments.
 
------
+---
 
 ## Architecture
 
@@ -35,7 +35,7 @@ A high-level diagram illustrating the interaction between the RL core, the simul
 
 <img src='docs/SmartFlow - Architecture.png'></img>
 
------
+---
 
 ## Key Features
 
@@ -55,7 +55,7 @@ A high-level diagram illustrating the interaction between the RL core, the simul
   Designed for flexible integration with public data feeds, real-time APIs, and diverse urban infrastructures, ensuring
   broad applicability.
 
------
+---
 
 ## Motivation
 
@@ -67,17 +67,19 @@ inefficiency leads to underutilised assets, increased operational costs, and a d
 SmartFlow directly addresses these limitations by enabling an adaptive, data-driven, and automated approach to fleet
 management that aligns with modern smart city objectives.
 
------
+---
+### Technology Stack
 
-## Technology Stack
+The SmartFlow framework is built on a specific stack of modern libraries for data science, reinforcement learning, and agentic AI.
 
-* **Core ML/RL:** Python, PyTorch / TensorFlow, Gymnasium (formerly OpenAI Gym)
-* **Agentic AI:** LangChain / LlamaIndex
-* **Data Handling:** Pandas, NumPy
-* **Simulation:** SimPy / Custom Environment
-* **Visualisation:** Matplotlib, Seaborn
+* **Core ML & Data Science:** Python, Pandas, NumPy, Scikit-learn
+* **Deep Learning Backend:** PyTorch
+* **Reinforcement Learning:** Stable-Baselines3 (DQN Algorithm), Gymnasium (for the environment API)
+* **Agentic AI & NLP:** Hugging Face (Transformers, Accelerate, BitsAndBytes) with the `google/gemma-2b-it` model
+* **Geospatial & Routing:** OSMnx, NetworkX
+* **Visualisation & Mapping:** Matplotlib, Seaborn, Folium, TensorBoard
 
------
+---
 
 ## Repository Structure
 
@@ -109,7 +111,7 @@ management that aligns with modern smart city objectives.
 └── TODO.md               # Development roadmap and tasks
 ```
 
------
+---
 
 ## Getting Started
 
@@ -159,7 +161,7 @@ Sreevatsa K et al., 2025).
 }
 ```
 
------
+---
 
 ## Licensing
 
