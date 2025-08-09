@@ -1,0 +1,92 @@
+[
+  {
+    "truck_id": 0,
+    "legs": [
+      {
+        "src": "Grove St PATH",
+        "tgt": "Newport PATH",
+        "move": 3,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "src": "Newport PATH",
+        "tgt": "Newport Pkwy",
+        "move": 3,
+        "dispatch_time": "10:00 PM"
+      },
+      {
+        "src": "Newport Pkwy",
+        "tgt": "Warren St",
+        "move": 3,
+        "dispatch_time": "10:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 1,
+    "legs": [
+      {
+        "src": "City Hall",
+        "tgt": "Warren St",
+        "move": 3,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "src": "Warren St",
+        "tgt": "Hamilton Park",
+        "move": 1,
+        "dispatch_time": "10:00 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 2,
+    "legs": [
+      {
+        "src": "Pershing Field",
+        "tgt": "Hamilton Park",
+        "move": 3,
+        "dispatch_time": "09:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 3,
+    "legs": [
+      {
+        "src": "Hilltop",
+        "tgt": "Hamilton Park",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 4,
+    "legs": [
+      {
+        "src": "5 Corners Library",
+        "tgt": "Van Vorst Park",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 5,
+    "legs": [
+      {
+        "src": "Christ Hospital",
+        "tgt": "Van Vorst Park",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  }
+]
