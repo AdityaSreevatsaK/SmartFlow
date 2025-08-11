@@ -1,0 +1,188 @@
+[
+  {
+    "truck_id": 0,
+    "legs": [
+      {
+        "src": "Van Vorst Park",
+        "tgt": "Grove St PATH",
+        "move": 2,
+        "dispatch_time": "12:30 AM"
+      },
+      {
+        "src": "Grove St PATH",
+        "tgt": "Newport PATH",
+        "move": 3,
+        "dispatch_time": "01:00 AM"
+      }
+    ],
+    "urgency_hour": 2
+  },
+  {
+    "truck_id": 1,
+    "legs": [
+      {
+        "src": "Warren St",
+        "tgt": "Newport PATH",
+        "move": 2,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "src": "Newport PATH",
+        "tgt": "Essex Light Rail",
+        "move": 2,
+        "dispatch_time": "10:00 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 2,
+    "legs": [
+      {
+        "src": "Newark Ave",
+        "tgt": "Hamilton Park",
+        "move": 4,
+        "dispatch_time": "09:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 3,
+    "legs": [
+      {
+        "src": "Oakland Ave",
+        "tgt": "Paulus Hook",
+        "move": 3,
+        "dispatch_time": "09:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 4,
+    "legs": [
+      {
+        "src": "Dey St",
+        "tgt": "Paulus Hook",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "src": "Paulus Hook",
+        "tgt": "City Hall",
+        "move": 2,
+        "dispatch_time": "10:00 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 5,
+    "legs": [
+      {
+        "src": "Riverview Park",
+        "tgt": "City Hall",
+        "move": 3,
+        "dispatch_time": "09:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 6,
+    "legs": [
+      {
+        "src": "Newport Pkwy",
+        "tgt": "City Hall",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "src": "City Hall",
+        "tgt": "Brunswick St",
+        "move": 1,
+        "dispatch_time": "10:00 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 7,
+    "legs": [
+      {
+        "src": "McGinley Square",
+        "tgt": "Brunswick St",
+        "move": 2,
+        "dispatch_time": "09:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 8,
+    "legs": [
+      {
+        "src": "Pershing Field",
+        "tgt": "Baldwin at Montgomery",
+        "move": 2,
+        "dispatch_time": "09:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 9,
+    "legs": [
+      {
+        "src": "Heights Elevator",
+        "tgt": "Baldwin at Montgomery",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "src": "Baldwin at Montgomery",
+        "tgt": "JC Medical Center",
+        "move": 1,
+        "dispatch_time": "10:00 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 10,
+    "legs": [
+      {
+        "src": "Hilltop",
+        "tgt": "JC Medical Center",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 11,
+    "legs": [
+      {
+        "src": "5 Corners Library",
+        "tgt": "JC Medical Center",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 12,
+    "legs": [
+      {
+        "src": "Christ Hospital",
+        "tgt": "Lincoln Park",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  }
+]

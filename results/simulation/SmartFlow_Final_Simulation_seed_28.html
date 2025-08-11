@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_c8248f2b30a74ef0ba615386b02a57c6 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css"/>
+</head>
+<body>
+    
+    
+    <script>
+    window.onload = async function () {
+      var map = window["map_c8248f2b30a74ef0ba615386b02a57c6"];
+      var routes = [{"truckId": "Truck_0", "path": [[40.7267223, -74.0346862], [40.7265612, -74.0329145], [40.72686, -74.032139], [40.7269997, -74.032119], [40.7270878, -74.0321049], [40.7282154, -74.031943], [40.7282869, -74.0319329], [40.7287879, -74.0318584]], "duration": 10, "fromStation": "Newport_PATH", "toStation": "Newport_Pkwy", "bikesOnTruck": 1, "finalCountSrc": 13, "finalCountTgt": 7}, {"truckId": "Truck_0", "path": [[40.7287879, -74.0318584], [40.7289228, -74.0318384], [40.7292466, -74.0331271], [40.7293937, -74.0345776], [40.7294171, -74.0347731], [40.7292825, -74.0348018], [40.7245106, -74.0358645], [40.7244062, -74.0359181], [40.7230266, -74.0362732], [40.7218541, -74.0364454], [40.7210344, -74.0365359], [40.7202673, -74.0366734], [40.719575, -74.0368256], [40.7188647, -74.0369711], [40.7182484, -74.0370781], [40.7177, -74.037183], [40.7173222, -74.0356181], [40.7166525, -74.0357049], [40.7165559, -74.0357167], [40.7158274, -74.0358311], [40.7151022, -74.0359625], [40.7143862, -74.0361633], [40.7136605, -74.0363265], [40.7129845, -74.0364204]], "duration": 10, "fromStation": "Newport_Pkwy", "toStation": "Essex_Light_Rail", "bikesOnTruck": 5, "finalCountSrc": 2, "finalCountTgt": 5}, {"truckId": "Truck_1", "path": [[40.7216111, -74.0460993], [40.7206903, -74.0466675], [40.7201911, -74.0451173], [40.7195232, -74.0430126], [40.7190057, -74.0413525], [40.7182174, -74.038817], [40.7177, -74.037183], [40.7173222, -74.0356181], [40.7166525, -74.0357049], [40.7165559, -74.0357167], [40.7158274, -74.0358311], [40.7151022, -74.0359625], [40.7143862, -74.0361633], [40.7136605, -74.0363265], [40.7129845, -74.0364204]], "duration": 10, "fromStation": "Newark_Ave", "toStation": "Essex_Light_Rail", "bikesOnTruck": 2, "finalCountSrc": 10, "finalCountTgt": 7}, {"truckId": "Truck_1", "path": [[40.7129845, -74.0364204], [40.7136476, -74.0362192], [40.7143723, -74.036056], [40.7151022, -74.0359625], [40.7158274, -74.0358311], [40.7165559, -74.0357167], [40.7166525, -74.0357049], [40.7173222, -74.0356181], [40.7177, -74.037183], [40.7182174, -74.038817], [40.7190627, -74.0386501], [40.719761, -74.038511], [40.7198521, -74.0384948], [40.7204505, -74.0383769], [40.7205594, -74.0383572], [40.7212248, -74.0382277]], "duration": 10, "fromStation": "Essex_Light_Rail", "toStation": "Warren_St", "bikesOnTruck": 4, "finalCountSrc": 3, "finalCountTgt": 4}, {"truckId": "Truck_2", "path": [[40.7186356, -74.0477773], [40.7193199, -74.0474137], [40.719984, -74.047053], [40.7206903, -74.0466675], [40.7216111, -74.0460993], [40.7219582, -74.0459718], [40.72181, -74.0442957], [40.7216662, -74.0426289], [40.7216231, -74.0421778], [40.721514, -74.0409814], [40.7213671, -74.039336], [40.7212248, -74.0382277]], "duration": 10, "fromStation": "Van_Vorst_Park", "toStation": "Warren_St", "bikesOnTruck": 3, "finalCountSrc": 8, "finalCountTgt": 7}, {"truckId": "Truck_2", "path": [[40.7212248, -74.0382277], [40.7205594, -74.0383572], [40.7204505, -74.0383769], [40.7198521, -74.0384948], [40.719761, -74.038511], [40.7190627, -74.0386501], [40.7182174, -74.038817], [40.7177, -74.037183], [40.7173222, -74.0356181], [40.7171496, -74.0346201], [40.7171083, -74.0343389], [40.717067, -74.0340252], [40.7164849, -74.0341247], [40.7163994, -74.0341427], [40.7156577, -74.0342984], [40.7149323, -74.0344459], [40.7142038, -74.0345999], [40.7140786, -74.0334425]], "duration": 10, "fromStation": "Warren_St", "toStation": "Paulus_Hook", "bikesOnTruck": 2, "finalCountSrc": 5, "finalCountTgt": 2}, {"truckId": "Truck_3", "path": [[40.7175139, -74.0441212], [40.7173324, -74.042361], [40.7171965, -74.0413635], [40.7171236, -74.0406572], [40.7169432, -74.0390681], [40.7167527, -74.0373975], [40.7165559, -74.0357167], [40.7158274, -74.0358311], [40.7151022, -74.0359625], [40.7149323, -74.0344459], [40.7142038, -74.0345999], [40.7140786, -74.0334425]], "duration": 10, "fromStation": "City_Hall", "toStation": "Paulus_Hook", "bikesOnTruck": 4, "finalCountSrc": 6, "finalCountTgt": 6}, {"truckId": "Truck_4", "path": [[40.7245234, -74.078229], [40.724938, -74.077874], [40.725301, -74.07759], [40.7257006, -74.0772844], [40.7243009, -74.0741196], [40.7252737, -74.0733538], [40.7259018, -74.0722685], [40.7253532, -74.0709877], [40.724894, -74.0697765], [40.7246979, -74.0692842], [40.7250155, -74.0686323], [40.7253156, -74.0680837], [40.7248342, -74.0672103], [40.7246355, -74.0667409], [40.724452, -74.066218], [40.7241191, -74.0651871], [40.723768, -74.064193], [40.7233722, -74.0628984], [40.7233225, -74.0627533], [40.7232713, -74.0625906], [40.7224245, -74.0598633], [40.7219886, -74.0584634], [40.7213766, -74.0564982], [40.7213103, -74.056285], [40.7210304, -74.0553862], [40.7208775, -74.0548952], [40.7223848, -74.0543658], [40.7225605, -74.0533651], [40.7219527, -74.0513481], [40.7216431, -74.0497026], [40.7222463, -74.0493436], [40.7229639, -74.0492007], [40.7231726, -74.0491683], [40.7237533, -74.0499885], [40.7243617, -74.0506694]], "duration": 10, "fromStation": "Lincoln_Park", "toStation": "Brunswick_St", "bikesOnTruck": 3, "finalCountSrc": 3, "finalCountTgt": 3}, {"truckId": "Truck_5", "path": [[40.7439051, -74.0443696], [40.7436089, -74.0445479], [40.742554, -74.045218], [40.741255, -74.046067], [40.7399343, -74.046901], [40.7395649, -74.0471371], [40.7393618, -74.0472722], [40.7387703, -74.0476435], [40.7380512, -74.0481015], [40.7374083, -74.0485167], [40.7373113, -74.0485786], [40.7367459, -74.0489436], [40.736087, -74.0493643], [40.735675, -74.0496306], [40.7353697, -74.0498252], [40.7352773, -74.0498833], [40.7351996, -74.0499314], [40.7346189, -74.0503001], [40.7340938, -74.0506461], [40.7334638, -74.0510582], [40.7328103, -74.0514704], [40.7319088, -74.0526394], [40.7317378, -74.0528665], [40.7313672, -74.0533528], [40.729909, -74.055278], [40.7288706, -74.0548719], [40.7286033, -74.0547812], [40.7269343, -74.0534286], [40.7261347, -74.0525747], [40.7257269, -74.0521278], [40.7253798, -74.0517474], [40.7252541, -74.0516131], [40.7245411, -74.05086], [40.7243617, -74.0506694]], "duration": 10, "fromStation": "Riverview_Park", "toStation": "Brunswick_St", "bikesOnTruck": 2, "finalCountSrc": 4, "finalCountTgt": 5}, {"truckId": "Truck_5", "path": [[40.7243617, -74.0506694], [40.7238143, -74.0507539], [40.7231093, -74.050862], [40.722411, -74.0509884], [40.7219527, -74.0513481], [40.7213865, -74.0516453], [40.7208286, -74.0519382], [40.7205805, -74.0539689], [40.7208775, -74.0548952], [40.7210304, -74.0553862], [40.7213103, -74.056285], [40.7213766, -74.0564982], [40.7219886, -74.0584634], [40.7224245, -74.0598633], [40.7232713, -74.0625906], [40.7233225, -74.0627533], [40.7233722, -74.0628984], [40.723768, -74.064193], [40.7241191, -74.0651871], [40.724452, -74.066218], [40.7246355, -74.0667409], [40.7248342, -74.0672103], [40.7253156, -74.0680837]], "duration": 10, "fromStation": "Brunswick_St", "toStation": "McGinley_Square", "bikesOnTruck": 1, "finalCountSrc": 4, "finalCountTgt": 2}, {"truckId": "Truck_6", "path": [[40.718368, -74.0836984], [40.7190126, -74.0829672], [40.7175576, -74.0800656], [40.7165895, -74.0781712], [40.716859, -74.0777875], [40.7170895, -74.0774629], [40.7173391, -74.0771131], [40.7174627, -74.0769418], [40.7177174, -74.0765633], [40.7177965, -74.0764378], [40.7184513, -74.0753993], [40.718928, -74.074732], [40.7192512, -74.0744274], [40.719492, -74.074179], [40.719567, -74.074105], [40.72011, -74.073551], [40.7202918, -74.0733851], [40.7209, -74.072797], [40.7216421, -74.0721173], [40.722145, -74.071615], [40.7228938, -74.0709368], [40.7233844, -74.0704842], [40.7238726, -74.070142], [40.7245886, -74.069456], [40.7246979, -74.0692842], [40.7250155, -74.0686323], [40.7253156, -74.0680837]], "duration": 10, "fromStation": "Union_St", "toStation": "McGinley_Square", "bikesOnTruck": 1, "finalCountSrc": 5, "finalCountTgt": 3}, {"truckId": "Truck_6", "path": [[40.7253156, -74.0680837], [40.7250155, -74.0686323], [40.7244312, -74.068444], [40.7236636, -74.0681864], [40.7217401, -74.0675776], [40.720584, -74.0672434], [40.7202123, -74.0667255], [40.7197979, -74.065895], [40.7193956, -74.0649942], [40.7188258, -74.0654086], [40.716972, -74.062101], [40.7168779, -74.0624762], [40.7161399, -74.0615719], [40.7156034, -74.0609145], [40.7151012, -74.0602948], [40.71459, -74.0596727], [40.7140356, -74.0589933], [40.7134942, -74.0583299], [40.7129694, -74.0576868], [40.7124495, -74.0570499], [40.7119213, -74.0564026], [40.7110369, -74.0553188]], "duration": 10, "fromStation": "McGinley_Square", "toStation": "Liberty_Light_Rail", "bikesOnTruck": 2, "finalCountSrc": 1, "finalCountTgt": 2}, {"truckId": "Truck_7", "path": [[40.7378656, -74.0672877], [40.7374296, -74.0659329], [40.7371472, -74.066066], [40.7364733, -74.0664045], [40.7363797, -74.0664475], [40.7358142, -74.0667354], [40.7348665, -74.0671323], [40.734212, -74.067256], [40.7335336, -74.0672665], [40.7326458, -74.0672315], [40.7318106, -74.0671785], [40.7313982, -74.0678424], [40.730242, -74.0685826], [40.7292459, -74.0695146], [40.7287956, -74.0698296], [40.7283443, -74.0701222], [40.7280586, -74.0694031], [40.7272114, -74.0671826], [40.7263735, -74.0675304], [40.7253156, -74.0680837], [40.7250155, -74.0686323], [40.7244312, -74.068444], [40.7236636, -74.0681864], [40.7217401, -74.0675776], [40.720584, -74.0672434], [40.7202123, -74.0667255], [40.7197979, -74.065895], [40.7193956, -74.0649942], [40.7188258, -74.0654086], [40.716972, -74.062101], [40.7168779, -74.0624762], [40.7161399, -74.0615719], [40.7156034, -74.0609145], [40.7151012, -74.0602948], [40.71459, -74.0596727], [40.7140356, -74.0589933], [40.7134942, -74.0583299], [40.7129694, -74.0576868], [40.7124495, -74.0570499], [40.7119213, -74.0564026], [40.7110369, -74.0553188]], "duration": 10, "fromStation": "Dey_St", "toStation": "Liberty_Light_Rail", "bikesOnTruck": 1, "finalCountSrc": 4, "finalCountTgt": 3}, {"truckId": "Truck_7", "path": [[40.7110369, -74.0553188], [40.7119213, -74.0564026], [40.7124495, -74.0570499], [40.7129694, -74.0576868], [40.7134942, -74.0583299], [40.7140356, -74.0589933], [40.71459, -74.0596727], [40.7151012, -74.0602948], [40.7156034, -74.0609145], [40.7161399, -74.0615719], [40.7168779, -74.0624762], [40.716972, -74.062101], [40.7188258, -74.0654086], [40.7193956, -74.0649942], [40.7197979, -74.065895], [40.7202123, -74.0667255], [40.7214939, -74.065874], [40.7217356, -74.0657379], [40.722061, -74.065469], [40.7224918, -74.0651486], [40.723768, -74.064193]], "duration": 10, "fromStation": "Liberty_Light_Rail", "toStation": "Baldwin_at_Montgomery", "bikesOnTruck": 1, "finalCountSrc": 2, "finalCountTgt": 2}, {"truckId": "Truck_8", "path": [[40.7309524, -74.0574492], [40.7325522, -74.0595376], [40.7317764, -74.0600761], [40.7304325, -74.0612684], [40.7291158, -74.0622595], [40.7286009, -74.0626679], [40.7281255, -74.0631017], [40.7277273, -74.063579], [40.7266032, -74.0638892], [40.7260274, -74.0641377], [40.7253416, -74.0644833], [40.7241191, -74.0651871], [40.723768, -74.064193]], "duration": 10, "fromStation": "Hilltop", "toStation": "Baldwin_at_Montgomery", "bikesOnTruck": 1, "finalCountSrc": 3, "finalCountTgt": 3}, {"truckId": "Truck_9", "path": [[40.7348787, -74.0592342], [40.7342809, -74.0569588], [40.7350924, -74.0566087], [40.7352613, -74.056531], [40.7354373, -74.0564581], [40.7361049, -74.0560852], [40.7367368, -74.0556607], [40.737244, -74.055309], [40.7379421, -74.054856], [40.738547, -74.054452], [40.739185, -74.054033], [40.740056, -74.05346], [40.7407821, -74.0529777], [40.741485, -74.052488], [40.7421812, -74.0520081], [40.742687, -74.051645]], "duration": 10, "fromStation": "5_Corners_Library", "toStation": "Pershing_Field", "bikesOnTruck": 1, "finalCountSrc": 3, "finalCountTgt": 1}];
+
+      var debugBanner = document.createElement('div');
+      debugBanner.style.position = 'fixed'; debugBanner.style.bottom = '10px';
+      debugBanner.style.left = '10px'; debugBanner.style.padding = '10px';
+      debugBanner.style.background = 'rgba(0,0,0,0.7)'; debugBanner.style.color = 'white';
+      debugBanner.style.zIndex = '9999'; debugBanner.style.fontFamily = 'monospace';
+      debugBanner.innerText = '🚚 Animation Status:';
+      document.body.appendChild(debugBanner);
+
+      function animateTruck(leg) {
+        return new Promise(resolve => {
+            let marker = L.marker(leg.path[0], {
+                icon: L.divIcon({
+                    html: `<div style='text-align:center; white-space:nowrap;'>
+                             <div style='background:black;color:white;padding:4px 8px;border-radius:4px;font-size:11px;'>${leg.truckId} 🚲 ${leg.bikesOnTruck}</div>
+                             <img src='https://cdn-icons-png.flaticon.com/512/1995/1995471.png' width='30' height='30'/>
+                           </div>`,
+                    className: '', iconSize: [90, 40], iconAnchor: [45, 40]
+                })
+            }).addTo(map);
+
+            let departMsg = `▶️ ${leg.truckId}: Departing ${leg.fromStation.replace('_', ' ')} (${leg.bikesOnTruck} bikes)`;
+            debugBanner.innerText += `\n${departMsg}`;
+            console.log(departMsg);
+
+            const srcElem = document.getElementById('count_' + leg.fromStation);
+            if(srcElem) { srcElem.innerText = `${leg.fromStation.replace('_',' ')} 🚲 ${leg.finalCountSrc}`; }
+            
+            let i = 0;
+            const steps = leg.path.length;
+            const delay = (leg.duration * 1000) / steps;
+
+            function move() {
+                if (i < steps) {
+                    marker.setLatLng(leg.path[i]); i++; setTimeout(move, delay);
+                } else {
+                    // THIS IS THE CORRECTED LINE
+                    const tgtElem = document.getElementById('count_' + leg.toStation);
+                    
+                    if (tgtElem) {
+                        tgtElem.innerText = `${leg.toStation.replace('_',' ')} 🚲 ${leg.finalCountTgt}`;
+                        tgtElem.style.background = 'green';
+                    }
+                    let arriveMsg = `✅ ${leg.truckId}: Arrived at ${leg.toStation.replace('_', ' ')}`;
+                    debugBanner.innerText += `\n${arriveMsg}`;
+                    console.log(arriveMsg);
+                    
+                    // The line to remove the marker is correctly commented out
+                    // map.removeLayer(marker); 
+                    
+                    resolve();
+                }
+            }
+            move();
+        });
+      }
+
+      const trucks = routes.reduce((acc, route) => {
+        acc[route.truckId] = acc[route.truckId] || [];
+        acc[route.truckId].push(route);
+        return acc;
+      }, {});
+
+      for (const truckId in trucks) {
+        let dispatchMsg = `--- Dispatching ${truckId} ---`;
+        debugBanner.innerText += `\n\n${dispatchMsg}`;
+        console.log(`\n${dispatchMsg}`);
+        for (const leg of trucks[truckId]) {
+            await animateTruck(leg);
+        }
+      }
+    };
+    </script>
+    
+    
+            <div class="folium-map" id="map_c8248f2b30a74ef0ba615386b02a57c6" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_c8248f2b30a74ef0ba615386b02a57c6 = L.map(
+                "map_c8248f2b30a74ef0ba615386b02a57c6",
+                {
+                    center: [40.72274243859797, -74.06340830643403],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 14,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_c3b0e27044d926f7a864a818e436e708 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_c3b0e27044d926f7a864a818e436e708.addTo(map_c8248f2b30a74ef0ba615386b02a57c6);
+        
+    
+            var marker_cluster_06e7c385fdd4b0db373db525e052d2a3 = L.markerClusterGroup(
+                {
+}
+            );
+        
+    
+            var marker_b91e24ae2a018734be1d5510a7b98cb6 = L.marker(
+                [40.71958611647166, -74.0431174635887],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_c877158749c763c988a59d5e4641dbe5 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Grove_St_PATH\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eGrove St PATH \ud83d\udeb2 10\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_b91e24ae2a018734be1d5510a7b98cb6.setIcon(div_icon_c877158749c763c988a59d5e4641dbe5);
+            
+    
+            var marker_f40fcda3e830daf61b98f1e25f6ed60a = L.marker(
+                [40.7272235, -74.03375890000001],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_92d022f2f0b3aa7f5ee86b9fd68cd617 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Newport_PATH\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eNewport PATH \ud83d\udeb2 14\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_f40fcda3e830daf61b98f1e25f6ed60a.setIcon(div_icon_92d022f2f0b3aa7f5ee86b9fd68cd617);
+            
+    
+            var marker_ae04a58382dbe5bd89c646a0e122652d = L.marker(
+                [40.7287448, -74.03210820000001],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_1f4f01ead318237ef904e75a7ddcb5e2 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Newport_Pkwy\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eNewport Pkwy \ud83d\udeb2 6\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_ae04a58382dbe5bd89c646a0e122652d.setIcon(div_icon_1f4f01ead318237ef904e75a7ddcb5e2);
+            
+    
+            var marker_44be84f1780a5d7db997598873af9ca0 = L.marker(
+                [40.712774200000005, -74.03648570000001],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_6a73ec2c36997cb6c6e0848781dc0f71 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Essex_Light_Rail\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eEssex Light Rail \ud83d\udeb2 0\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_44be84f1780a5d7db997598873af9ca0.setIcon(div_icon_6a73ec2c36997cb6c6e0848781dc0f71);
+            
+    
+            var marker_d7ac53b9b2a46e4d7cd4f70db337a057 = L.marker(
+                [40.721123600000006, -74.03805095],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_21dc2bbaac2ae9e8ab36b4ab73258f4c = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Warren_St\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eWarren St \ud83d\udeb2 0\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_d7ac53b9b2a46e4d7cd4f70db337a057.setIcon(div_icon_21dc2bbaac2ae9e8ab36b4ab73258f4c);
+            
+    
+            var marker_630e1331ec3ef2034afbc8f984e01cb2 = L.marker(
+                [40.727595966, -74.044247311],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_86765eec854432ab89a598b8e6c9ca96 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Hamilton_Park\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eHamilton Park \ud83d\udeb2 6\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_630e1331ec3ef2034afbc8f984e01cb2.setIcon(div_icon_86765eec854432ab89a598b8e6c9ca96);
+            
+    
+            var marker_f3dd94155fb0f1e9d8a1f196a60ed6ba = L.marker(
+                [40.71848892, -74.047726625],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_60d70664e59d293a8ffeab6e82d0629f = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Van_Vorst_Park\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eVan Vorst Park \ud83d\udeb2 11\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_f3dd94155fb0f1e9d8a1f196a60ed6ba.setIcon(div_icon_60d70664e59d293a8ffeab6e82d0629f);
+            
+    
+            var marker_7d83d9f35d645c7d4d8e7d72fef55bb3 = L.marker(
+                [40.7141454, -74.0335519],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_a7841683d03793d9454a081ee99973bb = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Paulus_Hook\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003ePaulus Hook \ud83d\udeb2 0\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_7d83d9f35d645c7d4d8e7d72fef55bb3.setIcon(div_icon_a7841683d03793d9454a081ee99973bb);
+            
+    
+            var marker_3b114f4b44c3394a0a8ebbd464073554 = L.marker(
+                [40.7177325, -74.04384499999999],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_a4bd9fbed721dafb9aafe40bd8a479f5 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_City_Hall\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eCity Hall \ud83d\udeb2 10\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_3b114f4b44c3394a0a8ebbd464073554.setIcon(div_icon_a4bd9fbed721dafb9aafe40bd8a479f5);
+            
+    
+            var marker_c505ee3fa253ec2ae05b01f3e2728505 = L.marker(
+                [40.72152515, -74.046304543],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_595522d57dcbf26a1d082053b1775f67 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Newark_Ave\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eNewark Ave \ud83d\udeb2 12\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_c505ee3fa253ec2ae05b01f3e2728505.setIcon(div_icon_595522d57dcbf26a1d082053b1775f67);
+            
+    
+            var marker_ee2c240a40b825bdc84e7794557cac96 = L.marker(
+                [40.72417649999999, -74.05065640000001],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_a89f4c82019f296248079afc2b9517f4 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Brunswick_St\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eBrunswick St \ud83d\udeb2 0\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_ee2c240a40b825bdc84e7794557cac96.setIcon(div_icon_a89f4c82019f296248079afc2b9517f4);
+            
+    
+            var marker_cc2da953b083e414de494213fbc704d7 = L.marker(
+                [40.7253399253558, -74.06762212514876],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_1e1c3f9af45b7fd66f949409739138c0 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_McGinley_Square\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eMcGinley Square \ud83d\udeb2 1\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_cc2da953b083e414de494213fbc704d7.setIcon(div_icon_1e1c3f9af45b7fd66f949409739138c0);
+            
+    
+            var marker_601a2dcd485c34ba4143dda6235161ab = L.marker(
+                [40.7112423, -74.0557013],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_c109764e12f25a5eb5872d53ac6b743f = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Liberty_Light_Rail\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eLiberty Light Rail \ud83d\udeb2 0\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_601a2dcd485c34ba4143dda6235161ab.setIcon(div_icon_c109764e12f25a5eb5872d53ac6b743f);
+            
+    
+            var marker_9a171419eeaebbbff81f656325480525 = L.marker(
+                [40.7236589, -74.0641943],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_7d9099a819496682619498103a08ed16 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Baldwin_at_Montgomery\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eBaldwin at Montgomery \ud83d\udeb2 1\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_9a171419eeaebbbff81f656325480525.setIcon(div_icon_7d9099a819496682619498103a08ed16);
+            
+    
+            var marker_6cbfb1c9c1cb06083deb64581859b101 = L.marker(
+                [40.71653978099194, -74.0496379137039],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_9b2ad20b85d8979d90d245c4d65014b8 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_JC_Medical_Center\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eJC Medical Center \ud83d\udeb2 3\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_6cbfb1c9c1cb06083deb64581859b101.setIcon(div_icon_9b2ad20b85d8979d90d245c4d65014b8);
+            
+    
+            var marker_87074e6f32e646d89ca09f83347cb658 = L.marker(
+                [40.7311689, -74.0575736],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_9335ff8dfcd07ffe4874e64210da2f14 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Hilltop\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eHilltop \ud83d\udeb2 4\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_87074e6f32e646d89ca09f83347cb658.setIcon(div_icon_9335ff8dfcd07ffe4874e64210da2f14);
+            
+    
+            var marker_d57e58c102741b011aa919fa750f7e17 = L.marker(
+                [40.7246050998869, -74.07840594649316],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_2650d7d9cdc9d17f6ebea13252cc6454 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Lincoln_Park\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eLincoln Park \ud83d\udeb2 6\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_d57e58c102741b011aa919fa750f7e17.setIcon(div_icon_2650d7d9cdc9d17f6ebea13252cc6454);
+            
+    
+            var marker_4c2ffe2a7163bb08a44d4535b1c65820 = L.marker(
+                [40.742677141, -74.051788633],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_48005910f3b3e760783697a66e33a26b = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Pershing_Field\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003ePershing Field \ud83d\udeb2 0\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_4c2ffe2a7163bb08a44d4535b1c65820.setIcon(div_icon_48005910f3b3e760783697a66e33a26b);
+            
+    
+            var marker_0ff9382cbed69b9ebf9f35ab52cb5452 = L.marker(
+                [40.7376037, -74.05247829999999],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_2622b3bbdb252409f4bf9a9bbcc7c05f = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Oakland_Ave\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eOakland Ave \ud83d\udeb2 3\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_0ff9382cbed69b9ebf9f35ab52cb5452.setIcon(div_icon_2622b3bbdb252409f4bf9a9bbcc7c05f);
+            
+    
+            var marker_c0be77f12183d6b009356ed803cab8d7 = L.marker(
+                [40.737711, -74.066921],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_c8a2425df2b3af6c2242dcec76979b82 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Dey_St\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eDey St \ud83d\udeb2 5\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_c0be77f12183d6b009356ed803cab8d7.setIcon(div_icon_c8a2425df2b3af6c2242dcec76979b82);
+            
+    
+            var marker_ded01a3688c7b52668e229dd439d2357 = L.marker(
+                [40.73496102000952, -74.05950307846071],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_11cc1230cb35f90bc736005137053268 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_5_Corners_Library\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003e5 Corners Library \ud83d\udeb2 4\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_ded01a3688c7b52668e229dd439d2357.setIcon(div_icon_11cc1230cb35f90bc736005137053268);
+            
+    
+            var marker_b6e810e47c36c6f714221538799b1b17 = L.marker(
+                [40.7443187, -74.04399090000001],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_5ed9c49028646459e313d7ae6d642a89 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Riverview_Park\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eRiverview Park \ud83d\udeb2 6\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_b6e810e47c36c6f714221538799b1b17.setIcon(div_icon_5ed9c49028646459e313d7ae6d642a89);
+            
+    
+            var marker_a777d3ff081413288d3bc8badb58c6b2 = L.marker(
+                [40.734785818, -74.050443636],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_ce33e1e3de41ad14e2d50dab695fc133 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Christ_Hospital\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eChrist Hospital \ud83d\udeb2 0\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_a777d3ff081413288d3bc8badb58c6b2.setIcon(div_icon_ce33e1e3de41ad14e2d50dab695fc133);
+            
+    
+            var marker_cd5f318eed3abc9093f4b7de6af97ec4 = L.marker(
+                [40.74871594538023, -74.04044330120088],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_e50c9dfdc482ee74af3ec91cbfd63241 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Heights_Elevator\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eHeights Elevator \ud83d\udeb2 2\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_cd5f318eed3abc9093f4b7de6af97ec4.setIcon(div_icon_e50c9dfdc482ee74af3ec91cbfd63241);
+            
+    
+            var marker_a78366a32430bafbd06b5dd72f35c001 = L.marker(
+                [40.71821129999999, -74.08363940000001],
+                {
+}
+            ).addTo(marker_cluster_06e7c385fdd4b0db373db525e052d2a3);
+        
+    
+            var div_icon_eb137c1d70fbed773285b13f0237455d = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Union_St\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eUnion St \ud83d\udeb2 6\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_a78366a32430bafbd06b5dd72f35c001.setIcon(div_icon_eb137c1d70fbed773285b13f0237455d);
+            
+    
+            marker_cluster_06e7c385fdd4b0db373db525e052d2a3.addTo(map_c8248f2b30a74ef0ba615386b02a57c6);
+        
+    
+            var poly_line_68cd6387c5d00f03e91d2d3fe83c9798 = L.polyline(
+                [[40.7272235, -74.03375890000001], [40.7267223, -74.0346862], [40.7265612, -74.0329145], [40.72686, -74.032139], [40.7269997, -74.032119], [40.7270878, -74.0321049], [40.7282154, -74.031943], [40.7282869, -74.0319329], [40.7287879, -74.0318584]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_c8248f2b30a74ef0ba615386b02a57c6);
+        
+    
+            var poly_line_d9e9bc70b4b311546357019229b847db = L.polyline(
+                [[40.7287879, -74.0318584], [40.7289228, -74.0318384], [40.7292466, -74.0331271], [40.7293937, -74.0345776], [40.7294171, -74.0347731], [40.7292825, -74.0348018], [40.7245106, -74.0358645], [40.7244062, -74.0359181], [40.7230266, -74.0362732], [40.7218541, -74.0364454], [40.7210344, -74.0365359], [40.7202673, -74.0366734], [40.719575, -74.0368256], [40.7188647, -74.0369711], [40.7182484, -74.0370781], [40.7177, -74.037183], [40.7173222, -74.0356181], [40.7166525, -74.0357049], [40.7165559, -74.0357167], [40.7158274, -74.0358311], [40.7151022, -74.0359625], [40.7143862, -74.0361633], [40.7136605, -74.0363265], [40.7129845, -74.0364204]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_c8248f2b30a74ef0ba615386b02a57c6);
+        
+    
+            var poly_line_018e80fe911bf140c5305cc3d0886421 = L.polyline(
+                [[40.7216111, -74.0460993], [40.7206903, -74.0466675], [40.7201911, -74.0451173], [40.7195232, -74.0430126], [40.7190057, -74.0413525], [40.7182174, -74.038817], [40.7177, -74.037183], [40.7173222, -74.0356181], [40.7166525, -74.0357049], [40.7165559, -74.0357167], [40.7158274, -74.0358311], [40.7151022, -74.0359625], [40.7143862, -74.0361633], [40.7136605, -74.0363265], [40.7129845, -74.0364204]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_c8248f2b30a74ef0ba615386b02a57c6);
+        
+    
+            var poly_line_cde9ea27c1a3cbc77d30416c4aabba83 = L.polyline(
+                [[40.7129845, -74.0364204], [40.7136476, -74.0362192], [40.7143723, -74.036056], [40.7151022, -74.0359625], [40.7158274, -74.0358311], [40.7165559, -74.0357167], [40.7166525, -74.0357049], [40.7173222, -74.0356181], [40.7177, -74.037183], [40.7182174, -74.038817], [40.7190627, -74.0386501], [40.719761, -74.038511], [40.7198521, -74.0384948], [40.7204505, -74.0383769], [40.7205594, -74.0383572], [40.7212248, -74.0382277]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_c8248f2b30a74ef0ba615386b02a57c6);
+        
+    
+            var poly_line_ddf0b34499761c7862d2b746bf838473 = L.polyline(
+                [[40.7186356, -74.0477773], [40.7193199, -74.0474137], [40.719984, -74.047053], [40.7206903, -74.0466675], [40.7216111, -74.0460993], [40.7219582, -74.0459718], [40.72181, -74.0442957], [40.7216662, -74.0426289], [40.7216231, -74.0421778], [40.721514, -74.0409814], [40.7213671, -74.039336], [40.7212248, -74.0382277]],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_c8248f2b30a74ef0ba615386b02a57c6);
+        
+    
+            var poly_line_cde26ddadc836c5783df451e6ec58d88 = L.polyline(
+                [[40.7212248, -74.0382277], [40.7205594, -74.0383572], [40.7204505, -74.0383769], [40.7198521, -74.0384948], [40.719761, -74.038511], [40.7190627, -74.0386501], [40.7182174, -74.038817], [40.7177, -74.037183], [40.7173222, -74.0356181], [40.7171496, -74.0346201], [40.7171083, -74.0343389], [40.717067, -74.0340252], [40.7164849, -74.0341247], [40.7163994, -74.0341427], [40.7156577, -74.0342984], [40.7149323, -74.0344459], [40.7142038, -74.0345999], [40.7140786, -74.0334425]],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_c8248f2b30a74ef0ba615386b02a57c6);
+        
+    
+            var poly_line_96c0e7001d47d591703bec012617c990 = L.polyline(
+                [[40.7175139, -74.0441212], [40.7173324, -74.042361], [40.7171965, -74.0413635], [40.7171236, -74.0406572], [40.7169432, -74.0390681], [40.7167527, -74.0373975], [40.7165559, -74.0357167], [40.7158274, -74.0358311], [40.7151022, -74.0359625], [40.7149323, -74.0344459], [40.7142038, -74.0345999], [40.7140786, -74.0334425]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "purple", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_c8248f2b30a74ef0ba615386b02a57c6);
+        
+    
+            var poly_line_a42126c3f8e61de7667a5d1c44fc8fdb = L.polyline(
+                [[40.7245234, -74.078229], [40.724938, -74.077874], [40.725301, -74.07759], [40.7257006, -74.0772844], [40.7243009, -74.0741196], [40.7252737, -74.0733538], [40.7259018, -74.0722685], [40.7253532, -74.0709877], [40.724894, -74.0697765], [40.7246979, -74.0692842], [40.7250155, -74.0686323], [40.7253156, -74.0680837], [40.7248342, -74.0672103], [40.7246355, -74.0667409], [40.724452, -74.066218], [40.7241191, -74.0651871], [40.723768, -74.064193], [40.7233722, -74.0628984], [40.7233225, -74.0627533], [40.7232713, -74.0625906], [40.7224245, -74.0598633], [40.7219886, -74.0584634], [40.7213766, -74.0564982], [40.7213103, -74.056285], [40.7210304, -74.0553862], [40.7208775, -74.0548952], [40.7223848, -74.0543658], [40.7225605, -74.0533651], [40.7219527, -74.0513481], [40.7216431, -74.0497026], [40.7222463, -74.0493436], [40.7229639, -74.0492007], [40.7231726, -74.0491683], [40.7237533, -74.0499885], [40.7243617, -74.0506694]],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "orange", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_c8248f2b30a74ef0ba615386b02a57c6);
+        
+    
+            var poly_line_098226375e9b1fdc55346d112c86db99 = L.polyline(
+                [[40.7443187, -74.04399090000001], [40.7439051, -74.0443696], [40.7436089, -74.0445479], [40.742554, -74.045218], [40.741255, -74.046067], [40.7399343, -74.046901], [40.7395649, -74.0471371], [40.7393618, -74.0472722], [40.7387703, -74.0476435], [40.7380512, -74.0481015], [40.7374083, -74.0485167], [40.7373113, -74.0485786], [40.7367459, -74.0489436], [40.736087, -74.0493643], [40.735675, -74.0496306], [40.7353697, -74.0498252], [40.7352773, -74.0498833], [40.7351996, -74.0499314], [40.7346189, -74.0503001], [40.7340938, -74.0506461], [40.7334638, -74.0510582], [40.7328103, -74.0514704], [40.7319088, -74.0526394], [40.7317378, -74.0528665], [40.7313672, -74.0533528], [40.729909, -74.055278], [40.7288706, -74.0548719], [40.7286033, -74.0547812], [40.7269343, -74.0534286], [40.7261347, -74.0525747], [40.7257269, -74.0521278], [40.7253798, -74.0517474], [40.7252541, -74.0516131], [40.7245411, -74.05086], [40.7243617, -74.0506694]],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "darkred", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_c8248f2b30a74ef0ba615386b02a57c6);
+        
+    
+            var poly_line_3a14a87e49fdc04431bb6aa8b4da84b7 = L.polyline(
+                [[40.7243617, -74.0506694], [40.7238143, -74.0507539], [40.7231093, -74.050862], [40.722411, -74.0509884], [40.7219527, -74.0513481], [40.7213865, -74.0516453], [40.7208286, -74.0519382], [40.7205805, -74.0539689], [40.7208775, -74.0548952], [40.7210304, -74.0553862], [40.7213103, -74.056285], [40.7213766, -74.0564982], [40.7219886, -74.0584634], [40.7224245, -74.0598633], [40.7232713, -74.0625906], [40.7233225, -74.0627533], [40.7233722, -74.0628984], [40.723768, -74.064193], [40.7241191, -74.0651871], [40.724452, -74.066218], [40.7246355, -74.0667409], [40.7248342, -74.0672103], [40.7253156, -74.0680837]],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "darkred", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_c8248f2b30a74ef0ba615386b02a57c6);
+        
+    
+            var poly_line_fdc008120bca48841f5f2b32b70da569 = L.polyline(
+                [[40.718368, -74.0836984], [40.7190126, -74.0829672], [40.7175576, -74.0800656], [40.7165895, -74.0781712], [40.716859, -74.0777875], [40.7170895, -74.0774629], [40.7173391, -74.0771131], [40.7174627, -74.0769418], [40.7177174, -74.0765633], [40.7177965, -74.0764378], [40.7184513, -74.0753993], [40.718928, -74.074732], [40.7192512, -74.0744274], [40.719492, -74.074179], [40.719567, -74.074105], [40.72011, -74.073551], [40.7202918, -74.0733851], [40.7209, -74.072797], [40.7216421, -74.0721173], [40.722145, -74.071615], [40.7228938, -74.0709368], [40.7233844, -74.0704842], [40.7238726, -74.070142], [40.7245886, -74.069456], [40.7246979, -74.0692842], [40.7250155, -74.0686323], [40.7253156, -74.0680837]],
+                {"bubblingMouseEvents": true, "color": "cadetblue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "cadetblue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_c8248f2b30a74ef0ba615386b02a57c6);
+        
+    
+            var poly_line_03c0f0844e594b8dec3398962bc0ce19 = L.polyline(
+                [[40.7253156, -74.0680837], [40.7250155, -74.0686323], [40.7244312, -74.068444], [40.7236636, -74.0681864], [40.7217401, -74.0675776], [40.720584, -74.0672434], [40.7202123, -74.0667255], [40.7197979, -74.065895], [40.7193956, -74.0649942], [40.7188258, -74.0654086], [40.716972, -74.062101], [40.7168779, -74.0624762], [40.7161399, -74.0615719], [40.7156034, -74.0609145], [40.7151012, -74.0602948], [40.71459, -74.0596727], [40.7140356, -74.0589933], [40.7134942, -74.0583299], [40.7129694, -74.0576868], [40.7124495, -74.0570499], [40.7119213, -74.0564026], [40.7110369, -74.0553188]],
+                {"bubblingMouseEvents": true, "color": "cadetblue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "cadetblue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_c8248f2b30a74ef0ba615386b02a57c6);
+        
+    
+            var poly_line_85d394961ae2ef9011b6aa60b79d59ee = L.polyline(
+                [[40.7378656, -74.0672877], [40.7374296, -74.0659329], [40.7371472, -74.066066], [40.7364733, -74.0664045], [40.7363797, -74.0664475], [40.7358142, -74.0667354], [40.7348665, -74.0671323], [40.734212, -74.067256], [40.7335336, -74.0672665], [40.7326458, -74.0672315], [40.7318106, -74.0671785], [40.7313982, -74.0678424], [40.730242, -74.0685826], [40.7292459, -74.0695146], [40.7287956, -74.0698296], [40.7283443, -74.0701222], [40.7280586, -74.0694031], [40.7272114, -74.0671826], [40.7263735, -74.0675304], [40.7253156, -74.0680837], [40.7250155, -74.0686323], [40.7244312, -74.068444], [40.7236636, -74.0681864], [40.7217401, -74.0675776], [40.720584, -74.0672434], [40.7202123, -74.0667255], [40.7197979, -74.065895], [40.7193956, -74.0649942], [40.7188258, -74.0654086], [40.716972, -74.062101], [40.7168779, -74.0624762], [40.7161399, -74.0615719], [40.7156034, -74.0609145], [40.7151012, -74.0602948], [40.71459, -74.0596727], [40.7140356, -74.0589933], [40.7134942, -74.0583299], [40.7129694, -74.0576868], [40.7124495, -74.0570499], [40.7119213, -74.0564026], [40.7110369, -74.0553188]],
+                {"bubblingMouseEvents": true, "color": "darkgreen", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "darkgreen", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_c8248f2b30a74ef0ba615386b02a57c6);
+        
+    
+            var poly_line_281c603a5761233599f5d7aa1badc5d8 = L.polyline(
+                [[40.7110369, -74.0553188], [40.7119213, -74.0564026], [40.7124495, -74.0570499], [40.7129694, -74.0576868], [40.7134942, -74.0583299], [40.7140356, -74.0589933], [40.71459, -74.0596727], [40.7151012, -74.0602948], [40.7156034, -74.0609145], [40.7161399, -74.0615719], [40.7168779, -74.0624762], [40.716972, -74.062101], [40.7188258, -74.0654086], [40.7193956, -74.0649942], [40.7197979, -74.065895], [40.7202123, -74.0667255], [40.7214939, -74.065874], [40.7217356, -74.0657379], [40.722061, -74.065469], [40.7224918, -74.0651486], [40.723768, -74.064193]],
+                {"bubblingMouseEvents": true, "color": "darkgreen", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "darkgreen", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_c8248f2b30a74ef0ba615386b02a57c6);
+        
+    
+            var poly_line_ee6f23d0dc35de1ee019e26613bae5a0 = L.polyline(
+                [[40.7309524, -74.0574492], [40.7325522, -74.0595376], [40.7317764, -74.0600761], [40.7304325, -74.0612684], [40.7291158, -74.0622595], [40.7286009, -74.0626679], [40.7281255, -74.0631017], [40.7277273, -74.063579], [40.7266032, -74.0638892], [40.7260274, -74.0641377], [40.7253416, -74.0644833], [40.7241191, -74.0651871], [40.723768, -74.064193]],
+                {"bubblingMouseEvents": true, "color": "pink", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "pink", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_c8248f2b30a74ef0ba615386b02a57c6);
+        
+    
+            var poly_line_7a6288fe02b7bcc83d8dcb868eafb33b = L.polyline(
+                [[40.7348787, -74.0592342], [40.7342809, -74.0569588], [40.7350924, -74.0566087], [40.7352613, -74.056531], [40.7354373, -74.0564581], [40.7361049, -74.0560852], [40.7367368, -74.0556607], [40.737244, -74.055309], [40.7379421, -74.054856], [40.738547, -74.054452], [40.739185, -74.054033], [40.740056, -74.05346], [40.7407821, -74.0529777], [40.741485, -74.052488], [40.7421812, -74.0520081], [40.742687, -74.051645]],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "black", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_c8248f2b30a74ef0ba615386b02a57c6);
+        
+</script>
+</html>

@@ -1,0 +1,158 @@
+[
+  {
+    "truck_id": 0,
+    "legs": [
+      {
+        "src": "Newport PATH",
+        "tgt": "Newport Pkwy",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "src": "Newport Pkwy",
+        "tgt": "Essex Light Rail",
+        "move": 5,
+        "dispatch_time": "10:00 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 1,
+    "legs": [
+      {
+        "src": "Newark Ave",
+        "tgt": "Essex Light Rail",
+        "move": 2,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "src": "Essex Light Rail",
+        "tgt": "Warren St",
+        "move": 4,
+        "dispatch_time": "10:00 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 2,
+    "legs": [
+      {
+        "src": "Van Vorst Park",
+        "tgt": "Warren St",
+        "move": 3,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "src": "Warren St",
+        "tgt": "Paulus Hook",
+        "move": 2,
+        "dispatch_time": "10:00 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 3,
+    "legs": [
+      {
+        "src": "City Hall",
+        "tgt": "Paulus Hook",
+        "move": 4,
+        "dispatch_time": "09:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 4,
+    "legs": [
+      {
+        "src": "Lincoln Park",
+        "tgt": "Brunswick St",
+        "move": 3,
+        "dispatch_time": "09:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 5,
+    "legs": [
+      {
+        "src": "Riverview Park",
+        "tgt": "Brunswick St",
+        "move": 2,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "src": "Brunswick St",
+        "tgt": "McGinley Square",
+        "move": 1,
+        "dispatch_time": "10:00 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 6,
+    "legs": [
+      {
+        "src": "Union St",
+        "tgt": "McGinley Square",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "src": "McGinley Square",
+        "tgt": "Liberty Light Rail",
+        "move": 2,
+        "dispatch_time": "10:00 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 7,
+    "legs": [
+      {
+        "src": "Dey St",
+        "tgt": "Liberty Light Rail",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "src": "Liberty Light Rail",
+        "tgt": "Baldwin at Montgomery",
+        "move": 1,
+        "dispatch_time": "10:00 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 8,
+    "legs": [
+      {
+        "src": "Hilltop",
+        "tgt": "Baldwin at Montgomery",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 9,
+    "legs": [
+      {
+        "src": "5 Corners Library",
+        "tgt": "Pershing Field",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  }
+]

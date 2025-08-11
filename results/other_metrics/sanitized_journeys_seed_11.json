@@ -1,0 +1,134 @@
+[
+  {
+    "truck_id": 0,
+    "legs": [
+      {
+        "src": "Newport Pkwy",
+        "tgt": "Essex Light Rail",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "src": "Essex Light Rail",
+        "tgt": "Hamilton Park",
+        "move": 5,
+        "dispatch_time": "10:00 PM"
+      },
+      {
+        "src": "Hamilton Park",
+        "tgt": "City Hall",
+        "move": 1,
+        "dispatch_time": "10:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 1,
+    "legs": [
+      {
+        "src": "Newport PATH",
+        "tgt": "City Hall",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "src": "City Hall",
+        "tgt": "McGinley Square",
+        "move": 1,
+        "dispatch_time": "10:00 PM"
+      },
+      {
+        "src": "McGinley Square",
+        "tgt": "Liberty Light Rail",
+        "move": 2,
+        "dispatch_time": "10:30 PM"
+      },
+      {
+        "src": "Liberty Light Rail",
+        "tgt": "Baldwin at Montgomery",
+        "move": 1,
+        "dispatch_time": "11:00 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 2,
+    "legs": [
+      {
+        "src": "Paulus Hook",
+        "tgt": "Baldwin at Montgomery",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "src": "Baldwin at Montgomery",
+        "tgt": "JC Medical Center",
+        "move": 3,
+        "dispatch_time": "10:00 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 3,
+    "legs": [
+      {
+        "src": "5 Corners Library",
+        "tgt": "Hilltop",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "src": "Hilltop",
+        "tgt": "Lincoln Park",
+        "move": 2,
+        "dispatch_time": "10:00 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 4,
+    "legs": [
+      {
+        "src": "Heights Elevator",
+        "tgt": "Lincoln Park",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "src": "Lincoln Park",
+        "tgt": "Pershing Field",
+        "move": 1,
+        "dispatch_time": "10:00 PM"
+      },
+      {
+        "src": "Pershing Field",
+        "tgt": "Riverview Park",
+        "move": 1,
+        "dispatch_time": "10:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 5,
+    "legs": [
+      {
+        "src": "Warren St",
+        "tgt": "Riverview Park",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "src": "Riverview Park",
+        "tgt": "Union St",
+        "move": 1,
+        "dispatch_time": "10:00 PM"
+      }
+    ],
+    "urgency_hour": 23
+  }
+]

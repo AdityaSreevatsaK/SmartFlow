@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_69a085e8d4e39bab94c49c6083393cd6 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css"/>
+</head>
+<body>
+    
+    
+    <script>
+    window.onload = async function () {
+      var map = window["map_69a085e8d4e39bab94c49c6083393cd6"];
+      var routes = [{"truckId": "Truck_0", "path": [[40.7186356, -74.0477773], [40.7181613, -74.0461909], [40.7188266, -74.04583], [40.719482, -74.0454778], [40.71884, -74.0433955], [40.7195232, -74.0430126]], "duration": 10, "fromStation": "Van_Vorst_Park", "toStation": "Grove_St_PATH", "bikesOnTruck": 2, "finalCountSrc": 9, "finalCountTgt": 10}, {"truckId": "Truck_0", "path": [[40.7195232, -74.0430126], [40.7190057, -74.0413525], [40.7198038, -74.0412344], [40.7200988, -74.0411922], [40.7208077, -74.0410905], [40.721514, -74.0409814], [40.7222351, -74.0408747], [40.7232588, -74.0407161], [40.7231723, -74.0379102], [40.7230266, -74.0362732], [40.7230089, -74.0360803], [40.7243737, -74.0357291], [40.7244839, -74.0356773], [40.7267223, -74.0346862]], "duration": 10, "fromStation": "Grove_St_PATH", "toStation": "Newport_PATH", "bikesOnTruck": 3, "finalCountSrc": 7, "finalCountTgt": 6}, {"truckId": "Truck_1", "path": [[40.7212248, -74.0382277], [40.721991, -74.0380732], [40.7220975, -74.0392271], [40.7222351, -74.0408747], [40.7232588, -74.0407161], [40.7231723, -74.0379102], [40.7230266, -74.0362732], [40.7230089, -74.0360803], [40.7243737, -74.0357291], [40.7244839, -74.0356773], [40.7267223, -74.0346862]], "duration": 10, "fromStation": "Warren_St", "toStation": "Newport_PATH", "bikesOnTruck": 2, "finalCountSrc": 9, "finalCountTgt": 8}, {"truckId": "Truck_1", "path": [[40.7267223, -74.0346862], [40.7292525, -74.0346014], [40.7293937, -74.0345776], [40.7294171, -74.0347731], [40.7292825, -74.0348018], [40.7245106, -74.0358645], [40.7244062, -74.0359181], [40.7230266, -74.0362732], [40.7218541, -74.0364454], [40.7210344, -74.0365359], [40.7202673, -74.0366734], [40.719575, -74.0368256], [40.7188647, -74.0369711], [40.7182484, -74.0370781], [40.7177, -74.037183], [40.7173222, -74.0356181], [40.7166525, -74.0357049], [40.7165559, -74.0357167], [40.7158274, -74.0358311], [40.7151022, -74.0359625], [40.7143862, -74.0361633], [40.7136605, -74.0363265], [40.7129845, -74.0364204]], "duration": 10, "fromStation": "Newport_PATH", "toStation": "Essex_Light_Rail", "bikesOnTruck": 2, "finalCountSrc": 6, "finalCountTgt": 7}, {"truckId": "Truck_2", "path": [[40.7216111, -74.0460993], [40.7219582, -74.0459718], [40.7226717, -74.0458623], [40.723378, -74.0457538], [40.7240885, -74.0456462], [40.7247836, -74.0455364], [40.7246534, -74.043861], [40.7253566, -74.0437536], [40.7260721, -74.0436423], [40.7267866, -74.0435312], [40.7275218, -74.0434169]], "duration": 10, "fromStation": "Newark_Ave", "toStation": "Hamilton_Park", "bikesOnTruck": 4, "finalCountSrc": 6, "finalCountTgt": 6}, {"truckId": "Truck_3", "path": [[40.737691, -74.052653], [40.73708, -74.053216], [40.7364403, -74.0537675], [40.7359671, -74.0542132], [40.735382, -74.054732], [40.73481, -74.0552624], [40.7344419, -74.0556015], [40.734324, -74.0557135], [40.7341278, -74.0554867], [40.7335437, -74.0548068], [40.7331667, -74.0547487], [40.7326559, -74.0553605], [40.7321667, -74.0559061], [40.7315699, -74.0565749], [40.7305509, -74.0557593], [40.730322, -74.055588], [40.729909, -74.055278], [40.7288706, -74.0548719], [40.7286033, -74.0547812], [40.7269343, -74.0534286], [40.7261347, -74.0525747], [40.7257269, -74.0521278], [40.7253798, -74.0517474], [40.7252541, -74.0516131], [40.7245411, -74.05086], [40.7243617, -74.0506694], [40.7237533, -74.0499885], [40.7231726, -74.0491683], [40.7229227, -74.0486876], [40.7227978, -74.0484385], [40.7223816, -74.0476205], [40.7220489, -74.0469344], [40.7216111, -74.0460993], [40.7206903, -74.0466675], [40.7201911, -74.0451173], [40.7195232, -74.0430126], [40.7190057, -74.0413525], [40.7182174, -74.038817], [40.7177, -74.037183], [40.7173222, -74.0356181], [40.7171496, -74.0346201], [40.7171083, -74.0343389], [40.717067, -74.0340252], [40.7164849, -74.0341247], [40.7163994, -74.0341427], [40.7156577, -74.0342984], [40.7149323, -74.0344459], [40.7142038, -74.0345999], [40.7140786, -74.0334425]], "duration": 10, "fromStation": "Oakland_Ave", "toStation": "Paulus_Hook", "bikesOnTruck": 3, "finalCountSrc": 3, "finalCountTgt": 5}, {"truckId": "Truck_4", "path": [[40.7378656, -74.0672877], [40.7374296, -74.0659329], [40.7371472, -74.066066], [40.7364733, -74.0664045], [40.7362956, -74.0648835], [40.7361815, -74.0639502], [40.7361492, -74.0630348], [40.7353764, -74.0631449], [40.7353319, -74.0628397], [40.7348787, -74.0592342], [40.7332712, -74.0579929], [40.7325307, -74.0573838], [40.7315699, -74.0565749], [40.7305509, -74.0557593], [40.730322, -74.055588], [40.729909, -74.055278], [40.7288706, -74.0548719], [40.7286033, -74.0547812], [40.7269343, -74.0534286], [40.7261347, -74.0525747], [40.7257269, -74.0521278], [40.7253798, -74.0517474], [40.7252541, -74.0516131], [40.7245411, -74.05086], [40.7243617, -74.0506694], [40.7237533, -74.0499885], [40.7231726, -74.0491683], [40.7229227, -74.0486876], [40.7227978, -74.0484385], [40.7223816, -74.0476205], [40.7220489, -74.0469344], [40.7216111, -74.0460993], [40.7206903, -74.0466675], [40.7201911, -74.0451173], [40.7195232, -74.0430126], [40.7190057, -74.0413525], [40.7182174, -74.038817], [40.7177, -74.037183], [40.7173222, -74.0356181], [40.7171496, -74.0346201], [40.7171083, -74.0343389], [40.717067, -74.0340252], [40.7164849, -74.0341247], [40.7163994, -74.0341427], [40.7156577, -74.0342984], [40.7149323, -74.0344459], [40.7142038, -74.0345999], [40.7140786, -74.0334425]], "duration": 10, "fromStation": "Dey_St", "toStation": "Paulus_Hook", "bikesOnTruck": 1, "finalCountSrc": 5, "finalCountTgt": 6}, {"truckId": "Truck_4", "path": [[40.7140786, -74.0334425], [40.7142038, -74.0345999], [40.7143723, -74.036056], [40.7151022, -74.0359625], [40.7153012, -74.0376901], [40.7154861, -74.0393824], [40.7156697, -74.0410216], [40.7158606, -74.0426607], [40.7165893, -74.0424973], [40.7173324, -74.042361], [40.7175139, -74.0441212]], "duration": 10, "fromStation": "Paulus_Hook", "toStation": "City_Hall", "bikesOnTruck": 2, "finalCountSrc": 4, "finalCountTgt": 2}, {"truckId": "Truck_5", "path": [[40.7439051, -74.0443696], [40.7436089, -74.0445479], [40.742554, -74.045218], [40.741255, -74.046067], [40.7399343, -74.046901], [40.7395649, -74.0471371], [40.7393618, -74.0472722], [40.7387703, -74.0476435], [40.7380512, -74.0481015], [40.7374083, -74.0485167], [40.7373113, -74.0485786], [40.7367459, -74.0489436], [40.736087, -74.0493643], [40.735675, -74.0496306], [40.7353697, -74.0498252], [40.7352773, -74.0498833], [40.7351996, -74.0499314], [40.7346189, -74.0503001], [40.7340938, -74.0506461], [40.7334638, -74.0510582], [40.7328103, -74.0514704], [40.7319088, -74.0526394], [40.7317378, -74.0528665], [40.7313672, -74.0533528], [40.729909, -74.055278], [40.7288706, -74.0548719], [40.7286033, -74.0547812], [40.7269343, -74.0534286], [40.7261347, -74.0525747], [40.7257269, -74.0521278], [40.7253798, -74.0517474], [40.7252541, -74.0516131], [40.7245411, -74.05086], [40.7243617, -74.0506694], [40.7237533, -74.0499885], [40.7231726, -74.0491683], [40.7229227, -74.0486876], [40.7227978, -74.0484385], [40.7223816, -74.0476205], [40.7220489, -74.0469344], [40.7216111, -74.0460993], [40.7206903, -74.0466675], [40.719984, -74.047053], [40.7193199, -74.0474137], [40.7186356, -74.0477773], [40.7181613, -74.0461909], [40.7175139, -74.0441212]], "duration": 10, "fromStation": "Riverview_Park", "toStation": "City_Hall", "bikesOnTruck": 3, "finalCountSrc": 3, "finalCountTgt": 5}, {"truckId": "Truck_6", "path": [[40.7287879, -74.0318584], [40.7289228, -74.0318384], [40.7292466, -74.0331271], [40.7293937, -74.0345776], [40.7294171, -74.0347731], [40.7292825, -74.0348018], [40.7245106, -74.0358645], [40.7244062, -74.0359181], [40.7230266, -74.0362732], [40.7231723, -74.0379102], [40.7232588, -74.0407161], [40.7222351, -74.0408747], [40.721514, -74.0409814], [40.7208077, -74.0410905], [40.7200988, -74.0411922], [40.7198038, -74.0412344], [40.7190057, -74.0413525], [40.7183622, -74.0420119], [40.7180011, -74.0422352], [40.7173324, -74.042361], [40.7175139, -74.0441212]], "duration": 10, "fromStation": "Newport_Pkwy", "toStation": "City_Hall", "bikesOnTruck": 1, "finalCountSrc": 8, "finalCountTgt": 6}, {"truckId": "Truck_6", "path": [[40.7175139, -74.0441212], [40.7181613, -74.0461909], [40.7188266, -74.04583], [40.719482, -74.0454778], [40.7201911, -74.0451173], [40.7206903, -74.0466675], [40.7216111, -74.0460993], [40.7220489, -74.0469344], [40.7223816, -74.0476205], [40.7227978, -74.0484385], [40.7229227, -74.0486876], [40.7231726, -74.0491683], [40.7237533, -74.0499885], [40.7243617, -74.0506694]], "duration": 10, "fromStation": "City_Hall", "toStation": "Brunswick_St", "bikesOnTruck": 1, "finalCountSrc": 5, "finalCountTgt": 3}, {"truckId": "Truck_7", "path": [[40.7253156, -74.0680837], [40.7248342, -74.0672103], [40.7246355, -74.0667409], [40.724452, -74.066218], [40.7241191, -74.0651871], [40.723768, -74.064193], [40.7233722, -74.0628984], [40.7233225, -74.0627533], [40.7232713, -74.0625906], [40.7224245, -74.0598633], [40.7219886, -74.0584634], [40.7213766, -74.0564982], [40.7213103, -74.056285], [40.7210304, -74.0553862], [40.7208775, -74.0548952], [40.7223848, -74.0543658], [40.7225605, -74.0533651], [40.7219527, -74.0513481], [40.7216431, -74.0497026], [40.7222463, -74.0493436], [40.7229639, -74.0492007], [40.7231726, -74.0491683], [40.7237533, -74.0499885], [40.7243617, -74.0506694]], "duration": 10, "fromStation": "McGinley_Square", "toStation": "Brunswick_St", "bikesOnTruck": 2, "finalCountSrc": 3, "finalCountTgt": 5}, {"truckId": "Truck_8", "path": [[40.742687, -74.051645], [40.7421812, -74.0520081], [40.741485, -74.052488], [40.7407821, -74.0529777], [40.740056, -74.05346], [40.739185, -74.054033], [40.738547, -74.054452], [40.7379421, -74.054856], [40.737244, -74.055309], [40.7367368, -74.0556607], [40.7361049, -74.0560852], [40.7354373, -74.0564581], [40.7352613, -74.056531], [40.7350924, -74.0566087], [40.7342809, -74.0569588], [40.7332712, -74.0579929], [40.7325522, -74.0595376], [40.7317764, -74.0600761], [40.7304325, -74.0612684], [40.7291158, -74.0622595], [40.7286009, -74.0626679], [40.7281255, -74.0631017], [40.7277273, -74.063579], [40.7266032, -74.0638892], [40.7260274, -74.0641377], [40.7253416, -74.0644833], [40.7241191, -74.0651871], [40.723768, -74.064193]], "duration": 10, "fromStation": "Pershing_Field", "toStation": "Baldwin_at_Montgomery", "bikesOnTruck": 2, "finalCountSrc": 3, "finalCountTgt": 2}, {"truckId": "Truck_9", "path": [[40.7486885, -74.0402684], [40.748987, -74.041099], [40.7485152, -74.0414102], [40.747482, -74.042074], [40.7455191, -74.0433257], [40.7439051, -74.0443696], [40.7436089, -74.0445479], [40.742554, -74.045218], [40.742847, -74.046066], [40.741563, -74.046899], [40.7402605, -74.0477281], [40.7397837, -74.0480416], [40.7402164, -74.048834], [40.7396356, -74.0493953], [40.739064, -74.0499187], [40.7384848, -74.0504801], [40.7390036, -74.0514542], [40.7384089, -74.051989], [40.737691, -74.052653], [40.73708, -74.053216], [40.7364403, -74.0537675], [40.7359671, -74.0542132], [40.735382, -74.054732], [40.7361049, -74.0560852], [40.7354373, -74.0564581], [40.7352613, -74.056531], [40.7350924, -74.0566087], [40.7342809, -74.0569588], [40.7332712, -74.0579929], [40.7325522, -74.0595376], [40.7317764, -74.0600761], [40.7304325, -74.0612684], [40.7291158, -74.0622595], [40.7286009, -74.0626679], [40.7281255, -74.0631017], [40.7277273, -74.063579], [40.7266032, -74.0638892], [40.7260274, -74.0641377], [40.7253416, -74.0644833], [40.7241191, -74.0651871], [40.723768, -74.064193]], "duration": 10, "fromStation": "Heights_Elevator", "toStation": "Baldwin_at_Montgomery", "bikesOnTruck": 1, "finalCountSrc": 4, "finalCountTgt": 3}, {"truckId": "Truck_9", "path": [[40.723768, -74.064193], [40.7233722, -74.0628984], [40.7233225, -74.0627533], [40.7232713, -74.0625906], [40.7224245, -74.0598633], [40.7219886, -74.0584634], [40.7213766, -74.0564982], [40.7213103, -74.056285], [40.7210304, -74.0553862], [40.7208775, -74.0548952], [40.7205805, -74.0539689], [40.7205534, -74.0538841], [40.7198981, -74.0542449], [40.7193678, -74.0545441], [40.7193253, -74.0541936], [40.7182588, -74.0515354], [40.7177755, -74.0500039], [40.717309, -74.0485041], [40.7165583, -74.048918], [40.7153499, -74.0495989]], "duration": 10, "fromStation": "Baldwin_at_Montgomery", "toStation": "JC_Medical_Center", "bikesOnTruck": 1, "finalCountSrc": 2, "finalCountTgt": 1}, {"truckId": "Truck_10", "path": [[40.7309524, -74.0574492], [40.729849, -74.056143], [40.7288706, -74.0548719], [40.7286033, -74.0547812], [40.7269343, -74.0534286], [40.7261347, -74.0525747], [40.7257269, -74.0521278], [40.7253798, -74.0517474], [40.7252541, -74.0516131], [40.7245411, -74.05086], [40.7243617, -74.0506694], [40.7237533, -74.0499885], [40.7231726, -74.0491683], [40.7229227, -74.0486876], [40.7227978, -74.0484385], [40.7223816, -74.0476205], [40.7220489, -74.0469344], [40.7216111, -74.0460993], [40.7206903, -74.0466675], [40.719984, -74.047053], [40.7193199, -74.0474137], [40.7186356, -74.0477773], [40.7179953, -74.0481312], [40.717309, -74.0485041], [40.7165583, -74.048918], [40.7153499, -74.0495989]], "duration": 10, "fromStation": "Hilltop", "toStation": "JC_Medical_Center", "bikesOnTruck": 1, "finalCountSrc": 3, "finalCountTgt": 2}, {"truckId": "Truck_11", "path": [[40.7348787, -74.0592342], [40.7332712, -74.0579929], [40.7325307, -74.0573838], [40.7315699, -74.0565749], [40.7305509, -74.0557593], [40.730322, -74.055588], [40.729909, -74.055278], [40.7288706, -74.0548719], [40.7286033, -74.0547812], [40.7269343, -74.0534286], [40.7261347, -74.0525747], [40.7257269, -74.0521278], [40.7253798, -74.0517474], [40.7252541, -74.0516131], [40.7245411, -74.05086], [40.7243617, -74.0506694], [40.7237533, -74.0499885], [40.7231726, -74.0491683], [40.7229227, -74.0486876], [40.7227978, -74.0484385], [40.7223816, -74.0476205], [40.7220489, -74.0469344], [40.7216111, -74.0460993], [40.7206903, -74.0466675], [40.719984, -74.047053], [40.7193199, -74.0474137], [40.7186356, -74.0477773], [40.7179953, -74.0481312], [40.717309, -74.0485041], [40.7165583, -74.048918], [40.7153499, -74.0495989]], "duration": 10, "fromStation": "5_Corners_Library", "toStation": "JC_Medical_Center", "bikesOnTruck": 1, "finalCountSrc": 3, "finalCountTgt": 3}, {"truckId": "Truck_12", "path": [[40.7346189, -74.0503001], [40.7357122, -74.0523461], [40.7352458, -74.0528321], [40.73466, -74.053364], [40.734078, -74.053892], [40.7334589, -74.0544565], [40.7333418, -74.0545702], [40.7331667, -74.0547487], [40.7326559, -74.0553605], [40.7321667, -74.0559061], [40.7315699, -74.0565749], [40.7309524, -74.0574492], [40.7325522, -74.0595376], [40.7329961, -74.0629366], [40.7330498, -74.0631762], [40.7319794, -74.0640453], [40.7316197, -74.0648642], [40.7318106, -74.0671785], [40.7313982, -74.0678424], [40.7316179, -74.0688364], [40.7318051, -74.0697539], [40.7320038, -74.0706844], [40.7321935, -74.0716395], [40.7324222, -74.0725636], [40.7308929, -74.0735006], [40.7304365, -74.0738428], [40.7299812, -74.0741939], [40.7291865, -74.0748296], [40.7283563, -74.0754531], [40.72752, -74.076059], [40.7266952, -74.0766103], [40.7257006, -74.0772844], [40.725301, -74.07759], [40.724938, -74.077874], [40.7245234, -74.078229]], "duration": 10, "fromStation": "Christ_Hospital", "toStation": "Lincoln_Park", "bikesOnTruck": 1, "finalCountSrc": 3, "finalCountTgt": 2}];
+
+      var debugBanner = document.createElement('div');
+      debugBanner.style.position = 'fixed'; debugBanner.style.bottom = '10px';
+      debugBanner.style.left = '10px'; debugBanner.style.padding = '10px';
+      debugBanner.style.background = 'rgba(0,0,0,0.7)'; debugBanner.style.color = 'white';
+      debugBanner.style.zIndex = '9999'; debugBanner.style.fontFamily = 'monospace';
+      debugBanner.innerText = '🚚 Animation Status:';
+      document.body.appendChild(debugBanner);
+
+      function animateTruck(leg) {
+        return new Promise(resolve => {
+            let marker = L.marker(leg.path[0], {
+                icon: L.divIcon({
+                    html: `<div style='text-align:center; white-space:nowrap;'>
+                             <div style='background:black;color:white;padding:4px 8px;border-radius:4px;font-size:11px;'>${leg.truckId} 🚲 ${leg.bikesOnTruck}</div>
+                             <img src='https://cdn-icons-png.flaticon.com/512/1995/1995471.png' width='30' height='30'/>
+                           </div>`,
+                    className: '', iconSize: [90, 40], iconAnchor: [45, 40]
+                })
+            }).addTo(map);
+
+            let departMsg = `▶️ ${leg.truckId}: Departing ${leg.fromStation.replace('_', ' ')} (${leg.bikesOnTruck} bikes)`;
+            debugBanner.innerText += `\n${departMsg}`;
+            console.log(departMsg);
+
+            const srcElem = document.getElementById('count_' + leg.fromStation);
+            if(srcElem) { srcElem.innerText = `${leg.fromStation.replace('_',' ')} 🚲 ${leg.finalCountSrc}`; }
+            
+            let i = 0;
+            const steps = leg.path.length;
+            const delay = (leg.duration * 1000) / steps;
+
+            function move() {
+                if (i < steps) {
+                    marker.setLatLng(leg.path[i]); i++; setTimeout(move, delay);
+                } else {
+                    // THIS IS THE CORRECTED LINE
+                    const tgtElem = document.getElementById('count_' + leg.toStation);
+                    
+                    if (tgtElem) {
+                        tgtElem.innerText = `${leg.toStation.replace('_',' ')} 🚲 ${leg.finalCountTgt}`;
+                        tgtElem.style.background = 'green';
+                    }
+                    let arriveMsg = `✅ ${leg.truckId}: Arrived at ${leg.toStation.replace('_', ' ')}`;
+                    debugBanner.innerText += `\n${arriveMsg}`;
+                    console.log(arriveMsg);
+                    
+                    // The line to remove the marker is correctly commented out
+                    // map.removeLayer(marker); 
+                    
+                    resolve();
+                }
+            }
+            move();
+        });
+      }
+
+      const trucks = routes.reduce((acc, route) => {
+        acc[route.truckId] = acc[route.truckId] || [];
+        acc[route.truckId].push(route);
+        return acc;
+      }, {});
+
+      for (const truckId in trucks) {
+        let dispatchMsg = `--- Dispatching ${truckId} ---`;
+        debugBanner.innerText += `\n\n${dispatchMsg}`;
+        console.log(`\n${dispatchMsg}`);
+        for (const leg of trucks[truckId]) {
+            await animateTruck(leg);
+        }
+      }
+    };
+    </script>
+    
+    
+            <div class="folium-map" id="map_69a085e8d4e39bab94c49c6083393cd6" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_69a085e8d4e39bab94c49c6083393cd6 = L.map(
+                "map_69a085e8d4e39bab94c49c6083393cd6",
+                {
+                    center: [40.72274243859797, -74.06340830643403],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 14,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_9908939d0a4c8d70113dc9cdabd15d1c = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_9908939d0a4c8d70113dc9cdabd15d1c.addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var marker_cluster_4360538c71c92c194bb0a7577b042662 = L.markerClusterGroup(
+                {
+}
+            );
+        
+    
+            var marker_58ee4a39390d9f60dd989da973e599b0 = L.marker(
+                [40.71958611647166, -74.0431174635887],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_eea2d3803882215175e186b8e76d1c48 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Grove_St_PATH\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eGrove St PATH \ud83d\udeb2 8\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_58ee4a39390d9f60dd989da973e599b0.setIcon(div_icon_eea2d3803882215175e186b8e76d1c48);
+            
+    
+            var marker_7b5b1e8cdc207345d41367c8c40e78d6 = L.marker(
+                [40.7272235, -74.03375890000001],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_55262f0f41c2d21eb216ac09fdec10b6 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Newport_PATH\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eNewport PATH \ud83d\udeb2 3\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_7b5b1e8cdc207345d41367c8c40e78d6.setIcon(div_icon_55262f0f41c2d21eb216ac09fdec10b6);
+            
+    
+            var marker_c48b68704fb75dffa6847fc57f3c1798 = L.marker(
+                [40.7287448, -74.03210820000001],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_0d27c63b161d0f66781cdf177e7d2bbd = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Newport_Pkwy\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eNewport Pkwy \ud83d\udeb2 9\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_c48b68704fb75dffa6847fc57f3c1798.setIcon(div_icon_0d27c63b161d0f66781cdf177e7d2bbd);
+            
+    
+            var marker_587b4dca9da73099815b18e3a22638bd = L.marker(
+                [40.712774200000005, -74.03648570000001],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_de42a40b3dbfb86528c701b717e42ad0 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Essex_Light_Rail\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eEssex Light Rail \ud83d\udeb2 5\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_587b4dca9da73099815b18e3a22638bd.setIcon(div_icon_de42a40b3dbfb86528c701b717e42ad0);
+            
+    
+            var marker_300aff6b52c88fec31a978a9196f830b = L.marker(
+                [40.721123600000006, -74.03805095],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_c6b3894a20673b9d10f4c40075247d14 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Warren_St\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eWarren St \ud83d\udeb2 11\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_300aff6b52c88fec31a978a9196f830b.setIcon(div_icon_c6b3894a20673b9d10f4c40075247d14);
+            
+    
+            var marker_dea71b5c28f21447f71a361944d0fcb6 = L.marker(
+                [40.727595966, -74.044247311],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_b2e7a8d7706faa35c6d12184f3305bb1 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Hamilton_Park\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eHamilton Park \ud83d\udeb2 2\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_dea71b5c28f21447f71a361944d0fcb6.setIcon(div_icon_b2e7a8d7706faa35c6d12184f3305bb1);
+            
+    
+            var marker_b49fd2fe61df064a46b6ba6a7439bec2 = L.marker(
+                [40.71848892, -74.047726625],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_d51a068ce9f7faaca9fcfce32f121b68 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Van_Vorst_Park\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eVan Vorst Park \ud83d\udeb2 11\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_b49fd2fe61df064a46b6ba6a7439bec2.setIcon(div_icon_d51a068ce9f7faaca9fcfce32f121b68);
+            
+    
+            var marker_cd501a5d03571178cc1353f07db9d24c = L.marker(
+                [40.7141454, -74.0335519],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_ca7c4d34da65983db14461261ca6062c = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Paulus_Hook\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003ePaulus Hook \ud83d\udeb2 2\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_cd501a5d03571178cc1353f07db9d24c.setIcon(div_icon_ca7c4d34da65983db14461261ca6062c);
+            
+    
+            var marker_2528fd851d4ad2d82231a579ee76d5b6 = L.marker(
+                [40.7177325, -74.04384499999999],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_c545971197a4fdd1a8d1f2a6972b32df = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_City_Hall\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eCity Hall \ud83d\udeb2 0\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_2528fd851d4ad2d82231a579ee76d5b6.setIcon(div_icon_c545971197a4fdd1a8d1f2a6972b32df);
+            
+    
+            var marker_ba005134e786ac93fd5d9a4f1bbfcbdf = L.marker(
+                [40.72152515, -74.046304543],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_c0cf0e9891ce68e166978f4699e111cf = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Newark_Ave\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eNewark Ave \ud83d\udeb2 10\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_ba005134e786ac93fd5d9a4f1bbfcbdf.setIcon(div_icon_c0cf0e9891ce68e166978f4699e111cf);
+            
+    
+            var marker_fd44f5859108905fa9cde3f262a9baef = L.marker(
+                [40.72417649999999, -74.05065640000001],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_9d7388126513e8109dc560401b309f4b = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Brunswick_St\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eBrunswick St \ud83d\udeb2 2\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_fd44f5859108905fa9cde3f262a9baef.setIcon(div_icon_9d7388126513e8109dc560401b309f4b);
+            
+    
+            var marker_dc0d3c7db37965b3a875df511b46d7ee = L.marker(
+                [40.7253399253558, -74.06762212514876],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_7f44fb40826ca1c653addd24da3253f2 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_McGinley_Square\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eMcGinley Square \ud83d\udeb2 5\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_dc0d3c7db37965b3a875df511b46d7ee.setIcon(div_icon_7f44fb40826ca1c653addd24da3253f2);
+            
+    
+            var marker_2255f2d99f654d9679b4a43f7e4c07b2 = L.marker(
+                [40.7112423, -74.0557013],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_a264e16318bd3c2c6ade08e4513f66f9 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Liberty_Light_Rail\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eLiberty Light Rail \ud83d\udeb2 3\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_2255f2d99f654d9679b4a43f7e4c07b2.setIcon(div_icon_a264e16318bd3c2c6ade08e4513f66f9);
+            
+    
+            var marker_9d8669cc51c185ba54c1f344b23ecf22 = L.marker(
+                [40.7236589, -74.0641943],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_e650b03f737ff1e72d0947503770b9cc = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Baldwin_at_Montgomery\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eBaldwin at Montgomery \ud83d\udeb2 0\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_9d8669cc51c185ba54c1f344b23ecf22.setIcon(div_icon_e650b03f737ff1e72d0947503770b9cc);
+            
+    
+            var marker_09e559fda7acf015574164fd2f8d5c29 = L.marker(
+                [40.71653978099194, -74.0496379137039],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_ebffe34ec559133607cad6b96788453d = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_JC_Medical_Center\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eJC Medical Center \ud83d\udeb2 0\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_09e559fda7acf015574164fd2f8d5c29.setIcon(div_icon_ebffe34ec559133607cad6b96788453d);
+            
+    
+            var marker_9a0349279326f1371fcb22c21788037e = L.marker(
+                [40.7311689, -74.0575736],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_2616452e5779b76176bb5258ab7289cc = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Hilltop\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eHilltop \ud83d\udeb2 4\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_9a0349279326f1371fcb22c21788037e.setIcon(div_icon_2616452e5779b76176bb5258ab7289cc);
+            
+    
+            var marker_0a3db7463797ad7dedb38188108d541c = L.marker(
+                [40.7246050998869, -74.07840594649316],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_f78fdf7c07133f33305059f14cb04d43 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Lincoln_Park\u0027 style=\u0027background:orange;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eLincoln Park \ud83d\udeb2 1\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_0a3db7463797ad7dedb38188108d541c.setIcon(div_icon_f78fdf7c07133f33305059f14cb04d43);
+            
+    
+            var marker_8b3c4bdc5f301c8715889382beef14f2 = L.marker(
+                [40.742677141, -74.051788633],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_3ea26e06181dea6d74d7d3505f3730a0 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Pershing_Field\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003ePershing Field \ud83d\udeb2 5\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_8b3c4bdc5f301c8715889382beef14f2.setIcon(div_icon_3ea26e06181dea6d74d7d3505f3730a0);
+            
+    
+            var marker_73caaa633aabf19908252ab73f407a4d = L.marker(
+                [40.7376037, -74.05247829999999],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_b452e4a8ddea0b6784d919cae1a1e3be = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Oakland_Ave\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eOakland Ave \ud83d\udeb2 6\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_73caaa633aabf19908252ab73f407a4d.setIcon(div_icon_b452e4a8ddea0b6784d919cae1a1e3be);
+            
+    
+            var marker_94f1d291edf0ff61fb79f57973be6b4f = L.marker(
+                [40.737711, -74.066921],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_41351296a9c7c53760f735dd7c212594 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Dey_St\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eDey St \ud83d\udeb2 6\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_94f1d291edf0ff61fb79f57973be6b4f.setIcon(div_icon_41351296a9c7c53760f735dd7c212594);
+            
+    
+            var marker_4c9c115669139754a830f7d8012fb85d = L.marker(
+                [40.73496102000952, -74.05950307846071],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_3458a7955d65daafdd501389eb278f8f = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_5_Corners_Library\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003e5 Corners Library \ud83d\udeb2 4\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_4c9c115669139754a830f7d8012fb85d.setIcon(div_icon_3458a7955d65daafdd501389eb278f8f);
+            
+    
+            var marker_472745c001c0b2f66d45c3a7b48b2bf6 = L.marker(
+                [40.7443187, -74.04399090000001],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_32a1fc7bbfe888eacb311d65e7377cb4 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Riverview_Park\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eRiverview Park \ud83d\udeb2 6\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_472745c001c0b2f66d45c3a7b48b2bf6.setIcon(div_icon_32a1fc7bbfe888eacb311d65e7377cb4);
+            
+    
+            var marker_16e35c166db4f942ac13a55ba9431a5c = L.marker(
+                [40.734785818, -74.050443636],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_22c0f75a06acb306529b5b1fbaad48d6 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Christ_Hospital\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eChrist Hospital \ud83d\udeb2 4\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_16e35c166db4f942ac13a55ba9431a5c.setIcon(div_icon_22c0f75a06acb306529b5b1fbaad48d6);
+            
+    
+            var marker_83663d086e166a82742a833ba0807986 = L.marker(
+                [40.74871594538023, -74.04044330120088],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_457c3aee535de769042c7cc2d7cac710 = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Heights_Elevator\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eHeights Elevator \ud83d\udeb2 5\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_83663d086e166a82742a833ba0807986.setIcon(div_icon_457c3aee535de769042c7cc2d7cac710);
+            
+    
+            var marker_3f455bbe61a27b5e7467eafede385e40 = L.marker(
+                [40.71821129999999, -74.08363940000001],
+                {
+}
+            ).addTo(marker_cluster_4360538c71c92c194bb0a7577b042662);
+        
+    
+            var div_icon_980b573ca554d0dbab46c2004604d14a = L.divIcon({
+  "html": "\u003cdiv style=\u0027white-space:nowrap;text-align:center;\u0027\u003e\u003cspan id=\u0027count_Union_St\u0027 style=\u0027background:green;color:white;padding:4px 6px;border-radius:4px;font-size:11px;\u0027\u003eUnion St \ud83d\udeb2 3\u003c/span\u003e\u003cimg src=\u0027https://cdn-icons-png.flaticon.com/512/684/684908.png\u0027 width=\u002724\u0027 height=\u002724\u0027/\u003e\u003c/div\u003e",
+  "iconSize": [150, 50],
+  "iconAnchor": [75, 25],
+  "className": "empty",
+});
+        
+    
+                marker_3f455bbe61a27b5e7467eafede385e40.setIcon(div_icon_980b573ca554d0dbab46c2004604d14a);
+            
+    
+            marker_cluster_4360538c71c92c194bb0a7577b042662.addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var poly_line_fe40b63a5b8c6ee446fbfbcde104cb1d = L.polyline(
+                [[40.7186356, -74.0477773], [40.7181613, -74.0461909], [40.7188266, -74.04583], [40.719482, -74.0454778], [40.71884, -74.0433955], [40.7195232, -74.0430126]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var poly_line_7f0929b575020189ccf726e6bdeea555 = L.polyline(
+                [[40.7195232, -74.0430126], [40.7190057, -74.0413525], [40.7198038, -74.0412344], [40.7200988, -74.0411922], [40.7208077, -74.0410905], [40.721514, -74.0409814], [40.7222351, -74.0408747], [40.7232588, -74.0407161], [40.7231723, -74.0379102], [40.7230266, -74.0362732], [40.7230089, -74.0360803], [40.7243737, -74.0357291], [40.7244839, -74.0356773], [40.7267223, -74.0346862], [40.7272235, -74.03375890000001]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var poly_line_23041cd398b7ac9bd223f86078bc794c = L.polyline(
+                [[40.7212248, -74.0382277], [40.721991, -74.0380732], [40.7220975, -74.0392271], [40.7222351, -74.0408747], [40.7232588, -74.0407161], [40.7231723, -74.0379102], [40.7230266, -74.0362732], [40.7230089, -74.0360803], [40.7243737, -74.0357291], [40.7244839, -74.0356773], [40.7267223, -74.0346862], [40.7272235, -74.03375890000001]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var poly_line_ee79b1297f82e036208dc673cafa2a4d = L.polyline(
+                [[40.7272235, -74.03375890000001], [40.7267223, -74.0346862], [40.7292525, -74.0346014], [40.7293937, -74.0345776], [40.7294171, -74.0347731], [40.7292825, -74.0348018], [40.7245106, -74.0358645], [40.7244062, -74.0359181], [40.7230266, -74.0362732], [40.7218541, -74.0364454], [40.7210344, -74.0365359], [40.7202673, -74.0366734], [40.719575, -74.0368256], [40.7188647, -74.0369711], [40.7182484, -74.0370781], [40.7177, -74.037183], [40.7173222, -74.0356181], [40.7166525, -74.0357049], [40.7165559, -74.0357167], [40.7158274, -74.0358311], [40.7151022, -74.0359625], [40.7143862, -74.0361633], [40.7136605, -74.0363265], [40.7129845, -74.0364204]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var poly_line_a4a6f56d6808a8646ac0239d9aa00b1a = L.polyline(
+                [[40.7216111, -74.0460993], [40.7219582, -74.0459718], [40.7226717, -74.0458623], [40.723378, -74.0457538], [40.7240885, -74.0456462], [40.7247836, -74.0455364], [40.7246534, -74.043861], [40.7253566, -74.0437536], [40.7260721, -74.0436423], [40.7267866, -74.0435312], [40.7275218, -74.0434169], [40.727595966, -74.044247311]],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var poly_line_e3673e678bc6ae76ff75d920fecda519 = L.polyline(
+                [[40.737691, -74.052653], [40.73708, -74.053216], [40.7364403, -74.0537675], [40.7359671, -74.0542132], [40.735382, -74.054732], [40.73481, -74.0552624], [40.7344419, -74.0556015], [40.734324, -74.0557135], [40.7341278, -74.0554867], [40.7335437, -74.0548068], [40.7331667, -74.0547487], [40.7326559, -74.0553605], [40.7321667, -74.0559061], [40.7315699, -74.0565749], [40.7305509, -74.0557593], [40.730322, -74.055588], [40.729909, -74.055278], [40.7288706, -74.0548719], [40.7286033, -74.0547812], [40.7269343, -74.0534286], [40.7261347, -74.0525747], [40.7257269, -74.0521278], [40.7253798, -74.0517474], [40.7252541, -74.0516131], [40.7245411, -74.05086], [40.7243617, -74.0506694], [40.7237533, -74.0499885], [40.7231726, -74.0491683], [40.7229227, -74.0486876], [40.7227978, -74.0484385], [40.7223816, -74.0476205], [40.7220489, -74.0469344], [40.7216111, -74.0460993], [40.7206903, -74.0466675], [40.7201911, -74.0451173], [40.7195232, -74.0430126], [40.7190057, -74.0413525], [40.7182174, -74.038817], [40.7177, -74.037183], [40.7173222, -74.0356181], [40.7171496, -74.0346201], [40.7171083, -74.0343389], [40.717067, -74.0340252], [40.7164849, -74.0341247], [40.7163994, -74.0341427], [40.7156577, -74.0342984], [40.7149323, -74.0344459], [40.7142038, -74.0345999], [40.7140786, -74.0334425]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "purple", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var poly_line_1d6b42635bddb25a1e6c1c890786a1e3 = L.polyline(
+                [[40.7378656, -74.0672877], [40.7374296, -74.0659329], [40.7371472, -74.066066], [40.7364733, -74.0664045], [40.7362956, -74.0648835], [40.7361815, -74.0639502], [40.7361492, -74.0630348], [40.7353764, -74.0631449], [40.7353319, -74.0628397], [40.7348787, -74.0592342], [40.7332712, -74.0579929], [40.7325307, -74.0573838], [40.7315699, -74.0565749], [40.7305509, -74.0557593], [40.730322, -74.055588], [40.729909, -74.055278], [40.7288706, -74.0548719], [40.7286033, -74.0547812], [40.7269343, -74.0534286], [40.7261347, -74.0525747], [40.7257269, -74.0521278], [40.7253798, -74.0517474], [40.7252541, -74.0516131], [40.7245411, -74.05086], [40.7243617, -74.0506694], [40.7237533, -74.0499885], [40.7231726, -74.0491683], [40.7229227, -74.0486876], [40.7227978, -74.0484385], [40.7223816, -74.0476205], [40.7220489, -74.0469344], [40.7216111, -74.0460993], [40.7206903, -74.0466675], [40.7201911, -74.0451173], [40.7195232, -74.0430126], [40.7190057, -74.0413525], [40.7182174, -74.038817], [40.7177, -74.037183], [40.7173222, -74.0356181], [40.7171496, -74.0346201], [40.7171083, -74.0343389], [40.717067, -74.0340252], [40.7164849, -74.0341247], [40.7163994, -74.0341427], [40.7156577, -74.0342984], [40.7149323, -74.0344459], [40.7142038, -74.0345999], [40.7140786, -74.0334425]],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "orange", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var poly_line_3a070faf4fc53a9ef78473c35467053c = L.polyline(
+                [[40.7140786, -74.0334425], [40.7142038, -74.0345999], [40.7143723, -74.036056], [40.7151022, -74.0359625], [40.7153012, -74.0376901], [40.7154861, -74.0393824], [40.7156697, -74.0410216], [40.7158606, -74.0426607], [40.7165893, -74.0424973], [40.7173324, -74.042361], [40.7175139, -74.0441212]],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "orange", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var poly_line_7ef3d42e491caf0575e1cc84c5b903b9 = L.polyline(
+                [[40.7443187, -74.04399090000001], [40.7439051, -74.0443696], [40.7436089, -74.0445479], [40.742554, -74.045218], [40.741255, -74.046067], [40.7399343, -74.046901], [40.7395649, -74.0471371], [40.7393618, -74.0472722], [40.7387703, -74.0476435], [40.7380512, -74.0481015], [40.7374083, -74.0485167], [40.7373113, -74.0485786], [40.7367459, -74.0489436], [40.736087, -74.0493643], [40.735675, -74.0496306], [40.7353697, -74.0498252], [40.7352773, -74.0498833], [40.7351996, -74.0499314], [40.7346189, -74.0503001], [40.7340938, -74.0506461], [40.7334638, -74.0510582], [40.7328103, -74.0514704], [40.7319088, -74.0526394], [40.7317378, -74.0528665], [40.7313672, -74.0533528], [40.729909, -74.055278], [40.7288706, -74.0548719], [40.7286033, -74.0547812], [40.7269343, -74.0534286], [40.7261347, -74.0525747], [40.7257269, -74.0521278], [40.7253798, -74.0517474], [40.7252541, -74.0516131], [40.7245411, -74.05086], [40.7243617, -74.0506694], [40.7237533, -74.0499885], [40.7231726, -74.0491683], [40.7229227, -74.0486876], [40.7227978, -74.0484385], [40.7223816, -74.0476205], [40.7220489, -74.0469344], [40.7216111, -74.0460993], [40.7206903, -74.0466675], [40.719984, -74.047053], [40.7193199, -74.0474137], [40.7186356, -74.0477773], [40.7181613, -74.0461909], [40.7175139, -74.0441212]],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "darkred", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var poly_line_0e665fffb87aae39e10c36afe3a3f368 = L.polyline(
+                [[40.7287879, -74.0318584], [40.7289228, -74.0318384], [40.7292466, -74.0331271], [40.7293937, -74.0345776], [40.7294171, -74.0347731], [40.7292825, -74.0348018], [40.7245106, -74.0358645], [40.7244062, -74.0359181], [40.7230266, -74.0362732], [40.7231723, -74.0379102], [40.7232588, -74.0407161], [40.7222351, -74.0408747], [40.721514, -74.0409814], [40.7208077, -74.0410905], [40.7200988, -74.0411922], [40.7198038, -74.0412344], [40.7190057, -74.0413525], [40.7183622, -74.0420119], [40.7180011, -74.0422352], [40.7173324, -74.042361], [40.7175139, -74.0441212]],
+                {"bubblingMouseEvents": true, "color": "cadetblue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "cadetblue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var poly_line_403c19183284aa4c2290eb3d53042e03 = L.polyline(
+                [[40.7175139, -74.0441212], [40.7181613, -74.0461909], [40.7188266, -74.04583], [40.719482, -74.0454778], [40.7201911, -74.0451173], [40.7206903, -74.0466675], [40.7216111, -74.0460993], [40.7220489, -74.0469344], [40.7223816, -74.0476205], [40.7227978, -74.0484385], [40.7229227, -74.0486876], [40.7231726, -74.0491683], [40.7237533, -74.0499885], [40.7243617, -74.0506694]],
+                {"bubblingMouseEvents": true, "color": "cadetblue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "cadetblue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var poly_line_4f85a65a39fe672cf22975abe448a4b9 = L.polyline(
+                [[40.7253156, -74.0680837], [40.7248342, -74.0672103], [40.7246355, -74.0667409], [40.724452, -74.066218], [40.7241191, -74.0651871], [40.723768, -74.064193], [40.7233722, -74.0628984], [40.7233225, -74.0627533], [40.7232713, -74.0625906], [40.7224245, -74.0598633], [40.7219886, -74.0584634], [40.7213766, -74.0564982], [40.7213103, -74.056285], [40.7210304, -74.0553862], [40.7208775, -74.0548952], [40.7223848, -74.0543658], [40.7225605, -74.0533651], [40.7219527, -74.0513481], [40.7216431, -74.0497026], [40.7222463, -74.0493436], [40.7229639, -74.0492007], [40.7231726, -74.0491683], [40.7237533, -74.0499885], [40.7243617, -74.0506694]],
+                {"bubblingMouseEvents": true, "color": "darkgreen", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "darkgreen", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var poly_line_e7ce0a0e7ceff27f7cf2c5e338cd4508 = L.polyline(
+                [[40.742687, -74.051645], [40.7421812, -74.0520081], [40.741485, -74.052488], [40.7407821, -74.0529777], [40.740056, -74.05346], [40.739185, -74.054033], [40.738547, -74.054452], [40.7379421, -74.054856], [40.737244, -74.055309], [40.7367368, -74.0556607], [40.7361049, -74.0560852], [40.7354373, -74.0564581], [40.7352613, -74.056531], [40.7350924, -74.0566087], [40.7342809, -74.0569588], [40.7332712, -74.0579929], [40.7325522, -74.0595376], [40.7317764, -74.0600761], [40.7304325, -74.0612684], [40.7291158, -74.0622595], [40.7286009, -74.0626679], [40.7281255, -74.0631017], [40.7277273, -74.063579], [40.7266032, -74.0638892], [40.7260274, -74.0641377], [40.7253416, -74.0644833], [40.7241191, -74.0651871], [40.723768, -74.064193]],
+                {"bubblingMouseEvents": true, "color": "pink", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "pink", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var poly_line_fcb4eacf2065b340a725776f147df61c = L.polyline(
+                [[40.7486885, -74.0402684], [40.748987, -74.041099], [40.7485152, -74.0414102], [40.747482, -74.042074], [40.7455191, -74.0433257], [40.7439051, -74.0443696], [40.7436089, -74.0445479], [40.742554, -74.045218], [40.742847, -74.046066], [40.741563, -74.046899], [40.7402605, -74.0477281], [40.7397837, -74.0480416], [40.7402164, -74.048834], [40.7396356, -74.0493953], [40.739064, -74.0499187], [40.7384848, -74.0504801], [40.7390036, -74.0514542], [40.7384089, -74.051989], [40.737691, -74.052653], [40.73708, -74.053216], [40.7364403, -74.0537675], [40.7359671, -74.0542132], [40.735382, -74.054732], [40.7361049, -74.0560852], [40.7354373, -74.0564581], [40.7352613, -74.056531], [40.7350924, -74.0566087], [40.7342809, -74.0569588], [40.7332712, -74.0579929], [40.7325522, -74.0595376], [40.7317764, -74.0600761], [40.7304325, -74.0612684], [40.7291158, -74.0622595], [40.7286009, -74.0626679], [40.7281255, -74.0631017], [40.7277273, -74.063579], [40.7266032, -74.0638892], [40.7260274, -74.0641377], [40.7253416, -74.0644833], [40.7241191, -74.0651871], [40.723768, -74.064193]],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "black", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var poly_line_782bd400c1c5b1cc6cdf760b4bb78af9 = L.polyline(
+                [[40.723768, -74.064193], [40.7233722, -74.0628984], [40.7233225, -74.0627533], [40.7232713, -74.0625906], [40.7224245, -74.0598633], [40.7219886, -74.0584634], [40.7213766, -74.0564982], [40.7213103, -74.056285], [40.7210304, -74.0553862], [40.7208775, -74.0548952], [40.7205805, -74.0539689], [40.7205534, -74.0538841], [40.7198981, -74.0542449], [40.7193678, -74.0545441], [40.7193253, -74.0541936], [40.7182588, -74.0515354], [40.7177755, -74.0500039], [40.717309, -74.0485041], [40.7165583, -74.048918], [40.71653978099194, -74.0496379137039]],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "black", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var poly_line_e5fb53fb4865a476d2fbf0d5cc3a0dec = L.polyline(
+                [[40.7309524, -74.0574492], [40.729849, -74.056143], [40.7288706, -74.0548719], [40.7286033, -74.0547812], [40.7269343, -74.0534286], [40.7261347, -74.0525747], [40.7257269, -74.0521278], [40.7253798, -74.0517474], [40.7252541, -74.0516131], [40.7245411, -74.05086], [40.7243617, -74.0506694], [40.7237533, -74.0499885], [40.7231726, -74.0491683], [40.7229227, -74.0486876], [40.7227978, -74.0484385], [40.7223816, -74.0476205], [40.7220489, -74.0469344], [40.7216111, -74.0460993], [40.7206903, -74.0466675], [40.719984, -74.047053], [40.7193199, -74.0474137], [40.7186356, -74.0477773], [40.7179953, -74.0481312], [40.717309, -74.0485041], [40.7165583, -74.048918], [40.71653978099194, -74.0496379137039]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var poly_line_8ee5cc68113cde2b979d5e476e4673b2 = L.polyline(
+                [[40.7348787, -74.0592342], [40.7332712, -74.0579929], [40.7325307, -74.0573838], [40.7315699, -74.0565749], [40.7305509, -74.0557593], [40.730322, -74.055588], [40.729909, -74.055278], [40.7288706, -74.0548719], [40.7286033, -74.0547812], [40.7269343, -74.0534286], [40.7261347, -74.0525747], [40.7257269, -74.0521278], [40.7253798, -74.0517474], [40.7252541, -74.0516131], [40.7245411, -74.05086], [40.7243617, -74.0506694], [40.7237533, -74.0499885], [40.7231726, -74.0491683], [40.7229227, -74.0486876], [40.7227978, -74.0484385], [40.7223816, -74.0476205], [40.7220489, -74.0469344], [40.7216111, -74.0460993], [40.7206903, -74.0466675], [40.719984, -74.047053], [40.7193199, -74.0474137], [40.7186356, -74.0477773], [40.7179953, -74.0481312], [40.717309, -74.0485041], [40.7165583, -74.048918], [40.71653978099194, -74.0496379137039]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+    
+            var poly_line_6f8eab8b374463d5c321de78b7ed6f35 = L.polyline(
+                [[40.7346189, -74.0503001], [40.7357122, -74.0523461], [40.7352458, -74.0528321], [40.73466, -74.053364], [40.734078, -74.053892], [40.7334589, -74.0544565], [40.7333418, -74.0545702], [40.7331667, -74.0547487], [40.7326559, -74.0553605], [40.7321667, -74.0559061], [40.7315699, -74.0565749], [40.7309524, -74.0574492], [40.7325522, -74.0595376], [40.7329961, -74.0629366], [40.7330498, -74.0631762], [40.7319794, -74.0640453], [40.7316197, -74.0648642], [40.7318106, -74.0671785], [40.7313982, -74.0678424], [40.7316179, -74.0688364], [40.7318051, -74.0697539], [40.7320038, -74.0706844], [40.7321935, -74.0716395], [40.7324222, -74.0725636], [40.7308929, -74.0735006], [40.7304365, -74.0738428], [40.7299812, -74.0741939], [40.7291865, -74.0748296], [40.7283563, -74.0754531], [40.72752, -74.076059], [40.7266952, -74.0766103], [40.7257006, -74.0772844], [40.725301, -74.07759], [40.724938, -74.077874], [40.7245234, -74.078229]],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_69a085e8d4e39bab94c49c6083393cd6);
+        
+</script>
+</html>
