@@ -119,19 +119,20 @@
 
 ---
 
-## ✅ 10 August 2025 – 4th Submission (Final Report & Conference Paper) (Sunday)
+## 🟡 17 August 2025 – 4th Submission (Final Report & Conference Paper) (Sunday)
 
-* [X] Finalise all sections of paper.
-* [X] Format according to conference/journal template.
-* [X] Write abstract, introduction, and conclusion.
-* [X] Analyse and include final experiment results.
-* [X] List at least 5 future research problems.
-* [X] Proofread and check references.
-* [X] Prepare and submit:
+* [ ] Finalise all sections of paper.
+* [ ] Format according to conference/journal template.
+* [ ] Write abstract, introduction, and conclusion.
+* [ ] Analyse and include final experiment results.
+* [ ] List at least 5 future research problems.
+* [ ] Proofread and check references.
+* [ ] Prepare and submit:
 
   * Final report
   * Conference paper
   * PowerPoint presentation
+  * Code and Data
 
 ---
 

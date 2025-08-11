@@ -220,3 +220,26 @@ def sanitize_for_json(obj):
         return obj.isoformat()
     else:
         return obj
+
+def set_seed(seed_value):
+    """
+    Sets the random seed for Python, NumPy, and PyTorch to ensure reproducible results.
+
+    This function initializes the random seed for the Python `random` module, NumPy, and PyTorch (including CUDA if available).
+    It also sets the `PYTHONHASHSEED` environment variable and configures PyTorch's cuDNN backend for deterministic behavior.
+
+    Args:
+        seed_value (int): The seed value to use for all random number generators.
+
+    Returns:
+        None
+    """
+    random.seed(seed_value)
+    np.random.seed(seed_value)
+    torch.manual_seed(seed_value)
+    os.environ['PYTHONHASHSEED'] = str(seed_value)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(seed_value)
+        torch.cuda.manual_seed_all(seed_value)
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False

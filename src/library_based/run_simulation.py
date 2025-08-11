@@ -20,32 +20,38 @@ from .visualisation import (draw_route, inject_corrected_animation_js, map_stati
 
 
 def run_simulation(
-        inventory_model_path: str = MODEL_PATH,
-        graph_path: str = NYC_GRAPH_PATH
+        inventory_model_path: str = "dqn_bike_redistrib.zip",
+        graph_path: str = "nyc_graph.gpickle",
+        seed_value: int = 42
 ):
     """
-    Runs the full SmartFlow bike redistribution simulation pipeline.
-
-    Steps performed:
-    1. Loads and preprocesses demand and station data.
-    2. Builds or loads the NYC road network graph.
-    3. Trains or loads the inventory RL agent for bike redistribution.
-    4. Runs the agent to generate initial transfer plans.
-    5. Plans and schedules truck journeys for redistribution.
-    6. Logs pre-simulation dispatch details.
-    7. Builds and animates a map of the simulation.
-    8. Generates an agentic dispatch report using HuggingFace.
-    9. Saves simulation results for later analysis.
+    Runs the full bike redistribution simulation pipeline.
 
     Args:
-        inventory_model_path (str): Path to the RL agent model file.
-        graph_path (str): Path to the NYC road network graph file.
+        inventory_model_path (str): Path to the RL inventory model file.
+        graph_path (str): Path to the road network graph file.
+        seed_value (int): Random seed for reproducibility.
 
-    Returns:
-        None. Saves results and visualizations to disk.
+    Workflow:
+        1. Loads and preprocesses demand and station data.
+        2. Builds or loads the road network graph.
+        3. Trains or loads the RL agent for inventory management.
+        4. Runs the agent to generate initial bike transfer plans.
+        5. Plans and schedules truck journeys for redistribution.
+        6. Logs pre-simulation dispatch details.
+        7. Builds and animates a folium map of the simulation.
+        8. Generates an agentic dispatch report using HuggingFace.
+        9. Saves simulation results for later analysis.
+
+    Outputs:
+        - Saves an HTML map visualization.
+        - Saves a JSON file of sanitized journeys.
+        - Saves a pickle file with simulation results.
+        - Displays dispatch logs and agentic report.
     """
     # 1. Load Data & Configure
-    print("Step 1: Loading and filtering data...")
+    set_seed(seed_value)
+    print(f"Step 1: Loading and filtering data for Seed {seed_value}...")
     df = load_and_filter(TARGET_DATE)
     full_trips_df = pd.read_csv(TRIPS_FILE, parse_dates=["Start Time", "Stop Time"])
     demand_data = preprocess_demand_data(full_trips_df)
@@ -74,7 +80,9 @@ def run_simulation(
     n_envs = max(1, os.cpu_count() - 1)
     inventory_model = train_or_load_model(
         top=top, thresholds=thresh, capacities=capacities, coords_all=coords_top,
-        demand_data=demand_data, n_envs=n_envs, device=device, model_path=inventory_model_path
+        demand_data=demand_data, n_envs=n_envs, device=device,
+        model_path=inventory_model_path,
+        seed_value=seed_value
     )
 
     # 4. Run Inventory Model to Get Strategic Plan
@@ -158,8 +166,8 @@ def run_simulation(
             draw_route(m, G, coords_top[src][0], coords_top[src][1], coords_top[tgt][0], coords_top[tgt][1],
                        color=color)
 
-    inject_animation_js(m, animation_data, G)
-    out_path = "SmartFlow_Final_Simulation.html"
+    inject_corrected_animation_js(m, animation_data, G)
+    out_path = f"SmartFlow_Final_Simulation_seed_{seed_value}.html"
     m.save(out_path)
     print(f"🗺️ Map saved to → {out_path}")
     display(m)
@@ -170,7 +178,7 @@ def run_simulation(
     start_time = time.time()
     print(f"   - Agentic layer started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     sanitized_journeys = sanitize_for_json(optimized_journeys)
-    with open("sanitized_journeys.json", "w") as jf:
+    with open(f"sanitized_journeys_seed_{seed_value}.json", "w") as jf:
         json.dump(sanitized_journeys, jf, indent=2)
     dispatch_report = generate_dispatch_with_hf_agent(sanitized_journeys)
     end_time = time.time()
@@ -187,10 +195,25 @@ def run_simulation(
         "optimized_journeys": optimized_journeys, "transfers": transfers, "graph": G,
         "station_to_node_map": station_to_node, "station_names": top
     }
-    with open("simulation_results.pkl", "wb") as f:
+    results_path = f"simulation_results_seed_{seed_value}.pkl"
+    with open(results_path, "wb") as f:
         pickle.dump(results_to_save, f)
-    print("✅ Results saved to simulation_results.pkl")
+    print(f"✅ Results saved to {results_path}")
 
 
 if __name__ == "__main__":
-    run_simulation()
+    seeds = [0, 11, 28]
+
+    for seed in seeds:
+        print(f"\\n{'=' * 30} RUNNING SIMULATION FOR SEED: {seed} {'=' * 30}")
+
+        # Defining seed-specific file path for the model
+        model_path = f"DQN_Bike_Redistribution_Seed_{seed}.zip"
+
+        run_simulation(
+            inventory_model_path=model_path,
+            graph_path="nyc_graph.gpickle",  # Graph can be reused
+            seed_value=seed
+        )
+
+    print(f"\\n{'=' * 30} ALL SIMULATION RUNS COMPLETE {'=' * 30}")
