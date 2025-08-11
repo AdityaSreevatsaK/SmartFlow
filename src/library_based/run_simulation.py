@@ -22,7 +22,7 @@ from .visualisation import (draw_route, inject_corrected_animation_js, map_stati
 def run_simulation(
         inventory_model_path: str = "dqn_bike_redistrib.zip",
         graph_path: str = "nyc_graph.gpickle",
-        seed_value: int = 42
+        seed_value: int = 0
 ):
     """
     Runs the full bike redistribution simulation pipeline.

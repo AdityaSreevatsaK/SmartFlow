@@ -194,14 +194,12 @@ def login_to_huggingface():
 def sanitize_for_json(obj):
     """
     Recursively sanitizes Python objects for JSON serialization.
-
     This function converts dictionaries, lists, NumPy types, arrays, and datetime objects
     into types compatible with JSON serialization. It handles nested structures and
     ensures that all values are converted to standard Python types.
 
     Args:
         obj: The object to sanitize (can be dict, list, NumPy types, ndarray, datetime, etc.).
-
     Returns:
         The sanitized object, ready for JSON serialization.
     """
@@ -220,6 +218,7 @@ def sanitize_for_json(obj):
         return obj.isoformat()
     else:
         return obj
+
 
 def set_seed(seed_value):
     """

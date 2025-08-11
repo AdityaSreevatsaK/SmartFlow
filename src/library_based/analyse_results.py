@@ -1,255 +1,357 @@
-import glob
-import multiprocessing
-import os
-import pickle
+import warnings
 
-import matplotlib.pyplot as plt
-import numpy as np
+# Ignore informational warnings from pandas and seaborn
+warnings.filterwarnings('ignore', category=FutureWarning)
+warnings.filterwarnings('ignore', category=DeprecationWarning)
+
+# Suppress C++ logs from XLA / glog
+os.environ['GLOG_minloglevel'] = '2'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
+# Disabling the tokenizer parallelism warning
+os.environ['TOKENIZERS_PARALLELISM'] = 'false'
+
+import pickle
+import os
+import glob
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 import seaborn as sns
+import multiprocessing
 from tensorboard.backend.event_processing import event_accumulator
 
-from .routing import find_path_worker, init_worker
+from .routing import init_worker, find_path_worker
+
+seeds = [0, 11, 28]
 
 
-# ==============================================================================
-# Helper Functions for Metric Calculation
-# ==============================================================================
-
-def plot_learning_curve(log_directory: str):
+def plot_all_learning_curves(log_directories: list):
     """
-    Plots the agent's cumulative reward curve over training episodes using log files.
+    Plots the learning curves (cumulative reward over time) for multiple training runs.
+
+    This function generates two types of plots:
+    1. Individual learning curves for each seed/run, showing the moving average
+       of rewards over episodes.
+    2. An aggregated learning curve, displaying the mean and standard deviation
+       of rewards across all runs, providing an overall view of the agent's
+       learning progress.
+
+    The rewards are read from 'env_*.csv' files within the specified log directories.
+    All reward series are trimmed to the length of the shortest run to ensure
+    consistent averaging. A moving average is applied to smooth the curves.
 
     Args:
-        log_directory (str): Path to the directory containing training log CSV files.
+        log_directories (list): A list of paths to directories, where each directory
+                                contains log files (e.g., 'env_*.csv') from a
+                                single training run.
 
-    The function:
-        - Loads all CSV log files matching 'env_*.csv' in the specified directory.
-        - Extracts episode rewards and computes a moving average.
-        - Fits a linear trend to the moving average to visualize learning progress.
-        - Plots the moving average and trend line using matplotlib.
-        - Prints the total number of episodes found.
-        - Warns if there are not enough episodes to plot a meaningful curve.
-        - Handles and reports errors if log files are missing or unreadable.
+    Returns:
+        None. Displays matplotlib plots directly.
+
+    Prints:
+        - Status messages about log processing.
+        - An error message if no valid log files are found.
     """
     print("--- Metric 1: Cumulative Reward Over Time ---")
-    try:
-        log_files = sorted(glob.glob(os.path.join(log_directory, "env_*.csv")))
-        if not log_files:
-            raise FileNotFoundError(f"No Monitor log files found in {log_directory}")
+    all_rewards = []
+    min_episodes = float('inf')
 
-        all_logs = pd.concat([pd.read_csv(f, comment="#") for f in log_files], ignore_index=True)
-        rewards = all_logs["r"].values
-        print(f"Total episodes found in logs: {len(rewards)}")
+    for log_dir in log_directories:
+        try:
+            log_files = sorted(glob.glob(os.path.join(log_dir, "env_*.csv")))
+            if not log_files:
+                continue
 
-        if len(rewards) > 20:
-            window = min(500, len(rewards) // 5)
-            ma = np.convolve(rewards, np.ones(window) / window, mode="valid")
-            episodes = np.arange(window, window + len(ma))
-            slope, intercept = np.polyfit(episodes, ma, deg=1)
-            trend = slope * episodes + intercept
-
-            plt.figure(figsize=(12, 6))
-            plt.plot(episodes, ma, label=f"{window}-episode Moving Average Reward", color="#F97A00")
-            plt.plot(episodes, trend, linestyle="--", label=f"Learning Trend (Slope: {slope:.4f})", color="#386641")
-            plt.xlabel("Episode")
-            plt.ylabel("Moving Average Reward")
-            plt.title("Agent Learning Curve: Reward Over Time")
-            plt.legend()
-            plt.minorticks_on()
-            plt.grid(which='both')
-            plt.tight_layout()
-            plt.show()
-        else:
-            print("⚠️ Not enough training episodes to generate a meaningful reward plot.")
-    except Exception as e:
-        print(f"❌ Could not generate reward plot: {e}")
-
-
-def calculate_training_stats(log_directory: str):
-    """
-    Calculates and prints training statistics from log files.
-
-    Args:
-        log_directory (str): Path to the directory containing training log files.
-
-    Functionality:
-        - Loads Monitor log CSV files matching 'env_*.csv' in the specified directory.
-        - Calculates total training time (in minutes) and average training speed (FPS).
-        - Loads the latest TensorBoard log directory matching 'DQN_*' and extracts the final policy loss.
-        - Prints all metrics and handles missing or unreadable log files gracefully.
-    """
-    print("\n--- Metric 2: Training Statistics ---")
-    try:
-        # Get Time and FPS from Monitor logs
-        log_files = sorted(glob.glob(os.path.join(log_directory, "env_*.csv")))
-        if log_files:
             all_logs = pd.concat([pd.read_csv(f, comment="#") for f in log_files], ignore_index=True)
-            total_time_seconds = all_logs["t"].iloc[-1]
-            total_timesteps = all_logs["l"].sum()
-            average_fps = total_timesteps / total_time_seconds
-            print(f"   - Total Training Time: {total_time_seconds / 60:.2f} minutes")
-            print(f"   - Average Training Speed: {average_fps:.2f} FPS")
-        else:
-            print("⚠️ Could not find Monitor logs for timing data.")
+            rewards = all_logs["r"].values
+            all_rewards.append(rewards)
+            if len(rewards) > 0:
+                min_episodes = min(min_episodes, len(rewards))
 
-        # Get Final Loss from TensorBoard logs
-        tb_log_dir_list = glob.glob(os.path.join(log_directory, "../tb/DQN_*/"))
-        if tb_log_dir_list:
-            tb_log_dir = sorted(tb_log_dir_list)[-1]
-            ea = event_accumulator.EventAccumulator(tb_log_dir, size_guidance={'scalars': 0})
-            ea.Reload()
-            loss_data = ea.Scalars('train/loss')
-            if loss_data:
-                print(f"   - Final Policy Loss: {loss_data[-1].value:.4f}")
+        except Exception as e:
+            print(f"⚠️ Could not process logs in {log_dir}: {e}")
+
+    if not all_rewards or min_episodes == float('inf'):
+        print("❌ No valid log files found to plot learning curves.")
+        return
+
+    # Trim all reward lists to the length of the shortest run for averaging
+    trimmed_rewards = [rewards[:min_episodes] for rewards in all_rewards]
+
+    # --- Individual Plots ---
+    num_seeds = len(trimmed_rewards)
+    fig, axes = plt.subplots(1, num_seeds, figsize=(6 * num_seeds, 5), sharey=True)
+    if num_seeds == 1: axes = [axes]  # Ensure axes is always iterable
+    fig.suptitle('Individual Learning Curves per Seed', fontsize=16)
+    for i, rewards in enumerate(trimmed_rewards):
+        ax = axes[i]
+        window = min(200, len(rewards) // 5) if len(rewards) // 5 > 0 else 1
+        ma = np.convolve(rewards, np.ones(window) / window, mode="valid")
+        episodes = np.arange(1, len(ma) + 1)  # Simplified x-axis calculation
+        ax.plot(episodes, ma, label=f"Seed {seeds[i]} Run Reward MA")
+        ax.set_title(f"Seed {seeds[i]} Run")
+        ax.set_xlabel("Episode")
+        if i == 0: ax.set_ylabel("Moving Average Reward")
+        ax.grid(True)
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+    plt.show()
+
+    # --- Aggregated Plot ---
+    window = min(200, min_episodes // 5) if min_episodes // 5 > 0 else 1
+
+    all_ma = [np.convolve(rewards, np.ones(window) / window, mode="valid") for rewards in trimmed_rewards]
+
+    mean_ma = np.mean(all_ma, axis=0)
+    std_ma = np.std(all_ma, axis=0)
+
+    ma_episodes = np.arange(1, len(mean_ma) + 1)
+
+    plt.figure(figsize=(12, 6))
+    plt.plot(ma_episodes, mean_ma, color='#E43636', label='Mean Reward (across all seeds)')
+    plt.fill_between(ma_episodes, mean_ma - std_ma, mean_ma + std_ma, color='#FFE100', alpha=0.2,
+                     label='Standard Deviation')
+    plt.title('Aggregated Agent Learning Curve (Mean ± Std Dev)')
+    plt.xlabel('Episode')
+    plt.ylabel('Moving Average Reward')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+
+
+def calculate_all_training_stats(log_directories: list):
+    """
+    This function processes log files and TensorBoard event files from various
+    training runs to extract and present key training metrics such as:
+    - Total training time
+    - Frames per second (FPS)
+    - Final policy loss
+
+    It includes logic to robustly find the correct TensorBoard loss tag,
+    handling common variations.
+
+    Args:
+        log_directories (list): A list of paths to directories containing
+                                training log files (e.g., env_*.csv) and
+                                TensorBoard event files (e.g., tb_seed_*).
+    Includes detective logic to find the correct TensorBoard loss tag.
+    """
+    print("\n--- Metric 2: Aggregated Training Statistics ---")
+    times, fps, losses = [], [], []
+
+    base_path = os.path.dirname(log_directories[0]) if log_directories else "."
+    all_tb_dirs = sorted(glob.glob(os.path.join(base_path, "tb_seed_*")))
+
+    for i, log_dir in enumerate(log_directories):
+        try:
+            # Time and FPS
+            log_files = sorted(glob.glob(os.path.join(log_dir, "env_*.csv")))
+            if log_files:
+                all_logs = pd.concat([pd.read_csv(f, comment="#") for f in log_files], ignore_index=True)
+                times.append(all_logs["t"].iloc[-1] / 60)
+                fps.append(all_logs["l"].sum() / all_logs["t"].iloc[-1])
+
+            # Final Loss
+            if i < len(all_tb_dirs):
+                tb_log_search_path = os.path.join(all_tb_dirs[i], "DQN_*")
+                tb_log_dir_list = glob.glob(tb_log_search_path)
+
+                if tb_log_dir_list:
+                    tb_log_dir = sorted(tb_log_dir_list)[-1]
+                    ea = event_accumulator.EventAccumulator(tb_log_dir, size_guidance={'scalars': 0})
+                    ea.Reload()
+
+                    available_tags = ea.Tags()['scalars']
+                    loss_tag_primary = 'train/loss'
+                    loss_tag_fallback = 'rollout/loss'
+
+                    if loss_tag_primary in available_tags:
+                        losses.append(ea.Scalars(loss_tag_primary)[-1].value)
+                    elif loss_tag_fallback in available_tags:
+                        print(f"⚠️ '{loss_tag_primary}' not found. Using fallback '{loss_tag_fallback}'.")
+                        losses.append(ea.Scalars(loss_tag_fallback)[-1].value)
+                    else:
+                        # If neither is found, print all available tags for debugging
+                        print(f"⚠️ Could not find '{loss_tag_primary}' or '{loss_tag_fallback}' in {tb_log_dir}.")
+                        print(f"   --> Available scalar tags are: {available_tags}")
+                else:
+                    print(f"⚠️ Could not find a DQN sub-directory in {all_tb_dirs[i]}.")
             else:
-                print("⚠️ Could not find loss data in TensorBoard logs.")
-        else:
-            print("⚠️ Could not find TensorBoard log directory.")
-    except Exception as e:
-        print(f"❌ Could not calculate training stats: {e}")
+                print(f"⚠️ Could not find a matching TensorBoard directory for {os.path.basename(log_dir)}.")
 
+        except Exception as e:
+            print(f"⚠️ Could not calculate stats for {log_dir}: {e}")
 
-def calculate_operational_metrics(results: dict):
-    """
-    Calculates system performance and operational efficiency metrics.
+    print(f"\n[Aggregated Results across {len(times)} runs]")
 
-    Args:
-        results (dict): Dictionary containing simulation results with keys:
-            - initial_counts: dict of initial bike counts per station
-            - live_counts: dict of final bike counts per station
-            - thresh: dict of target bike counts per station
-            - optimized_journeys: list of truck journey dicts, each with 'legs'
-            - graph: networkx graph representing the network
-            - station_to_node_map: mapping from station to graph node
-
-    Functionality:
-        - Computes initial and final network imbalance scores and reduction percentage.
-        - Calculates total fleet distance travelled by trucks (in km).
-        - Determines truck utilisation rate (percentage of trucks with multi-leg journeys).
-        - Uses multiprocessing for efficient pathfinding between journey legs.
-        - Prints all calculated metrics.
-    """
-    print("\n--- Metric 3: Operational & System Performance ---")
-
-    # Extract data from the results dictionary
-    initial_counts = results["initial_counts"]
-    live_counts = results["live_counts"]
-    thresh = results["thresh"]
-    optimized_journeys = results["optimized_journeys"]
-    G = results["graph"]
-    station_to_node = results["station_to_node_map"]
-
-    # System-Level Performance
-    initial_imbalance = sum(abs(c - thresh.get(s, 0)) for s, c in initial_counts.items())
-    final_imbalance = sum(abs(c - thresh.get(s, 0)) for s, c in live_counts.items())
-    imbalance_reduction = ((
-                                   initial_imbalance - final_imbalance) / initial_imbalance) * 100 if initial_imbalance > 0 else 0
-    print("\n[System-Level Performance]")
-    print(f"   - Initial Network Imbalance Score: {initial_imbalance} bikes")
-    print(f"   - Final Network Imbalance Score: {final_imbalance} bikes")
-    print(f"   - Imbalance Reduction: {imbalance_reduction:.2f}%")
-
-    # Operational Efficiency
-    total_distance_km = 0
-    multi_leg_trucks = 0
-    if optimized_journeys:
-        pathfinding_tasks = [(leg["src"], leg["tgt"]) for journey in optimized_journeys for leg in journey["legs"]]
-        with multiprocessing.Pool(processes=os.cpu_count(), initializer=init_worker,
-                                  initargs=(G, station_to_node)) as pool:
-            path_results = pool.map(find_path_worker, pathfinding_tasks)
-        path_dict = {(src, tgt): nodes for src, tgt, nodes in path_results if nodes}
-
-        for journey in optimized_journeys:
-            if len(journey['legs']) > 1:
-                multi_leg_trucks += 1
-            for leg in journey['legs']:
-                path_nodes = path_dict.get((leg['src'], leg['tgt']))
-                if path_nodes:
-                    path_length_meters = sum(
-                        G.edges[u, v, 0]['length'] for u, v in zip(path_nodes[:-1], path_nodes[1:]))
-                    total_distance_km += path_length_meters / 1000
-
-        truck_utilisation_rate = (multi_leg_trucks / len(optimized_journeys)) * 100 if optimized_journeys else 0
-        print("\n[Operational Efficiency]")
-        print(f"   - Total Fleet Distance Travelled: {total_distance_km:.2f} km")
-        print(f"   - Truck Utilisation Rate (multi-leg journeys): {truck_utilisation_rate:.2f}%")
-
-
-def plot_task_prioritization(results: dict):
-    """
-    Plots a histogram and KDE of the hours when the agent identified the need for a transfer.
-
-    Args:
-        results (dict): Dictionary containing simulation results. Must include a 'transfers' key,
-                        where each value is a dict with a 'first_hour' field indicating the hour
-                        (0-23) when a transfer was first needed.
-
-    Functionality:
-        - Extracts the hour of first need for each transfer from the results.
-        - Plots a histogram of task density by hour using seaborn.
-        - Overlays a KDE curve to show demand trends.
-        - Adds axis labels, title, grid, and legend.
-        - Handles missing transfer data gracefully.
-    """
-    print("\n--- Metric 4: Task Prioritisation Analysis ---")
-    transfers = results.get("transfers")
-    if transfers:
-        hours_of_need = [data['first_hour'] for _, data in transfers.items()]
-        plt.figure(figsize=(12, 6))
-        sns.histplot(hours_of_need, bins=24, binrange=(0, 24), stat='density', color='#FF8040', edgecolor='black',
-                     label='Task Density')
-        sns.kdeplot(hours_of_need, color='#0046FF', linewidth=2, label='Demand Trend (KDE)')
-        plt.xlabel("Hour of Day (24h format)")
-        plt.ylabel("Density of Tasks")
-        plt.title("Agent Task Prioritisation: Time of Identified Need")
-        plt.xticks(range(0, 25, 2))
-        plt.grid(axis='y', linestyle='--', alpha=0.7)
-        plt.legend()
-        plt.show()
+    mean_time = f"{np.mean(times):.2f} ± {np.std(times):.2f}" if len(
+        times) > 1 else f"{times[0]:.2f}" if times else "N/A"
+    mean_fps = f"{np.mean(fps):.2f} ± {np.std(fps):.2f}" if len(fps) > 1 else f"{fps[0]:.2f}" if fps else "N/A"
+    if losses:
+        mean_loss = f"{np.mean(losses):.4f} ± {np.std(losses):.4f}" if len(losses) > 1 else f"{losses[0]:.4f}"
+        print(f"   - Final Policy Loss: {mean_loss}")
     else:
-        print("⚠️ No transfer data available to plot task prioritization.")
+        print("   - Final Policy Loss: Not available (could not load from logs).")
 
 
-# ==============================================================================
-# Main Analysis Function
-# ==============================================================================
-
-def analyse_simulation_results(results_path="simulation_results.pkl", log_directory="/kaggle/working/logs"):
+def calculate_all_operational_metrics(all_results: list):
     """
-    Loads simulation results and generates all performance metrics.
+    Calculates and prints aggregated operational and system performance metrics
+    from multiple simulation runs.
+
+    Metrics include:
+    - Final network imbalance score (mean and standard deviation).
+    - Imbalance reduction percentage (mean and standard deviation).
+    - Total fleet distance traveled (mean and standard deviation).
+    - Truck utilization rate for multi-leg journeys (mean and standard deviation).
 
     Args:
-        results_path (str): Path to the pickled simulation results file.
-        log_directory (str): Path to the directory containing training and TensorBoard logs.
+        all_results (list): A list of dictionaries, where each dictionary
+                            contains the results from a single simulation run.
+                            Expected keys in each dictionary include:
+                            "initial_counts", "live_counts", "thresh",
+                            "optimized_journeys", "graph", "station_to_node_map".
+    """
+    print("\n--- Metric 3: Aggregated Operational & System Performance ---")
+    imbalances, reductions, distances, utilisations = [], [], [], []
 
-    Functionality:
-        - Loads simulation results from a pickle file.
-        - Plots the agent's learning curve from training logs.
-        - Calculates and prints training statistics (time, FPS, loss).
-        - Computes operational metrics (imbalance, fleet distance, truck utilization).
-        - Plots task prioritization analysis (transfer need by hour).
-        - Handles missing files and errors gracefully.
+    for results in all_results:
+        initial_counts = results["initial_counts"]
+        live_counts = results["live_counts"]
+        thresh = results["thresh"]
+
+        initial_imbalance = sum(abs(c - thresh.get(s, 0)) for s, c in initial_counts.items())
+        final_imbalance = sum(abs(c - thresh.get(s, 0)) for s, c in live_counts.items())
+
+        imbalances.append(final_imbalance)
+        reductions.append(
+            ((initial_imbalance - final_imbalance) / initial_imbalance) * 100 if initial_imbalance > 0 else 0)
+
+        total_distance_km = 0
+        multi_leg_trucks = 0
+        optimized_journeys = results["optimized_journeys"]
+        if optimized_journeys:
+            G = results["graph"]
+            station_to_node = results["station_to_node_map"]
+            pathfinding_tasks = [(leg["src"], leg["tgt"]) for j in optimized_journeys for leg in j["legs"]]
+            with multiprocessing.Pool(processes=os.cpu_count(), initializer=init_worker,
+                                      initargs=(G, station_to_node)) as pool:
+                path_results = pool.map(find_path_worker, pathfinding_tasks)
+            path_dict = {(src, tgt): nodes for src, tgt, nodes in path_results if nodes}
+            for journey in optimized_journeys:
+                if len(journey['legs']) > 1: multi_leg_trucks += 1
+                for leg in journey['legs']:
+                    path_nodes = path_dict.get((leg['src'], leg['tgt']))
+                    if path_nodes:
+                        path_len = sum(G.edges[u, v, 0]['length'] for u, v in zip(path_nodes[:-1], path_nodes[1:]))
+                        total_distance_km += path_len / 1000
+        distances.append(total_distance_km)
+        utilisations.append((multi_leg_trucks / len(optimized_journeys)) * 100 if optimized_journeys else 0)
+
+    print("\n[System-Level Performance]")
+    print(f"   - Final Network Imbalance Score: {np.mean(imbalances):.2f} ± {np.std(imbalances):.2f} bikes")
+    print(f"   - Imbalance Reduction: {np.mean(reductions):.2f} ± {np.std(reductions):.2f} %")
+    print("\n[Operational Efficiency]")
+    print(f"   - Total Fleet Distance Travelled: {np.mean(distances):.2f} ± {np.std(distances):.2f} km")
+    print(
+        f"   - Truck Utilisation Rate (multi-leg journeys): {np.mean(utilisations):.2f} ± {np.std(utilisations):.2f} %")
+
+
+def plot_all_task_prioritizations(all_results: list):
+    """
+    Plots individual and aggregated histograms of task prioritization based on the
+    'first_hour' of transfer events. This function visualizes the distribution
+    of when tasks (e.g., rebalancing transfers) are initiated throughout the day.
+
+    It generates two types of plots:
+    1. Individual plots for each simulation run (seed), showing the density
+       of tasks per hour, along with a Kernel Density Estimate (KDE) for trend.
+    2. An aggregated plot combining data from all runs, providing an overall
+       view of task prioritization patterns.
+
+    Args:
+        all_results (list): A list of dictionaries, where each dictionary
+                            contains the results from a single simulation run,
+                            including a 'transfers' key if available."""
+    print("\n--- Metric 4: Task Prioritisation Analysis ---")
+    all_hours = []
+
+    for res in all_results:
+        transfers = res.get("transfers")
+        if transfers:
+            all_hours.append([data['first_hour'] for _, data in transfers.items()])
+
+    if not all_hours:
+        print("❌ No transfer data available to plot task prioritization.")
+        return
+
+    # --- Individual Plots ---
+    num_seeds = len(all_hours)
+    fig, axes = plt.subplots(1, num_seeds, figsize=(6 * num_seeds, 5), sharey=True)
+    fig.suptitle('Individual Task Prioritisation per Seed', fontsize=16)
+    for i, hours in enumerate(all_hours):
+        ax = axes[i] if num_seeds > 1 else axes
+        sns.histplot(hours, bins=24, binrange=(0, 24), color='#08CB00', stat='density', ax=ax, label='Task Density')
+        sns.kdeplot(hours, linewidth=2, ax=ax, color='#253900', label='Demand Trend (KDE)')
+        ax.set_title(f"Seed {seeds[i]} Run")
+        ax.set_xlabel("Hour of Day")
+        ax.set_ylabel("Density of Tasks")
+        ax.legend()
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+    plt.show()
+
+    # --- Aggregated Plot ---
+    flat_hours = [hour for seed_hours in all_hours for hour in seed_hours]
+    plt.figure(figsize=(12, 6))
+    sns.histplot(flat_hours, bins=24, binrange=(0, 24), stat='density', color='#FF8040', edgecolor='black',
+                 label='Task Density (All Runs)')
+    sns.kdeplot(flat_hours, color='#0046FF', linewidth=2, label='Overall Demand Trend (KDE)')
+    plt.title('Aggregated Agent Task Prioritisation')
+    plt.xlabel("Hour of Day (24h format)")
+    plt.ylabel("Density of Tasks")
+    plt.xticks(range(0, 25, 2))
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.legend()
+    plt.show()
+
+
+def analyse_all_runs(base_path: str = "../../results/metrics/"):
+    """
+    This function orchestrates the analysis of simulation results and training logs.
+    It searches for pickled simulation result files and log directories based on a
+    specified base path, loads the data, and then calls various plotting and
+    calculation functions to generate aggregated metrics and visualizations.
+
+    Args:
+        base_path (str): The base directory where simulation results and log directories are stored.
     """
     try:
-        # Load the simulation results file
-        print(f"--- Loading Saved Results from {results_path} ---")
-        with open(results_path, "rb") as f:
-            results = pickle.load(f)
-        print("✅ Successfully loaded simulation data.")
+        results_files = sorted(glob.glob(os.path.join(base_path, "simulation_results_seed_*.pkl")))
+        log_dirs = sorted(glob.glob(os.path.join(base_path, "logs_seed_*")))
 
-        # Generate each metric
-        plot_learning_curve(log_directory)
-        calculate_training_stats(log_directory)
-        calculate_operational_metrics(results)
-        plot_task_prioritization(results)
+        if not results_files:
+            raise FileNotFoundError("No simulation result files (simulation_results_seed_*.pkl) found.")
 
-    except FileNotFoundError:
-        print(f"❌ ERROR: Could not find '{results_path}'.")
-        print("   Please run the main simulation script first to generate the results file.")
+        print(f"Found {len(results_files)} result files and {len(log_dirs)} log directories. Analyzing...")
+
+        all_results_data = []
+        for f_path in results_files:
+            with open(f_path, "rb") as f:
+                all_results_data.append(pickle.load(f))
+
+        # Generate each aggregated metric and plot
+        plot_all_learning_curves(log_dirs)
+        calculate_all_training_stats(log_dirs)
+        calculate_all_operational_metrics(all_results_data)
+        plot_all_task_prioritizations(all_results_data)
+
+    except FileNotFoundError as e:
+        print(f"❌ ERROR: {e}")
+        print("   Please run the main simulation script first to generate the necessary files.")
     except Exception as e:
-        print(f"An error occurred during metrics calculation: {e}")
+        print(f"An unexpected error occurred during analysis: {e}")
 
 
 if __name__ == "__main__":
-    analyse_simulation_results()
+    analyse_all_runs()
