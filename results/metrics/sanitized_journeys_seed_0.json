@@ -4,13 +4,13 @@
     "legs": [
       {
         "src": "Van Vorst Park",
-        "target": "Grove St PATH",
+        "tgt": "Grove St PATH",
         "move": 2,
         "dispatch_time": "12:30 AM"
       },
       {
         "src": "Grove St PATH",
-        "target": "Newport PATH",
+        "tgt": "Newport PATH",
         "move": 3,
         "dispatch_time": "01:00 AM"
       }
@@ -22,13 +22,13 @@
     "legs": [
       {
         "src": "Warren St",
-        "target": "Newport PATH",
+        "tgt": "Newport PATH",
         "move": 2,
         "dispatch_time": "09:30 PM"
       },
       {
         "src": "Newport PATH",
-        "target": "Essex Light Rail",
+        "tgt": "Essex Light Rail",
         "move": 2,
         "dispatch_time": "10:00 PM"
       }
@@ -40,7 +40,7 @@
     "legs": [
       {
         "src": "Newark Ave",
-        "target": "Hamilton Park",
+        "tgt": "Hamilton Park",
         "move": 4,
         "dispatch_time": "09:30 PM"
       }
@@ -52,7 +52,7 @@
     "legs": [
       {
         "src": "Oakland Ave",
-        "target": "Paulus Hook",
+        "tgt": "Paulus Hook",
         "move": 3,
         "dispatch_time": "09:30 PM"
       }
@@ -64,13 +64,13 @@
     "legs": [
       {
         "src": "Dey St",
-        "target": "Paulus Hook",
+        "tgt": "Paulus Hook",
         "move": 1,
         "dispatch_time": "09:30 PM"
       },
       {
         "src": "Paulus Hook",
-        "target": "City Hall",
+        "tgt": "City Hall",
         "move": 2,
         "dispatch_time": "10:00 PM"
       }
@@ -82,7 +82,7 @@
     "legs": [
       {
         "src": "Riverview Park",
-        "target": "City Hall",
+        "tgt": "City Hall",
         "move": 3,
         "dispatch_time": "09:30 PM"
       }
@@ -94,7 +94,7 @@
     "legs": [
       {
         "src": "Newport Pkwy",
-        "target": "City Hall",
+        "tgt": "City Hall",
         "move": 1,
         "dispatch_time": "09:30 PM"
       },

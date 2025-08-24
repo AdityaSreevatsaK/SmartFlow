@@ -4,19 +4,19 @@
     "legs": [
       {
         "src": "Newport Pkwy",
-        "target": "Essex Light Rail",
+        "tgt": "Essex Light Rail",
         "move": 1,
         "dispatch_time": "09:30 PM"
       },
       {
         "src": "Essex Light Rail",
-        "target": "Hamilton Park",
+        "tgt": "Hamilton Park",
         "move": 5,
         "dispatch_time": "10:00 PM"
       },
       {
         "src": "Hamilton Park",
-        "target": "City Hall",
+        "tgt": "City Hall",
         "move": 1,
         "dispatch_time": "10:30 PM"
       }
@@ -28,25 +28,25 @@
     "legs": [
       {
         "src": "Newport PATH",
-        "target": "City Hall",
+        "tgt": "City Hall",
         "move": 1,
         "dispatch_time": "09:30 PM"
       },
       {
         "src": "City Hall",
-        "target": "McGinley Square",
+        "tgt": "McGinley Square",
         "move": 1,
         "dispatch_time": "10:00 PM"
       },
       {
         "src": "McGinley Square",
-        "target": "Liberty Light Rail",
+        "tgt": "Liberty Light Rail",
         "move": 2,
         "dispatch_time": "10:30 PM"
       },
       {
         "src": "Liberty Light Rail",
-        "target": "Baldwin at Montgomery",
+        "tgt": "Baldwin at Montgomery",
         "move": 1,
         "dispatch_time": "11:00 PM"
       }
@@ -58,13 +58,13 @@
     "legs": [
       {
         "src": "Paulus Hook",
-        "target": "Baldwin at Montgomery",
+        "tgt": "Baldwin at Montgomery",
         "move": 1,
         "dispatch_time": "09:30 PM"
       },
       {
         "src": "Baldwin at Montgomery",
-        "target": "JC Medical Center",
+        "tgt": "JC Medical Center",
         "move": 3,
         "dispatch_time": "10:00 PM"
       }
@@ -76,7 +76,7 @@
     "legs": [
       {
         "src": "5 Corners Library",
-        "target": "Hilltop",
+        "tgt": "Hilltop",
         "move": 1,
         "dispatch_time": "09:30 PM"
       },

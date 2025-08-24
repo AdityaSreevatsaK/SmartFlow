@@ -1,0 +1,116 @@
+[
+  {
+    "truck_id": 1,
+    "legs": [
+      {
+        "source": "Newport PATH",
+        "target": "Newport Pkwy",
+        "move": 1,
+        "dispatch_time": "07:30 AM"
+      },
+      {
+        "source": "Newport Pkwy",
+        "target": "Essex Light Rail",
+        "move": 3,
+        "dispatch_time": "08:00 AM"
+      },
+      {
+        "source": "Essex Light Rail",
+        "target": "City Hall",
+        "move": 1,
+        "dispatch_time": "08:30 AM"
+      }
+    ],
+    "urgency_hour": 9
+  },
+  {
+    "truck_id": 5,
+    "legs": [
+      {
+        "source": "Grove St PATH",
+        "target": "Dey St",
+        "move": 2,
+        "dispatch_time": "10:30 AM"
+      }
+    ],
+    "urgency_hour": 12
+  },
+  {
+    "truck_id": 4,
+    "legs": [
+      {
+        "source": "Union St",
+        "target": "Lincoln Park",
+        "move": 2,
+        "dispatch_time": "02:30 PM"
+      },
+      {
+        "source": "Lincoln Park",
+        "target": "Dey St",
+        "move": 1,
+        "dispatch_time": "03:00 PM"
+      }
+    ],
+    "urgency_hour": 16
+  },
+  {
+    "truck_id": 0,
+    "legs": [
+      {
+        "source": "Paulus Hook",
+        "target": "Newport Pkwy",
+        "move": 6,
+        "dispatch_time": "09:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 2,
+    "legs": [
+      {
+        "source": "Pershing Field",
+        "target": "City Hall",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "source": "City Hall",
+        "target": "Liberty Light Rail",
+        "move": 2,
+        "dispatch_time": "10:00 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 3,
+    "legs": [
+      {
+        "source": "5 Corners Library",
+        "target": "JC Medical Center",
+        "move": 2,
+        "dispatch_time": "09:30 PM"
+      },
+      {
+        "source": "JC Medical Center",
+        "target": "Hilltop",
+        "move": 1,
+        "dispatch_time": "10:00 PM"
+      }
+    ],
+    "urgency_hour": 23
+  },
+  {
+    "truck_id": 6,
+    "legs": [
+      {
+        "source": "Christ Hospital",
+        "target": "Riverview Park",
+        "move": 1,
+        "dispatch_time": "09:30 PM"
+      }
+    ],
+    "urgency_hour": 23
+  }
+]

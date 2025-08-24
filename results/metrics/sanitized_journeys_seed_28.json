@@ -4,13 +4,13 @@
     "legs": [
       {
         "src": "Newport PATH",
-        "target": "Newport Pkwy",
+        "tgt": "Newport Pkwy",
         "move": 1,
         "dispatch_time": "09:30 PM"
       },
       {
         "src": "Newport Pkwy",
-        "target": "Essex Light Rail",
+        "tgt": "Essex Light Rail",
         "move": 5,
         "dispatch_time": "10:00 PM"
       }
@@ -22,13 +22,13 @@
     "legs": [
       {
         "src": "Newark Ave",
-        "target": "Essex Light Rail",
+        "tgt": "Essex Light Rail",
         "move": 2,
         "dispatch_time": "09:30 PM"
       },
       {
         "src": "Essex Light Rail",
-        "target": "Warren St",
+        "tgt": "Warren St",
         "move": 4,
         "dispatch_time": "10:00 PM"
       }
@@ -40,7 +40,7 @@
     "legs": [
       {
         "src": "Van Vorst Park",
-        "target": "Warren St",
+        "tgt": "Warren St",
         "move": 3,
         "dispatch_time": "09:30 PM"
       },
