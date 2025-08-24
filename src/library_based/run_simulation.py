@@ -8,12 +8,11 @@ from datetime import datetime
 import folium
 import torch
 from folium.plugins import MarkerCluster
-from IPython.display import display, Markdown
 
 from .agent import generate_dispatch_with_hf_agent
 from .constants import *
 from .environment import BikeRedistributionEnv
-from .routing import (find_path_worker, init_worker, plan_optimized_journeys, schedule_journeys)
+from .routing import (find_path_worker, init_worker, plan_optimised_journeys, schedule_journeys)
 from .train import train_or_load_model
 from .utils import (build_or_load_nyc_graph, calculate_thresholds, load_and_filter, load_stations, login_to_huggingface,
                     preprocess_demand_data, sanitize_for_json, set_seed)
@@ -45,8 +44,8 @@ def run_simulation(
         9. Saves simulation results for later analysis.
 
     Outputs:
-        - Saves an HTML map visualization.
-        - Saves a JSON file of sanitized journeys.
+        - Saves an HTML map visualisation.
+        - Saves a JSON file of sanitised journeys.
         - Saves a pickle file with simulation results.
         - Displays dispatch logs and agentic report.
     """
@@ -65,13 +64,13 @@ def run_simulation(
     thresh = calculate_thresholds(vol, capacities, df.get(COL_PRECIP, pd.Series(dtype=float)).mean())
     coord_df = df.dropna(subset=[COL_START_LAT, COL_START_LON]).groupby(COL_START_NAME)[
         [COL_START_LAT, COL_START_LON]].mean()
-    coords_top = {s: (float(coord_df.at[s, COL_START_LAT]), float(coord_df.at[s, COL_START_LON])) for s in top if
-                  s in coord_df.index}
+    coordinates_top = {s: (float(coord_df.at[s, COL_START_LAT]), float(coord_df.at[s, COL_START_LON])) for s in top if
+                       s in coord_df.index}
     print("✅ Data loading complete.")
 
     # 2. Build or Load Graph
     print("\nStep 2: Building or loading road network graph...")
-    G = build_or_load_nyc_graph(coords_top, file_path=graph_path)
+    G = build_or_load_nyc_graph(coordinates_top, file_path=graph_path)
     station_to_node = map_stations_to_nodes(G, stations_meta.loc[top], lat_col=COL_START_LAT, lon_col=COL_START_LON)
     print("✅ Graph loaded.")
 
@@ -80,7 +79,7 @@ def run_simulation(
     device = "cuda" if torch.cuda.is_available() else "cpu"
     n_envs = max(1, os.cpu_count() - 1)
     inventory_model = train_or_load_model(
-        top=top, thresholds=thresh, capacities=capacities, coordinates_all=coords_top,
+        top=top, thresholds=thresh, capacities=capacities, coordinates_all=coordinates_top,
         demand_data=demand_data, n_envs=n_envs, device=device,
         model_path=inventory_model_path,
         seed_value=seed_value
@@ -89,7 +88,7 @@ def run_simulation(
     # 4. Run Inventory Model to Get Strategic Plan
     print("\nStep 4: Running inventory model to determine initial transfers...")
     inv_env = BikeRedistributionEnv(
-        stations=top, thresholds=thresh, capacities=capacities, coordinates=coords_top,
+        stations=top, thresholds=thresh, capacities=capacities, coordinates=coordinates_top,
         demand_data=demand_data, max_steps=MAX_STEPS, gamma=GAMMA
     )
     obs, _ = inv_env.reset()
@@ -104,10 +103,10 @@ def run_simulation(
         obs, reward, term, trunc, info = inv_env.step(int(action))
 
         if reward >= 0:
-            src_idx, tgt_idx = inv_env.actions[info.get("exec_action", int(action))]
-            if (src_idx, tgt_idx) not in transfers:
-                transfers[(src_idx, tgt_idx)] = {'count': 0, 'first_hour': current_hour}
-            transfers[(src_idx, tgt_idx)]['count'] += 1
+            source_idx, target_idx = inv_env.actions[info.get("exec_action", int(action))]
+            if (source_idx, target_idx) not in transfers:
+                transfers[(source_idx, target_idx)] = {'count': 0, 'first_hour': current_hour}
+            transfers[(source_idx, target_idx)]['count'] += 1
         step_counter += 1
         print(f"\r   - Simulating step: {step_counter}/{MAX_STEPS}", end="")
         done = term or trunc
@@ -115,18 +114,18 @@ def run_simulation(
     print(f"✅ Initial transfers planned: {len(transfers)} unique routes suggested.")
 
     # 5. Plan and Schedule Journeys
-    optimized_journeys, live_counts = plan_optimized_journeys(initial_counts, thresh, top)
-    optimized_journeys = schedule_journeys(optimized_journeys, transfers, top)
+    optimised_journeys, live_counts = plan_optimised_journeys(initial_counts, thresh, top)
+    optimised_journeys = schedule_journeys(optimised_journeys, transfers, top)
 
     # 6. Pre-simulation Dispatch Log
     print("\n--- PRE-SIMULATION DISPATCH LOG ---")
-    for journey in optimized_journeys:
+    for journey in optimised_journeys:
         truck_id = journey['truck_id']
         print(f"\n--- Dispatching Truck_{truck_id} ---")
         for leg in journey['legs']:
             dispatch_time = leg.get('dispatch_time', 'Not Scheduled')
-            depart_msg = f"▶️ {dispatch_time} - Truck_{truck_id}: Departing {leg['src']} ({leg['move']} bikes)"
-            arrive_msg = f"✅ Truck_{truck_id}: Arrived at {leg['tgt']}"
+            depart_msg = f"▶️ {dispatch_time} - Truck_{truck_id}: Departing {leg['source']} ({leg['move']} bikes)"
+            arrive_msg = f"✅ Truck_{truck_id}: Arrived at {leg['target']}"
             print(depart_msg)
             print(arrive_msg)
 
@@ -134,83 +133,82 @@ def run_simulation(
     print("\nStep 7: Building and rendering the final map...")
     m = folium.Map(location=MAP_CENTER, zoom_start=MAP_ZOOM)
     cluster = MarkerCluster().add_to(m)
-    plot_stations_cluster(cluster, coords_top, initial_counts, thresh)
+    plot_stations_cluster(cluster, coordinates_top, initial_counts, thresh)
     truck_colors = ['red', 'blue', 'green', 'purple', 'orange', 'darkred', 'cadetblue', 'darkgreen', 'pink', 'black']
 
     print("   - Calculating all route paths in parallel...")
-    pathfinding_tasks = [(leg["src"], leg["tgt"]) for journey in optimized_journeys for leg in journey["legs"]]
+    pathfinding_tasks = [(leg["source"], leg["target"]) for journey in optimised_journeys for leg in journey["legs"]]
     with multiprocessing.Pool(processes=os.cpu_count(), initializer=init_worker, initargs=(G, station_to_node)) as pool:
         path_results = pool.map(find_path_worker, pathfinding_tasks)
-    path_dict = {(src, tgt): nodes for src, tgt, nodes in path_results if nodes}
+    path_dict = {(source, target): nodes for source, target, nodes in path_results if nodes}
     print(f"   - ✅ {len(path_dict)} paths found successfully.")
 
     animation_data = []
     final_counts_for_anim = initial_counts.copy()
-    for journey in optimized_journeys:
+    for journey in optimised_journeys:
         truck_id = journey["truck_id"]
         color = truck_colors[truck_id % len(truck_colors)]
         for leg in journey["legs"]:
-            src, tgt, move = leg["src"], leg["tgt"], leg["move"]
-            path_nodes = path_dict.get((src, tgt))
+            source, target, move = leg["source"], leg["target"], leg["move"]
+            path_nodes = path_dict.get((source, target))
             if not path_nodes: continue
 
-            count_src_before_leg = final_counts_for_anim[src]
-            final_counts_for_anim[src] -= move
-            final_counts_for_anim[tgt] += move
+            count_source_before_leg = final_counts_for_anim[source]
+            final_counts_for_anim[source] -= move
+            final_counts_for_anim[target] += move
 
             animation_data.append({
-                "truck_id": truck_id, "src_name": src, "tgt_name": tgt,
+                "truck_id": truck_id, "source_name": source, "target_name": target,
                 "path_nodes": path_nodes, "bikes_on_truck_start": move,
-                "final_count_src": count_src_before_leg - move,
-                "final_count_tgt": final_counts_for_anim[tgt],
+                "final_count_source": count_source_before_leg - move,
+                "final_count_target": final_counts_for_anim[target],
             })
-            draw_route(m, G, coords_top[src][0], coords_top[src][1], coords_top[tgt][0], coords_top[tgt][1],
+            draw_route(m, G, coordinates_top[source][0], coordinates_top[source][1], coordinates_top[target][0],
+                       coordinates_top[target][1],
                        color=color)
 
     inject_animation_js(m, animation_data, G)
-    out_path = f"results/simulation/SmartFlow_Final_Simulation_seed_{seed_value}.html"
+    out_path = RESULTS_FOLDER / f"simulation/SmartFlow_Final_Simulation_seed_{seed_value}.html"
     m.save(out_path)
     print(f"🗺️ Map saved to → {out_path}")
-    display(m)
 
     # 8. Generate Agentic Report
     print("\n\nStep 8: Generating Agentic Dispatch and Reporting...")
     login_to_huggingface()
     start_time = time.time()
     print(f"   - Agentic layer started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    sanitized_journeys = sanitize_for_json(optimized_journeys)
-    with open(f"sanitized_journeys_seed_{seed_value}.json", "w") as jf:
-        json.dump(sanitized_journeys, jf, indent=2)
-    dispatch_report = generate_dispatch_with_hf_agent(sanitized_journeys)
+    sanitised_journeys = sanitize_for_json(optimised_journeys)
+    with open(f"sanitised_journeys_seed_{seed_value}.json", "w") as jf:
+        json.dump(sanitised_journeys, jf, indent=2)
+    dispatch_report = generate_dispatch_with_hf_agent(sanitised_journeys)
     end_time = time.time()
     duration = end_time - start_time
     print(f"   - Agentic layer finished at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"   - Total time taken for report generation: {duration:.2f} seconds")
     print("✅ Report generation complete.")
-    display(Markdown(dispatch_report))
+    print(dispatch_report)
 
     # 9. Save Results for Analysis
     print("\nStep 9: Saving simulation results for later analysis...")
     results_to_save = {
         "initial_counts": initial_counts, "live_counts": live_counts, "thresh": thresh,
-        "optimized_journeys": optimized_journeys, "transfers": transfers, "graph": G,
+        "optimised_journeys": optimised_journeys, "transfers": transfers, "graph": G,
         "station_to_node_map": station_to_node, "station_names": top
     }
-    results_path = f"simulation_results_seed_{seed_value}.pkl"
+    results_path = RESULTS_FOLDER / f"simulation_results_seed_{seed_value}.pkl"
     with open(results_path, "wb") as f:
         pickle.dump(results_to_save, f)
     print(f"✅ Results saved to {results_path}")
 
 
 if __name__ == "__main__":
-    # seeds = [0, 11, 28]
-    seeds = [0]
+    seeds = [0, 11, 28]
 
     for seed in seeds:
         print(f"\n{'=' * 30} RUNNING SIMULATION FOR SEED: {seed} {'=' * 30}")
 
         # Defining seed-specific file path for the model
-        model_path = f"results/models/DQN_Inventory_Model_Seed_{seed}.zip"
+        model_path = RESULTS_FOLDER / f"models/DQN_Inventory_Model_Seed_{seed}.zip"
 
         run_simulation(
             inventory_model_path=model_path,
@@ -218,4 +216,4 @@ if __name__ == "__main__":
             seed_value=seed
         )
 
-    print(f"\\n{'=' * 30} ALL SIMULATION RUNS COMPLETE {'=' * 30}")
+    print(f"\n{'=' * 30} ALL SIMULATION RUNS COMPLETE {'=' * 30}")

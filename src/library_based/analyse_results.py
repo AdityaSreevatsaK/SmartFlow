@@ -1,6 +1,8 @@
 import os
 import warnings
 
+from library_based.constants import RESULTS_FOLDER
+
 # Ignore informational warnings from pandas and seaborn
 warnings.filterwarnings('ignore', category=FutureWarning)
 warnings.filterwarnings('ignore', category=DeprecationWarning)
@@ -142,7 +144,7 @@ def calculate_all_training_stats(log_directories: list):
     print("\n--- Metric 2: Aggregated Training Statistics ---")
     times, fps, losses = [], [], []
 
-    base_path = os.path.dirname(log_directories[0]) if log_directories else "."
+    base_path = RESULTS_FOLDER / "metrics/"
     all_tb_dirs = sorted(glob.glob(os.path.join(base_path, "tb_seed_*")))
 
     for i, log_dir in enumerate(log_directories):
@@ -213,7 +215,7 @@ def calculate_all_operational_metrics(all_results: list):
                             contains the results from a single simulation run.
                             Expected keys in each dictionary include:
                             "initial_counts", "live_counts", "thresh",
-                            "optimized_journeys", "graph", "station_to_node_map".
+                            "optimised_journeys", "graph", "station_to_node_map".
     """
     print("\n--- Metric 3: Aggregated Operational & System Performance ---")
     imbalances, reductions, distances, utilisations = [], [], [], []
@@ -232,24 +234,24 @@ def calculate_all_operational_metrics(all_results: list):
 
         total_distance_km = 0
         multi_leg_trucks = 0
-        optimized_journeys = results["optimized_journeys"]
-        if optimized_journeys:
+        optimised_journeys = results["optimised_journeys"]
+        if optimised_journeys:
             G = results["graph"]
             station_to_node = results["station_to_node_map"]
-            pathfinding_tasks = [(leg["src"], leg["tgt"]) for j in optimized_journeys for leg in j["legs"]]
+            pathfinding_tasks = [(leg["source"], leg["target"]) for j in optimised_journeys for leg in j["legs"]]
             with multiprocessing.Pool(processes=os.cpu_count(), initializer=init_worker,
                                       initargs=(G, station_to_node)) as pool:
                 path_results = pool.map(find_path_worker, pathfinding_tasks)
-            path_dict = {(src, tgt): nodes for src, tgt, nodes in path_results if nodes}
-            for journey in optimized_journeys:
+            path_dict = {(source, target): nodes for source, target, nodes in path_results if nodes}
+            for journey in optimised_journeys:
                 if len(journey['legs']) > 1: multi_leg_trucks += 1
                 for leg in journey['legs']:
-                    path_nodes = path_dict.get((leg['src'], leg['tgt']))
+                    path_nodes = path_dict.get((leg['source'], leg['target']))
                     if path_nodes:
                         path_len = sum(G.edges[u, v, 0]['length'] for u, v in zip(path_nodes[:-1], path_nodes[1:]))
                         total_distance_km += path_len / 1000
         distances.append(total_distance_km)
-        utilisations.append((multi_leg_trucks / len(optimized_journeys)) * 100 if optimized_journeys else 0)
+        utilisations.append((multi_leg_trucks / len(optimised_journeys)) * 100 if optimised_journeys else 0)
 
     print("\n[System-Level Performance]")
     print(f"   - Final Network Imbalance Score: {np.mean(imbalances):.2f} ± {np.std(imbalances):.2f} bikes")
@@ -260,17 +262,17 @@ def calculate_all_operational_metrics(all_results: list):
         f"   - Truck Utilisation Rate (multi-leg journeys): {np.mean(utilisations):.2f} ± {np.std(utilisations):.2f} %")
 
 
-def plot_all_task_prioritizations(all_results: list):
+def plot_all_task_prioritisations(all_results: list):
     """
-    Plots individual and aggregated histograms of task prioritization based on the
-    'first_hour' of transfer events. This function visualizes the distribution
+    Plots individual and aggregated histograms of task prioritisation based on the
+    'first_hour' of transfer events. This function visualises the distribution
     of when tasks (e.g., rebalancing transfers) are initiated throughout the day.
 
     It generates two types of plots:
     1. Individual plots for each simulation run (seed), showing the density
        of tasks per hour, along with a Kernel Density Estimate (KDE) for trend.
     2. An aggregated plot combining data from all runs, providing an overall
-       view of task prioritization patterns.
+       view of task prioritisation patterns.
 
     Args:
         all_results (list): A list of dictionaries, where each dictionary
@@ -285,7 +287,7 @@ def plot_all_task_prioritizations(all_results: list):
             all_hours.append([data['first_hour'] for _, data in transfers.items()])
 
     if not all_hours:
-        print("❌ No transfer data available to plot task prioritization.")
+        print("❌ No transfer data available to plot task prioritisation.")
         return
 
     # --- Individual Plots ---
@@ -318,19 +320,18 @@ def plot_all_task_prioritizations(all_results: list):
     plt.show()
 
 
-def analyse_all_runs(base_path: str = "../../../results/metrics/"):
+def analyse_all_runs(base_path: str = RESULTS_FOLDER / "metrics/"):
     """
     This function orchestrates the analysis of simulation results and training logs.
     It searches for pickled simulation result files and log directories based on a
     specified base path, loads the data, and then calls various plotting and
-    calculation functions to generate aggregated metrics and visualizations.
+    calculation functions to generate aggregated metrics and visualisations.
 
     Args:
         base_path (str): The base directory where simulation results and log directories are stored.
     """
     try:
-        # results_files = sorted(glob.glob(os.path.join(base_path, "simulation_results_seed_*.pkl")))
-        results_files = sorted(glob.glob(os.path.join("simulation_results_seed_*.pkl")))
+        results_files = sorted(glob.glob(os.path.join(base_path, "simulation_results_seed_*.pkl")))
         log_dirs = sorted(glob.glob(os.path.join(base_path, "logs_seed_*")))
 
         if not results_files:
@@ -347,7 +348,7 @@ def analyse_all_runs(base_path: str = "../../../results/metrics/"):
         plot_all_learning_curves(log_dirs)
         calculate_all_training_stats(log_dirs)
         calculate_all_operational_metrics(all_results_data)
-        plot_all_task_prioritizations(all_results_data)
+        plot_all_task_prioritisations(all_results_data)
 
     except FileNotFoundError as e:
         print(f"❌ ERROR: {e}")

@@ -29,7 +29,7 @@ EPSILON_START = 1.0  # initial exploration rate
 EPSILON_END = 0.01  # final exploration rate
 EPSILON_DECAY = 0.9995  # per-episode decay factor
 
-# ── Map & Visualization Settings ───────────────────────────────────────────────
+# ── Map & visualisation Settings ───────────────────────────────────────────────
 MAP_CENTER = [40.72274243859797, -74.06340830643403]
 MAP_ZOOM = 14
 

@@ -301,7 +301,7 @@ def load_q_tables() -> Tuple[pd.DataFrame, pd.DataFrame]:
     return q_source, q_target
 
 
-# ── Phase 2: Visualization ───────────────────────────────────────────────────────
+# ── Phase 2: visualisation ───────────────────────────────────────────────────────
 def get_station_coordinates(df: pd.DataFrame) -> Dict[str, Dict[str, float]]:
     """
     Extracts the geographic coordinates for each station from the trip DataFrame.
@@ -339,7 +339,7 @@ def find_dual_policy_routes_all(stations, coordinates, q_source, q_target, bike_
                 continue
 
             # surplus / deficit check
-            if bike_counts[src] <= thresholds[src] or bike_counts[tgt] >= thresholds[tgt]:
+            if bike_counts[src] <= thresholds[src] or bike_counts[tgt] >= thresholds[target]:
                 continue
 
             # reciprocal check

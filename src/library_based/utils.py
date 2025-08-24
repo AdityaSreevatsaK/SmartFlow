@@ -204,7 +204,7 @@ def sanitize_for_json(obj):
     Args:
         obj: The object to sanitize (can be dict, list, NumPy types, ndarray, datetime, etc.).
     Returns:
-        The sanitized object, ready for JSON serialization.
+        The sanitised object, ready for JSON serialization.
     """
     if isinstance(obj, dict):
         return {k: sanitize_for_json(v) for k, v in obj.items()}

@@ -22,9 +22,12 @@ LOG_INTERVAL = 1_000
 MODEL_PATH = PROJECT_ROOT / "results/models/DQN_Inventory_Model.zip"
 NYC_GRAPH_PATH = PROJECT_ROOT / "results/models/NYC_Graph.gpickle"
 
-# ── Map & Visualization Settings ──────────────────────────────────────────────
+# ── Map & visualisation Settings ──────────────────────────────────────────────
 MAP_CENTER = [40.72274243859797, -74.06340830643403]
 MAP_ZOOM = 14
+
+# ── Results folder ──────────────────────────────────────────────
+RESULTS_FOLDER = PROJECT_ROOT / "results"
 
 # ── External API URLs & Icons ─────────────────────────────────────────────────
 BIKE_ICON_URL = "https://cdn-icons-png.flaticon.com/512/684/684908.png"

@@ -33,20 +33,20 @@ def find_path_worker(task):
         task (tuple): A tuple containing the source and target station names.
 
     Returns:
-        tuple: (src, tgt, path_nodes) where path_nodes is a list of node identifiers representing the shortest path,
-               or (src, tgt, None) if no path is found.
+        tuple: (source, target, path_nodes) where path_nodes is a list of node identifiers representing the shortest path,
+               or (source, target, None) if no path is found.
     """
-    src, tgt = task
+    source, target = task
     try:
-        path_nodes = nx.shortest_path(G_worker, station_to_node_worker[src], station_to_node_worker[tgt],
+        path_nodes = nx.shortest_path(G_worker, station_to_node_worker[source], station_to_node_worker[target],
                                       weight="length")
-        return (src, tgt, path_nodes)
+        return source, target, path_nodes
     except Exception as e:
-        logging.warning(f"Parallel pathfinding failed for {src}->{tgt}: {e}")
-        return (src, tgt, None)
+        logging.warning(f"Parallel pathfinding failed for {source}->{target}: {e}")
+        return source, target, None
 
 
-def plan_optimized_journeys(initial_counts: dict, thresholds: dict, station_names: list) -> tuple:
+def plan_optimised_journeys(initial_counts: dict, thresholds: dict, station_names: list) -> tuple:
     """
     Plans efficient, multi-leg journeys for a fleet of trucks to redistribute bikes between stations.
 
@@ -57,23 +57,23 @@ def plan_optimized_journeys(initial_counts: dict, thresholds: dict, station_name
 
     Returns:
         tuple:
-            - optimized_journeys (list): List of journey dicts, each with truck_id and legs (source, target, move count).
+            - optimised_journeys (list): List of journey dicts, each with truck_id and legs (source, target, move count).
             - live_counts (dict): Final bike counts at each station after all journeys.
     """
     print(f"\nStep 4: Starting journey planning...")
     live_counts = initial_counts.copy()
     surplus_stations = [s for s in station_names if live_counts[s] > thresholds[s]]
-    optimized_journeys = []
+    optimised_journeys = []
     truck_counter = 0
 
     while surplus_stations:
-        src_name = max(surplus_stations, key=lambda s: live_counts[s] - thresholds[s])
-        surplus_stations.remove(src_name)
+        source_name = max(surplus_stations, key=lambda s: live_counts[s] - thresholds[s])
+        surplus_stations.remove(source_name)
 
         journey = {"truck_id": truck_counter, "legs": []}
-        current_location = src_name
+        current_location = source_name
 
-        print(f"\n🚚 Planning journey for Truck_{truck_counter}, starting from '{src_name}'...")
+        print(f"\n🚚 Planning journey for Truck_{truck_counter}, starting from '{source_name}'...")
 
         while True:
             surplus = live_counts[current_location] - thresholds.get(current_location, 0)
@@ -85,45 +85,45 @@ def plan_optimized_journeys(initial_counts: dict, thresholds: dict, station_name
             live_counts[current_location] -= bikes_on_truck
             print(f"   Picking up {bikes_on_truck} bikes at '{current_location}'.")
 
-            best_next_tgt = None
-            for potential_tgt in station_names:
-                if potential_tgt != current_location and live_counts[potential_tgt] < thresholds[potential_tgt]:
-                    best_next_tgt = potential_tgt
+            best_next_target = None
+            for potential_target in station_names:
+                if potential_target != current_location and live_counts[potential_target] < thresholds[potential_target]:
+                    best_next_target = potential_target
                     break
 
-            if not best_next_tgt:
+            if not best_next_target:
                 live_counts[current_location] += bikes_on_truck
                 print(f"   - Journey for Truck_{truck_counter} complete. No valid destination found.")
                 break
 
-            needed = thresholds[best_next_tgt] - live_counts[best_next_tgt]
+            needed = thresholds[best_next_target] - live_counts[best_next_target]
             drop_count = min(bikes_on_truck, needed)
 
-            leg = {"src": current_location, "tgt": best_next_tgt, "move": drop_count}
+            leg = {"source": current_location, "target": best_next_target, "move": drop_count}
             journey["legs"].append(leg)
-            print(f"   -> Leg planned: {current_location} to {best_next_tgt} ({drop_count} bikes)")
+            print(f"   -> Leg planned: {current_location} to {best_next_target} ({drop_count} bikes)")
 
-            live_counts[best_next_tgt] += drop_count
+            live_counts[best_next_target] += drop_count
             bikes_on_truck -= drop_count
-            current_location = best_next_tgt
+            current_location = best_next_target
             if bikes_on_truck > 0:
                 live_counts[current_location] += bikes_on_truck
 
         if journey["legs"]:
-            optimized_journeys.append(journey)
+            optimised_journeys.append(journey)
             truck_counter += 1
 
     print("\n✅ All truck journeys planned successfully.")
-    return optimized_journeys, live_counts
+    return optimised_journeys, live_counts
 
 
-def schedule_journeys(optimized_journeys: list, transfers: dict, station_names: list) -> list:
+def schedule_journeys(optimised_journeys: list, transfers: dict, station_names: list) -> list:
     """
     Assigns a proactive, just-in-time dispatch schedule to a list of planned journeys.
 
     Args:
-        optimized_journeys (list): List of journey dicts, each with truck_id and legs (source, target, move count).
-        transfers (dict): Mapping of (src_idx, tgt_idx) to transfer details, including 'first_hour'.
+        optimised_journeys (list): List of journey dicts, each with truck_id and legs (source, target, move count).
+        transfers (dict): Mapping of (source_idx, target_idx) to transfer details, including 'first_hour'.
         station_names (list): List of all station names.
 
     Returns:
@@ -131,22 +131,22 @@ def schedule_journeys(optimized_journeys: list, transfers: dict, station_names: 
     """
     print("\nStep 5: Scheduling parallel, just-in-time dispatches...")
 
-    if not optimized_journeys:
+    if not optimised_journeys:
         print("   - No journeys to schedule.")
-        return optimized_journeys
+        return optimised_journeys
 
-    for journey in optimized_journeys:
+    for journey in optimised_journeys:
         first_leg = journey['legs'][0]
-        src_idx, tgt_idx = station_names.index(first_leg['src']), station_names.index(first_leg['tgt'])
-        original_transfer = transfers.get((src_idx, tgt_idx))
+        source_idx, target_idx = station_names.index(first_leg['source']), station_names.index(first_leg['target'])
+        original_transfer = transfers.get((source_idx, target_idx))
         journey['urgency_hour'] = original_transfer['first_hour'] if original_transfer else 23
 
-    optimized_journeys.sort(key=lambda j: j['urgency_hour'])
+    optimised_journeys.sort(key=lambda j: j['urgency_hour'])
 
     truck_availability_time = {}
     estimated_leg_duration = timedelta(minutes=30)
 
-    for journey in optimized_journeys:
+    for journey in optimised_journeys:
         truck_id = journey['truck_id']
         earliest_need_hour = journey['urgency_hour']
 
@@ -164,4 +164,4 @@ def schedule_journeys(optimized_journeys: list, transfers: dict, station_names: 
         truck_availability_time[truck_id] = time_cursor
 
     print("   - ✅ All tasks have been scheduled.")
-    return optimized_journeys
+    return optimised_journeys

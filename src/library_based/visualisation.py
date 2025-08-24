@@ -22,7 +22,7 @@ def plot_stations_cluster(cluster: MarkerCluster, coordinates: dict[str, tuple[f
         bike_counts (dict[str, int]): Mapping of station names to the current bike count.
         thresholds (dict[str, int]): Mapping of station names to threshold values for bike counts.
 
-    Each marker displays the station name, bike count, and an icon. The marker color is green if the bike count
+    Each marker displays the station name, bike count, and an icon. The marker colour is green if the bike count
     meets or exceeds the threshold, otherwise orange.
     """
     for station, (lat, lon) in coordinates.items():
@@ -63,15 +63,15 @@ def project_route_to_station(G, station_lat, station_lon):
     return node, nlat, nlon, dist
 
 
-def draw_route(m, G, src_lat, src_lon, tgt_lat, tgt_lon, color="blue"):
+def draw_route(m, G, source_lat, source_lon, tgt_lat, tgt_lon, color="blue"):
     """
     Draws the shortest route between two geographic points on a Folium map.
 
     Args:
         m (folium.Map): The Folium map object to draw the route on.
         G (networkx.Graph): The OSMnx graph representing the road network.
-        src_lat (float): Latitude of the source location.
-        src_lon (float): Longitude of the source location.
+        source_lat (float): Latitude of the source location.
+        source_lon (float): Longitude of the source location.
         tgt_lat (float): Latitude of the target location.
         tgt_lon (float): Longitude of the target location.
         color (str, optional): Color of the route polyline. Defaults to "blue".
@@ -83,15 +83,15 @@ def draw_route(m, G, src_lat, src_lon, tgt_lat, tgt_lon, color="blue"):
         - Draws the route as a polyline on the map.
         - Handles exceptions and prints an error message if routing fails.
     """
-    src_node, sn_lat, sn_lon, s_dist = project_route_to_station(G, src_lat, src_lon)
+    source_node, sn_lat, sn_lon, s_dist = project_route_to_station(G, source_lat, source_lon)
     tgt_node, tn_lat, tn_lon, t_dist = project_route_to_station(G, tgt_lat, tgt_lon)
-    # Compute shortest path
+    # Compute the shortest path
     try:
-        route_nodes = nx.shortest_path(G, src_node, tgt_node, weight="length")
+        route_nodes = nx.shortest_path(G, source_node, tgt_node, weight="length")
         # Build route: station -> nearest node (if far), route, nearest node -> station (if far)
         points = []
         if s_dist > 50:
-            points.append((src_lat, src_lon))  # Start at station
+            points.append((source_lat, source_lon))  # Start at station
             points.append((sn_lat, sn_lon))  # Jump to road
         else:
             points.append((sn_lat, sn_lon))
@@ -108,7 +108,7 @@ def draw_route(m, G, src_lat, src_lon, tgt_lat, tgt_lon, color="blue"):
         print(f"Routing failed: {e}")
 
 
-def map_stations_to_nodes(G, stations_meta, lat_col="Latitude", lon_col="Longitude", warn_dist=200):
+def map_stations_to_nodes(G, stations_meta, lat_col="Latitude", lon_col="Longitude"):
     """
     Maps each station to its nearest node in the OSMnx graph.
 
@@ -133,7 +133,7 @@ def map_stations_to_nodes(G, stations_meta, lat_col="Latitude", lon_col="Longitu
 
 def inject_animation_js(m: folium.Map, routes_data: list[dict], graph: nx.Graph) -> None:
     """
-        Injects a JavaScript animation into a Folium map to visualize truck routes.
+        Injects a JavaScript animation into a Folium map to visualise truck routes.
 
         Args:
             m (folium.Map): The Folium map object to inject the animation into.
@@ -141,10 +141,10 @@ def inject_animation_js(m: folium.Map, routes_data: list[dict], graph: nx.Graph)
                 - truck_id (str): Identifier for the truck.
                 - path_nodes (list[int]): Sequence of node IDs representing the route.
                 - src_name (str): Source station name.
-                - tgt_name (str): Target station name.
+                - target_name (str): Target station name.
                 - bikes_on_truck_start (int): Number of bikes on the truck at departure.
                 - final_count_src (int): Final bike count at the source station.
-                - final_count_tgt (int): Final bike count at the target station.
+                - final_count_target (int): Final bike count at the target station.
             graph (networkx.Graph): The OSMnx graph representing the road network.
 
         Behavior:
@@ -160,16 +160,16 @@ def inject_animation_js(m: folium.Map, routes_data: list[dict], graph: nx.Graph)
 
     payload = []
     for route in routes_data:
-        path_coords = [node_locs[n] for n in route["path_nodes"] if n in node_locs]
+        path_coordinates = [node_locs[n] for n in route["path_nodes"] if n in node_locs]
         payload.append({
             "truckId": f"Truck_{route['truck_id']}",
-            "path": path_coords,
+            "path": path_coordinates,
             "duration": 10,
-            "fromStation": route["src_name"].replace(" ", "_").replace("&", ""),
-            "toStation": route["tgt_name"].replace(" ", "_").replace("&", ""),
+            "fromStation": route["source_name"].replace(" ", "_").replace("&", ""),
+            "toStation": route["target_name"].replace(" ", "_").replace("&", ""),
             "bikesOnTruck": route["bikes_on_truck_start"],
-            "finalCountSrc": route["final_count_src"],
-            "finalCountTgt": route["final_count_tgt"],
+            "finalCountSource": route["final_count_source"],
+            "finalCountTarget": route["final_count_target"],
         })
 
     js_data = json.dumps(payload)
@@ -206,7 +206,7 @@ def inject_animation_js(m: folium.Map, routes_data: list[dict], graph: nx.Graph)
             console.log(departMsg);
 
             const srcElem = document.getElementById('count_' + leg.fromStation);
-            if(srcElem) {{ srcElem.innerText = `${{leg.fromStation.replace('_',' ')}} 🚲 ${{leg.finalCountSrc}}`; }}
+            if(srcElem) {{ srcElem.innerText = `${{leg.fromStation.replace('_',' ')}} 🚲 ${{leg.finalCountSource}}`; }}
 
             let i = 0;
             const steps = leg.path.length;
@@ -216,11 +216,10 @@ def inject_animation_js(m: folium.Map, routes_data: list[dict], graph: nx.Graph)
                 if (i < steps) {{
                     marker.setLatLng(leg.path[i]); i++; setTimeout(move, delay);
                 }} else {{
-                    // THIS IS THE CORRECTED LINE
                     const tgtElem = document.getElementById('count_' + leg.toStation);
 
                     if (tgtElem) {{
-                        tgtElem.innerText = `${{leg.toStation.replace('_',' ')}} 🚲 ${{leg.finalCountTgt}}`;
+                        tgtElem.innerText = `${{leg.toStation.replace('_',' ')}} 🚲 ${{leg.finalCountTarget}}`;
                         tgtElem.style.background = 'green';
                     }}
                     let arriveMsg = `✅ ${{leg.truckId}}: Arrived at ${{leg.toStation.replace('_', ' ')}}`;

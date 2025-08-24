@@ -6,7 +6,7 @@ from transformers import pipeline
 from .utils import sanitize_for_json
 
 
-def generate_dispatch_with_hf_agent(optimized_journeys: list) -> str:
+def generate_dispatch_with_hf_agent(optimised_journeys: list) -> str:
     """
     Generates a SmartFlow daily rebalancing report using an agentic AI approach.
 
@@ -16,9 +16,9 @@ def generate_dispatch_with_hf_agent(optimized_journeys: list) -> str:
       3\. Falls back to a deterministic Markdown report if the LLM step fails.
 
     Args:
-        optimized_journeys (list): List of journey dictionaries, each containing
+        optimised_journeys (list): List of journey dictionaries, each containing
             'truck_id' and a list of 'legs'. Each leg should have
-            'dispatch_time', 'src', 'tgt', and 'move' keys.
+            'dispatch_time', 'src', 'target', and 'move' keys.
 
     Returns:
         str: Markdown-formatted report including the Manager's Briefing and dispatch tickets for each truck.
@@ -31,7 +31,7 @@ def generate_dispatch_with_hf_agent(optimized_journeys: list) -> str:
         Args:
             journeys (list): List of journey dictionaries, each containing
                 'truck_id' and a list of 'legs'. Each leg should have
-                'dispatch_time', 'src', 'tgt', and 'move' keys.
+                'dispatch_time', 'src', 'target', and 'move' keys.
 
         Returns:
             str: Markdown-formatted report summarizing dispatch tickets for each truck.
@@ -44,15 +44,15 @@ def generate_dispatch_with_hf_agent(optimized_journeys: list) -> str:
             for i, leg in enumerate(journey["legs"], start=1):
                 dt = leg.get("dispatch_time", "N/A")
                 src = leg.get("src", "N/A")
-                tgt = leg.get("tgt", "N/A")
+                target = leg.get("target", "N/A")
                 mv = leg.get("move", 0)
                 action = f"Move {mv} bike{'s' if mv != 1 else ''}"
-                report.append(f"| {i} | {dt} | {src} | {tgt} | {action} |")
+                report.append(f"| {i} | {dt} | {src} | {target} | {action} |")
             report.append("")
         return "\n".join(report)
 
     # Sanitize first to have clean data for all subsequent steps.
-    clean_journeys = sanitize_for_json(optimized_journeys)
+    clean_journeys = sanitize_for_json(optimised_journeys)
 
     try:
         # 1) Load the LLM
