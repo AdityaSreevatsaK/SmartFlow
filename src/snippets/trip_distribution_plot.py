@@ -16,7 +16,7 @@ df = df[df["Start Time"].dt.date == TARGET_DATE]
 trip_counts = df['Start Station Name'].value_counts().sort_values(ascending=False)
 
 # Plot as bar and line graph
-plt.figure(figsize=(14,7))
+plt.figure(figsize=(14, 7))
 ax = trip_counts.plot(kind='bar', color='#7FFF00', label='Trip Count')
 trip_counts.plot(kind='line', color='darkblue', marker='o', linewidth=2, label='Trend', ax=ax)
 

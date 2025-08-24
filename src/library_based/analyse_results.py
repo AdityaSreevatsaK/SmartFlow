@@ -1,3 +1,4 @@
+import os
 import warnings
 
 # Ignore informational warnings from pandas and seaborn
@@ -23,7 +24,8 @@ from tensorboard.backend.event_processing import event_accumulator
 
 from .routing import init_worker, find_path_worker
 
-seeds = [0, 11, 28]
+# seeds = [0, 11, 28]
+seeds = [0]
 
 
 def plot_all_learning_curves(log_directories: list):
@@ -316,7 +318,7 @@ def plot_all_task_prioritizations(all_results: list):
     plt.show()
 
 
-def analyse_all_runs(base_path: str = "../../results/metrics/"):
+def analyse_all_runs(base_path: str = "../../../results/metrics/"):
     """
     This function orchestrates the analysis of simulation results and training logs.
     It searches for pickled simulation result files and log directories based on a
@@ -327,7 +329,8 @@ def analyse_all_runs(base_path: str = "../../results/metrics/"):
         base_path (str): The base directory where simulation results and log directories are stored.
     """
     try:
-        results_files = sorted(glob.glob(os.path.join(base_path, "simulation_results_seed_*.pkl")))
+        # results_files = sorted(glob.glob(os.path.join(base_path, "simulation_results_seed_*.pkl")))
+        results_files = sorted(glob.glob(os.path.join("simulation_results_seed_*.pkl")))
         log_dirs = sorted(glob.glob(os.path.join(base_path, "logs_seed_*")))
 
         if not results_files:

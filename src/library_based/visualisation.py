@@ -8,7 +8,7 @@ from folium.features import DivIcon
 from folium.plugins import MarkerCluster
 from geopy.distance import geodesic
 
-from constants import BIKE_ICON_URL, TRUCK_ICON_URL
+from .constants import BIKE_ICON_URL, TRUCK_ICON_URL
 
 
 def plot_stations_cluster(cluster: MarkerCluster, coordinates: dict[str, tuple[float, float]],
@@ -99,7 +99,7 @@ def draw_route(m, G, src_lat, src_lon, tgt_lat, tgt_lon, color="blue"):
         for n in route_nodes[1:-1]:
             points.append((G.nodes[n]['y'], G.nodes[n]['x']))
         if t_dist > 50:
-            points.append((tn_lat, tn_lon))  # Off road to station
+            points.append((tn_lat, tn_lon))  # Off-road to station
             points.append((tgt_lat, tgt_lon))
         else:
             points.append((tn_lat, tn_lon))

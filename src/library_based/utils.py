@@ -2,11 +2,14 @@ import logging
 import os
 import pickle
 import random
+from datetime import date, datetime
 from typing import Dict
 
 import dotenv
+import numpy as np
 import osmnx as ox
 import pandas as pd
+import torch
 from huggingface_hub import login
 from shapely.geometry import MultiPoint
 
@@ -147,7 +150,7 @@ def build_or_load_nyc_graph(coords_top, file_path=NYC_GRAPH_PATH):
     Loads the NYC road network graph from a file if it exists, otherwise builds it from station coordinates and saves it.
     Args:
         coords_top (dict): Dictionary mapping station names to (latitude, longitude) tuples.
-        file_path (str, optional): Path to the file for loading/saving the graph. Defaults to `SmartFlow/results/models/nyc_graph.gpickle`.
+        file_path (str, optional): Path to the file for loading/saving the graph. Defaults to `SmartFlow/results/models/NYC_Graph.gpickle`.
 
     Returns:
         networkx.MultiDiGraph: The NYC road network graph.

@@ -1,3 +1,4 @@
+import json
 import multiprocessing
 import os
 import pickle
@@ -15,13 +16,13 @@ from .environment import BikeRedistributionEnv
 from .routing import (find_path_worker, init_worker, plan_optimized_journeys, schedule_journeys)
 from .train import train_or_load_model
 from .utils import (build_or_load_nyc_graph, calculate_thresholds, load_and_filter, load_stations, login_to_huggingface,
-                    preprocess_demand_data, sanitize_for_json)
-from .visualisation import (draw_route, inject_corrected_animation_js, map_stations_to_nodes, plot_stations_cluster)
+                    preprocess_demand_data, sanitize_for_json, set_seed)
+from .visualisation import (draw_route, inject_animation_js, map_stations_to_nodes, plot_stations_cluster)
 
 
 def run_simulation(
-        inventory_model_path: str = "dqn_bike_redistrib.zip",
-        graph_path: str = "nyc_graph.gpickle",
+        inventory_model_path: str = MODEL_PATH,
+        graph_path: str = NYC_GRAPH_PATH,
         seed_value: int = 0
 ):
     """
@@ -79,7 +80,7 @@ def run_simulation(
     device = "cuda" if torch.cuda.is_available() else "cpu"
     n_envs = max(1, os.cpu_count() - 1)
     inventory_model = train_or_load_model(
-        top=top, thresholds=thresh, capacities=capacities, coords_all=coords_top,
+        top=top, thresholds=thresh, capacities=capacities, coordinates_all=coords_top,
         demand_data=demand_data, n_envs=n_envs, device=device,
         model_path=inventory_model_path,
         seed_value=seed_value
@@ -88,7 +89,7 @@ def run_simulation(
     # 4. Run Inventory Model to Get Strategic Plan
     print("\nStep 4: Running inventory model to determine initial transfers...")
     inv_env = BikeRedistributionEnv(
-        stations=top, thresholds=thresh, capacities=capacities, coords=coords_top,
+        stations=top, thresholds=thresh, capacities=capacities, coordinates=coords_top,
         demand_data=demand_data, max_steps=MAX_STEPS, gamma=GAMMA
     )
     obs, _ = inv_env.reset()
@@ -166,8 +167,8 @@ def run_simulation(
             draw_route(m, G, coords_top[src][0], coords_top[src][1], coords_top[tgt][0], coords_top[tgt][1],
                        color=color)
 
-    inject_corrected_animation_js(m, animation_data, G)
-    out_path = f"SmartFlow_Final_Simulation_seed_{seed_value}.html"
+    inject_animation_js(m, animation_data, G)
+    out_path = f"results/simulation/SmartFlow_Final_Simulation_seed_{seed_value}.html"
     m.save(out_path)
     print(f"🗺️ Map saved to → {out_path}")
     display(m)
@@ -202,17 +203,18 @@ def run_simulation(
 
 
 if __name__ == "__main__":
-    seeds = [0, 11, 28]
+    # seeds = [0, 11, 28]
+    seeds = [0]
 
     for seed in seeds:
-        print(f"\\n{'=' * 30} RUNNING SIMULATION FOR SEED: {seed} {'=' * 30}")
+        print(f"\n{'=' * 30} RUNNING SIMULATION FOR SEED: {seed} {'=' * 30}")
 
         # Defining seed-specific file path for the model
-        model_path = f"DQN_Bike_Redistribution_Seed_{seed}.zip"
+        model_path = f"results/models/DQN_Inventory_Model_Seed_{seed}.zip"
 
         run_simulation(
             inventory_model_path=model_path,
-            graph_path="nyc_graph.gpickle",  # Graph can be reused
+            graph_path=NYC_GRAPH_PATH,
             seed_value=seed
         )
 

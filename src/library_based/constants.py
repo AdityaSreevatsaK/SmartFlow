@@ -2,21 +2,21 @@ from pathlib import Path
 
 import pandas as pd
 
-PROJECT_ROOT = Path(__file__).parent.parent.resolve()
+PROJECT_ROOT = Path(__file__).parent.parent.parent.resolve()
 
 # ── Data Input Files ──────────────────────────────────────────────────────────
 TRIPS_FILE = PROJECT_ROOT / "data/processed/trips_final.csv"
 STATIONS_FILE = PROJECT_ROOT / "data/processed/stations_final.csv"
 
 # ── Experiment Configuration ──────────────────────────────────────────────────
-TARGET_DATE = pd.to_datetime("2016-07-01").date()
+TARGET_DATE = pd.to_datetime("2016-07-16").date()
 TOP_N = 30
 
 # ── RL Environment & Training Hyperparameters ─────────────────────────────────
 MAX_STEPS = 100  # Max moves per episode
 GAMMA = 0.9  # Discount factor for rewards
 TOTAL_TIME_STEPS = 1_000_000
-LOG_INTERVAL = 10_000
+LOG_INTERVAL = 1_000
 
 # ── Inventory model and New York City Graph ─────────────────────────────────
 MODEL_PATH = PROJECT_ROOT / "results/models/DQN_Inventory_Model.zip"

@@ -48,7 +48,7 @@ def compute_reward(
 class BikeRedistributionEnv(gym.Env):
     def __init__(
             self, stations: List[str], thresholds: Dict[str, int], capacities: Dict[str, int],
-            coords: Dict[str, tuple], demand_data: dict, max_steps: int, gamma: float
+            coordinates: Dict[str, tuple], demand_data: dict, max_steps: int, gamma: float
     ):
         """
         Initializes the BikeRedistributionEnv environment.
@@ -57,7 +57,7 @@ class BikeRedistributionEnv(gym.Env):
             stations (List[str]): List of station names.
             thresholds (Dict[str, int]): Minimum required bikes at each station.
             capacities (Dict[str, int]): Maximum capacity for each station.
-            coords (Dict[str, tuple]): Coordinates for each station.
+            coordinates (Dict[str, tuple]): Coordinates for each station.
             demand_data (dict): Hourly demand data for each station.
             max_steps (int): Maximum number of steps per episode.
             gamma (float): Discount factor for future rewards.
@@ -68,7 +68,7 @@ class BikeRedistributionEnv(gym.Env):
         self.stations = stations
         self.thresholds = thresholds
         self.capacities = capacities
-        self.coords = coords
+        self.coordinates = coordinates
         self.demand_data = demand_data
         self.max_steps = max_steps
         self.gamma = gamma
