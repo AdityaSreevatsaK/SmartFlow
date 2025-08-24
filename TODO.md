@@ -136,10 +136,10 @@
 
 ---
 
-## 🟡 24 August 2025 – Final ESA Review (Sunday)
+## ✅ 24 August 2025 – Final ESA Review (Sunday)
 
-* [ ] Present demo, paper highlights, and final outputs.
-* [ ] Be ready to answer queries on:
+* [X] Present demo, paper highlights, and final outputs.
+* [X] Be ready to answer queries on:
 
   * Model choices and alternatives
   * Evaluation strategy and benchmarks
