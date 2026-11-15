@@ -61,7 +61,7 @@ def generate_dispatch_with_hf_agent(optimised_journeys: list) -> str:
             model="google/gemma-2b-it",
             device_map="auto",
             torch_dtype=torch.bfloat16,
-            trust_remote_code=True,
+            trust_remote_code=False,
         )
 
         # 2) Serialize data for the briefing prompt
