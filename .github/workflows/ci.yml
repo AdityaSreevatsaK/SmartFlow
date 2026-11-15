@@ -1,0 +1,33 @@
+name: Offline dispatch report checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  report-tests:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.10', '3.11']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Check source syntax
+        run: python -m compileall -q src/library_based tests
+      - name: Run offline dispatch report tests
+        run: python -m unittest discover -s tests -p "test_*.py" -v
+
+# Heavy RL/LLM dependencies, model downloads and Hugging Face login are excluded.
