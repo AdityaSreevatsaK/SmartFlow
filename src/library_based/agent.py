@@ -117,5 +117,5 @@ def generate_dispatch_with_hf_agent(optimised_journeys: list) -> str:
 
     except Exception as e:
         # The exception is now almost certainly from the briefing step
-        print(f"⚠️ Agentic AI briefing failed ({e}), using fallback for full report.")
+        print(f"Agentic AI briefing failed ({e}); using fallback for full report.")
         return fallback_formatter(clean_journeys)
