@@ -43,8 +43,8 @@ def generate_dispatch_with_hf_agent(optimised_journeys: list) -> str:
             report.append("|----:|---------------|------|----|--------|")
             for i, leg in enumerate(journey["legs"], start=1):
                 dt = leg.get("dispatch_time", "N/A")
-                src = leg.get("src", "N/A")
-                target = leg.get("target", "N/A")
+                src = leg.get("source", leg.get("src", "N/A"))
+                target = leg.get("target", leg.get("tgt", "N/A"))
                 mv = leg.get("move", 0)
                 action = f"Move {mv} bike{'s' if mv != 1 else ''}"
                 report.append(f"| {i} | {dt} | {src} | {target} | {action} |")
@@ -61,7 +61,7 @@ def generate_dispatch_with_hf_agent(optimised_journeys: list) -> str:
             model="google/gemma-2b-it",
             device_map="auto",
             torch_dtype=torch.bfloat16,
-            trust_remote_code=True,
+            trust_remote_code=False,
         )
 
         # 2) Serialize data for the briefing prompt
@@ -106,8 +106,8 @@ def generate_dispatch_with_hf_agent(optimised_journeys: list) -> str:
             # Use enumerate to generate the leg number reliably
             for i, leg in enumerate(truck["legs"], start=1):
                 dt = leg.get("dispatch_time", "N/A")
-                fr = leg.get("src", "N/A")  # Use original keys
-                to = leg.get("tgt", "N/A")  # Use original keys
+                fr = leg.get("source", leg.get("src", "N/A"))
+                to = leg.get("target", leg.get("tgt", "N/A"))
                 mv = leg.get("move", 0)
                 action = f"Move {mv} bike{'s' if mv != 1 else ''}"
 
@@ -117,5 +117,5 @@ def generate_dispatch_with_hf_agent(optimised_journeys: list) -> str:
 
     except Exception as e:
         # The exception is now almost certainly from the briefing step
-        print(f"⚠️ Agentic AI briefing failed ({e}), using fallback for full report.")
+        print(f"Agentic AI briefing failed ({e}); using fallback for full report.")
         return fallback_formatter(clean_journeys)
