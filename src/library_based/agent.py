@@ -43,8 +43,8 @@ def generate_dispatch_with_hf_agent(optimised_journeys: list) -> str:
             report.append("|----:|---------------|------|----|--------|")
             for i, leg in enumerate(journey["legs"], start=1):
                 dt = leg.get("dispatch_time", "N/A")
-                src = leg.get("src", "N/A")
-                target = leg.get("target", "N/A")
+                src = leg.get("source", leg.get("src", "N/A"))
+                target = leg.get("target", leg.get("tgt", "N/A"))
                 mv = leg.get("move", 0)
                 action = f"Move {mv} bike{'s' if mv != 1 else ''}"
                 report.append(f"| {i} | {dt} | {src} | {target} | {action} |")
@@ -106,8 +106,8 @@ def generate_dispatch_with_hf_agent(optimised_journeys: list) -> str:
             # Use enumerate to generate the leg number reliably
             for i, leg in enumerate(truck["legs"], start=1):
                 dt = leg.get("dispatch_time", "N/A")
-                fr = leg.get("src", "N/A")  # Use original keys
-                to = leg.get("tgt", "N/A")  # Use original keys
+                fr = leg.get("source", leg.get("src", "N/A"))
+                to = leg.get("target", leg.get("tgt", "N/A"))
                 mv = leg.get("move", 0)
                 action = f"Move {mv} bike{'s' if mv != 1 else ''}"
 
