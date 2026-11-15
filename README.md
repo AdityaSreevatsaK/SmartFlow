@@ -26,7 +26,7 @@ The reporting module uses a Hugging Face text-generation model to prepare a mana
 
 Review [`environment.yml`](environment.yml), [`constants.py`](src/library_based/constants.py) and the [simulation entry point](src/library_based/run_simulation.py) before running. Execution depends on the included datasets, compatible scientific-Python and machine-learning packages, optional model downloads, and available compute resources.
 
-**The project currently has no automated CI test suite or documented clean-machine reproduction evidence.** The committed outputs are experiment artefacts, not independent validation of performance improvements.
+**Offline CI** runs six mocked dispatch-report regression tests, plus Python syntax checks, across Windows/Linux and Python 3.10/3.11. It verifies route fields, deterministic fallback and that remote model code loading is disabled. **It does not test Gemma model compatibility, the full RL simulation or clean-machine reproduction.** The committed outputs are experiment artefacts, not independent validation of performance improvements.
 
 ## Limitations and safety
 
